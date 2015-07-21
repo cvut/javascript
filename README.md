@@ -2,30 +2,8 @@
 
 This style guide aims to provide the ground rules for an application's JavaScript code, such that it's highly readable and consistent across different developers on a team. The focus is put on quality and coherence across the different pieces of your application.
 
-## Table of Contents
+## tl;dr
 
-1. [Modules](#modules)
-2. [Strict Mode](#strict-mode)
-3. [Spacing](#spacing)
-4. [Semicolons](#semicolons)
-5. [Style Checking](#style-checking)
-6. [Linting](#linting)
-7. [Strings](#strings)
-8. [Variable Declaration](#variable-declaration)
-9. [Conditionals](#conditionals)
-10. [Equality](#equality)
-11. [Ternary Operators](#ternary-operators)
-12. [Functions](#functions)
-13. [Prototypes](#prototypes)
-14. [Object Literals](#object-literals)
-15. [Array Literals](#array-literals)
-16. [Regular Expressions](#regular-expressions)
-17. [`console` Statements](#console-statements)
-18. [Comments](#comments)
-19. [Variable Naming](#variable-naming)
-20. [Polyfills](#polyfills)
-21. [Everyday Tricks](#everyday-tricks)
-22. [License](#license)
 
 ## Modules
 
@@ -35,7 +13,9 @@ Module systems also provide us with dependency injection patterns, which are cru
 
 ## Strict Mode
 
-**Always** put [`'use strict';`][4] at the top of your modules. Strict mode allows you to catch nonsensical behavior, discourages poor practices, and _is faster_ because it allows compilers to make certain assumptions about your code.
+Put [`'use strict'`][4] at the top of your modules. Strict mode allows you to catch nonsensical behavior, discourages poor practices, and _is faster_ because it allows compilers to make certain assumptions about your code.
+
+While this is not needed when you are using [Babel](https://babeljs.io/), it won’t hurt you either.
 
 ## Spacing
 
@@ -57,170 +37,110 @@ insert_final_newline = true
 trim_trailing_whitespace = false
 ```
 
-Settling for either tabs or spaces is up to the particularities of a project, but I recommend using 2 spaces for indentation. The `.editorconfig` file can take care of that for us and everyone would be able to create the correct spacing by pressing the tab key.
+**Use 2 spaces for indentation.** The `.editorconfig` file can take care of that for us and everyone will be able to create the correct spacing by pressing the tab key.
 
-Spacing doesn't just entail tabbing, but also the spaces before, after, and in between arguments of a function declaration. This kind of spacing is **typically highly irrelevant to get right**, and it'll be hard for most teams to even arrive at a scheme that will satisfy everyone.
+Spacing doesn't just entail indentation, but also the spaces before, after, and in between arguments of a function declaration. This kind of spacing is _typically highly irrelevant to get right_, and it'll be hard for most teams to even arrive at a scheme that will satisfy everyone.
 
-```js
-function () {}
-```
+However, we prefer this one particular style:
 
 ```js
-function( a, b ){}
-```
+function (a, b) {
+  // your stuff
+}
 
-```js
-function(a, b) {}
-```
-
-```js
-function (a,b) {}
-```
-
-Try to keep these differences to a minimum, but don't put much thought to it either.
-
-Where possible, improve readability by keeping lines below the 80-character mark.
-
-## Semicolons`;`
-
-The majority of JavaScript programmers [prefer using semicolons][6]. This choice is done to avoid potential issues with Automatic Semicolon Insertion _(ASI)_. If you decide against using semicolons, [make sure you understand the ASI rules][7].
-
-Regardless of your choice, a linter should be used to catch unnecessary or unintentional semicolons.
-
-## Style Checking
-
-**Don't**. Seriously, [this is super painful][8] for everyone involved, and no observable gain is attained from enforcing such harsh policies.
-
-## Linting
-
-On the other hand, linting is sometimes necessary. Again, don't use a linter that's super opinionated about how the code should be styled, like [`jslint`][9] is. Instead use something more lenient, like [`jshint`][10] or [`eslint`][11].
-
-A few tips when using JSHint.
-
-- Declare a `.jshintignore` file and include `node_modules`, `bower_components`, and the like
-- You can use a `.jshintrc` file like the one below to keep your rules together
-
-```json
-{
-  "curly": true,
-  "eqeqeq": true,
-  "newcap": true,
-  "noarg": true,
-  "noempty": true,
-  "nonew": true,
-  "sub": true,
-  "undef": true,
-  "unused": true,
-  "trailing": true,
-  "boss": true,
-  "eqnull": true,
-  "strict": true,
-  "immed": true,
-  "expr": true,
-  "latedef": "nofunc",
-  "quotmark": "single",
-  "indent": 2,
-  "node": true
+if (true) {
+  // other stuff
+} else {
+  // more stuff
 }
 ```
 
-By no means are these rules the ones you should stick to, but **it's important to find the sweet spot between not linting at all and not being super obnoxious about coding style**.
+Try to keep these differences to a minimum, but don't put much thought to it either. [Automatic formatter](https://github.com/beautify-web/js-beautify) can get care of this for you and it will keep your punctilious coworkers happy.
+
+Where possible, improve readability by keeping lines below the 100-character mark. Never go over 120 characters per line.
+
+## Semicolons`;`
+
+We prefer not to use semicolons and rely on Automatic Semicolon Insertion _(ASI)_ instead. This is also [recommended by Standard](https://github.com/feross/standard/blob/master/RULES.md#automatic-semicolon-insertion-asi).
+
+However, you may want to keep semicolons in JavaScript if your project uses languages which require them, like Java, to reduce cognitive overhead. [Semistandard](https://github.com/Flet/semistandard) is then for you.
+
+Regardless of your choice, a [linter](#linting) should be used to catch unnecessary or unintentional semicolons.
+
+## Linting
+
+Use [ESLint](http://eslint.org/) for linting your code with our [provided rules](linters/).
 
 ## Strings
 
-Strings should always be quoted using the same quotation mark. Use `'` or `"` consistently throughout your codebase. Ensure the team is using the same quotation mark in every portion of JavaScript that's authored.
+Strings should always be quoted using the same quotation mark. Use `'` consistently throughout your codebase.
 
 ##### Bad
 
 ```js
-var message = 'oh hai ' + name + "!";
+var message = 'oh hai ' + name + "!"
 ```
 
-##### Good
+##### Acceptable
 
 ```js
-var message = 'oh hai ' + name + '!';
+var message = 'oh hai ' + name + '!'
 ```
 
-Usually you'll be a happier JavaScript developer if you hack together a parameter-replacing method like [`util.format` in Node][12]. That way it'll be far easier to format your strings, and the code looks a lot cleaner too.
+### ES6 Template Strings
+
+When using Babel or ES6-compatible environment, use [template strings](https://developer.mozilla.org/docs/Web/JavaScript/Reference/template_strings).
 
 ##### Better
 
 ```js
-var message = util.format('oh hai %s!', name);
+let message = `oh hai ${name}!`
 ```
-
-You could implement something similar using the piece of code below.
-
-```js
-function format () {
-  var args = [].slice.call(arguments);
-  var initial = args.shift();
-
-  function replacer (text, replacement) {
-    return text.replace('%s', replacement);
-  }
-  return args.reduce(replacer, initial);
-}
-```
-
-To declare multi-line strings, particularly when talking about HTML snippets, it's sometimes best to use an array as a buffer and then join its parts. The string concatenating style may be faster but it's also much harder to keep track of.
-
-```js
-var html = [
-  '<div>',
-    format('<span class="monster">%s</span>', name),
-  '</div>'
-].join('');
-```
-
-With the array builder style, you can also push parts of the snippet and then join everything together at the end. This is in fact what some [string templating engines like Jade][13] prefer to do.
 
 ## Variable Declaration
 
-Always declare variables in **a consistent manner**, and at the top of their scope. Keeping variable declarations to _one per line is encouraged_. Comma-first, a single `var` statement, multiple `var` statements, it's all fine, just be consistent across the project, and ensure the team is on the same page.
+Always declare variables in a consistent manner, and at the top of their scope. Keeping variable declarations to _one per line is encouraged_. Always use one `var` statement for each assignment.
 
 ##### Bad
 
 ```js
 var foo = 1,
-    bar = 2;
+    bar = 2
 
-var baz;
-var pony;
+var baz
+var pony
 
 var a
-  , b;
+  , b
 ```
 
 ```js
-var foo = 1;
+var foo = 1
 
 if (foo > 1) {
-  var bar = 2;
+  var bar = 2
 }
 ```
+
 ##### Good
 
-<sub>Just because they're consistent with each other, not because of the style</sub>
-
 ```js
-var foo = 1;
-var bar = 2;
+var foo = 1
+var bar = 2
 
-var baz;
-var pony;
+var baz
+var pony
 
-var a;
-var b;
+var a
+var b
 ```
 
 ```js
-var foo = 1;
-var bar;
+var foo = 1
+var bar
 
 if (foo > 1) {
-  bar = 2;
+  bar = 2
 }
 ```
 
@@ -229,10 +149,16 @@ Variable declarations that aren't immediately assigned a value are acceptable to
 ##### Acceptable
 
 ```js
-var a = 'a';
-var b = 2;
-var i, j;
+var a = 'a'
+var b = 2
+var i, j
 ```
+
+### ES6 `const` and `let`
+
+When using Babel or ES6-compatible environment, **do not use `var`**. Use `const` to prevent reassignment of variables. If you need to mutate variables, use `let`.
+
+<!-- TODO: Examples -->
 
 ## Conditionals
 
@@ -241,13 +167,13 @@ var i, j;
 ##### Bad
 
 ```js
-if (err) throw err;
+if (err) throw err
 ```
 
 ##### Good
 
 ```js
-if (err) { throw err; }
+if (err) { throw err }
 ```
 
 It's even better if you avoid keeping conditionals on a single line, for the sake of text comprehension.
@@ -256,22 +182,22 @@ It's even better if you avoid keeping conditionals on a single line, for the sak
 
 ```js
 if (err) {
-  throw err;
+  throw err
 }
 ```
 
 ## Equality
 
-Avoid using `==` and `!=` operators, always favor `===` and `!==`. These operators are called the "strict equality operators," while [their counterparts will attempt to cast the operands][15] into the same value type.
+Avoid using `==` and `!=` operators, always favor `===` and `!==`. These operators are called the “strict equality operators,” while [their counterparts will attempt to cast the operands][15] into the same value type.
 
 ##### Bad
 
 ```js
 function isEmptyString (text) {
-  return text == '';
+  return text == ''
 }
 
-isEmptyString(0);
+isEmptyString(0)
 // <- true
 ```
 
@@ -279,12 +205,32 @@ isEmptyString(0);
 
 ```js
 function isEmptyString (text) {
-  return text === '';
+  return text === ''
 }
 
-isEmptyString(0);
+isEmptyString(0)
 // <- false
 ```
+
+There is one exception: use `==` and `!=` to check for `null` _or_ `undefined` values in one statement.
+
+##### Bad
+
+```js
+if (text === null || text === undefined) {
+  console.log('text is null or undefined')
+}
+```
+
+##### Good
+
+```js
+if (text == null) {
+  console.log('text is null or undefined')
+}
+```
+
+<!-- TODO: note about truthy and falsey conditionals -->
 
 ## Ternary Operators
 
@@ -296,7 +242,7 @@ jQuery is a prime example of a codebase that's [**filled with nasty ternary oper
 
 ```js
 function calculate (a, b) {
-  return a && b ? 11 : a ? 10 : b ? 1 : 0;
+  return a && b ? 11 : a ? 10 : b ? 1 : 0
 }
 ```
 
@@ -304,7 +250,7 @@ function calculate (a, b) {
 
 ```js
 function getName (mobile) {
-  return mobile ? mobile.name : 'Generic Player';
+  return mobile ? mobile.name : 'Generic Player'
 }
 ```
 
@@ -318,15 +264,15 @@ When declaring a function, always use the [function declaration form][17] instea
 
 ```js
 var sum = function (x, y) {
-  return x + y;
-};
+  return x + y
+}
 ```
 
 ##### Good
 
 ```js
 function sum (x, y) {
-  return x + y;
+  return x + y
 }
 ```
 
@@ -335,7 +281,7 @@ That being said, there's nothing wrong with function expressions that are just [
 ##### Good
 
 ```js
-var plusThree = sum.bind(null, 3);
+var plusThree = sum.bind(null, 3)
 ```
 
 Keep in mind that [function declarations will be hoisted][21] to the top of the scope so it doesn't matter the order they are declared in. That being said, you should always keep functions at the top level in a scope, and avoid placing them inside conditional statements.
@@ -344,10 +290,10 @@ Keep in mind that [function declarations will be hoisted][21] to the top of the 
 
 ```js
 if (Math.random() > 0.5) {
-  sum(1, 3);
+  sum(1, 3)
 
   function sum (x, y) {
-    return x + y;
+    return x + y
   }
 }
 
@@ -357,21 +303,21 @@ if (Math.random() > 0.5) {
 
 ```js
 if (Math.random() > 0.5) {
-  sum(1, 3);
+  sum(1, 3)
 }
 
 function sum (x, y) {
-  return x + y;
+  return x + y
 }
 ```
 
 ```js
 function sum (x, y) {
-  return x + y;
+  return x + y
 }
 
 if (Math.random() > 0.5) {
-  sum(1, 3);
+  sum(1, 3)
 }
 ```
 
@@ -382,36 +328,36 @@ Whenever you have to manipulate an array-like object, cast it to an array.
 ##### Bad
 
 ```js
-var divs = document.querySelectorAll('div');
+var divs = document.querySelectorAll('div')
 
 for (i = 0; i < divs.length; i++) {
-  console.log(divs[i].innerHTML);
+  console.log(divs[i].innerHTML)
 }
 ```
 
 ##### Good
 
 ```js
-var divs = document.querySelectorAll('div');
+var divs = document.querySelectorAll('div')
 
 [].slice.call(divs).forEach(function (div) {
-  console.log(div.innerHTML);
-});
+  console.log(div.innerHTML)
+})
 ```
 
 However, be aware that there is a [substantial performance hit][22] in V8 environments when using this approach on `arguments`. If performance is a major concern, avoid casting `arguments` with `slice` and instead use a `for` loop.
 
 #### Bad
 ```js
-var args = [].slice.call(arguments);
+var args = [].slice.call(arguments)
 ```
 
 #### Good
 ```js
-var i;
-var args = new Array(arguments.length);
+var i
+var args = new Array(arguments.length)
 for (i = 0; i < args.length; i++) {
-    args[i] = arguments[i];
+    args[i] = arguments[i]
 }
 ```
 
@@ -420,54 +366,54 @@ Don't declare functions inside of loops.
 ##### Bad
 
 ```js
-var values = [1, 2, 3];
-var i;
+var values = [1, 2, 3]
+var i
 
 for (i = 0; i < values.length; i++) {
   setTimeout(function () {
-    console.log(values[i]);
-  }, 1000 * i);
+    console.log(values[i])
+  }, 1000 * i)
 }
 ```
 
 ```js
-var values = [1, 2, 3];
-var i;
+var values = [1, 2, 3]
+var i
 
 for (i = 0; i < values.length; i++) {
   setTimeout(function (i) {
     return function () {
-      console.log(values[i]);
-    };
-  }(i), 1000 * i);
+      console.log(values[i])
+    }
+  }(i), 1000 * i)
 }
 ```
 
 ##### Good
 
 ```js
-var values = [1, 2, 3];
-var i;
+var values = [1, 2, 3]
+var i
 
 for (i = 0; i < values.length; i++) {
   setTimeout(function (i) {
-    console.log(values[i]);
-  }, 1000 * i, i);
+    console.log(values[i])
+  }, 1000 * i, i)
 }
 ```
 
 ```js
-var values = [1, 2, 3];
-var i;
+var values = [1, 2, 3]
+var i
 
 for (i = 0; i < values.length; i++) {
-  wait(i);
+  wait(i)
 }
 
 function wait (i) {
   setTimeout(function () {
-    console.log(values[i]);
-  }, 1000 * i);
+    console.log(values[i])
+  }, 1000 * i)
 }
 ```
 
@@ -478,9 +424,9 @@ Or even better, just use `.forEach` which doesn't have the same caveats as decla
 ```js
 [1, 2, 3].forEach(function (value, i) {
   setTimeout(function () {
-    console.log(value);
-  }, 1000 * i);
-});
+    console.log(value)
+  }, 1000 * i)
+})
 ```
 
 Whenever a method is non-trivial, make the effort to **use a named function declaration rather than an anonymous function**. This will make it easier to pinpoint the root cause of an exception when analyzing stack traces.
@@ -489,12 +435,12 @@ Whenever a method is non-trivial, make the effort to **use a named function decl
 
 ```js
 function once (fn) {
-  var ran = false;
+  var ran = false
   return function () {
-    if (ran) { return };
-    ran = true;
-    fn.apply(this, arguments);
-  };
+    if (ran) { return }
+    ran = true
+    fn.apply(this, arguments)
+  }
 }
 ```
 
@@ -502,12 +448,12 @@ function once (fn) {
 
 ```js
 function once (fn) {
-  var ran = false;
+  var ran = false
   return function run () {
-    if (ran) { return };
-    ran = true;
-    fn.apply(this, arguments);
-  };
+    if (ran) { return }
+    ran = true
+    fn.apply(this, arguments)
+  }
 }
 ```
 
@@ -519,7 +465,7 @@ Avoid keeping indentation levels from raising more than necessary by using guard
 if (car) {
   if (black) {
     if (turbine) {
-      return 'batman!';
+      return 'batman!'
     }
   }
 }
@@ -535,20 +481,20 @@ if (condition) {
 
 ```js
 if (!car) {
-  return;
+  return
 }
 if (!black) {
-  return;
+  return
 }
 if (!turbine) {
-  return;
+  return
 }
-return 'batman!';
+return 'batman!'
 ```
 
 ```js
 if (!condition) {
-  return;
+  return
 }
 // 10+ lines of code
 ```
@@ -561,15 +507,15 @@ Hacking native prototypes should be avoided at all costs, use a method instead. 
 
 ```js
 String.prototype.half = function () {
-  return this.substr(0, this.length / 2);
-};
+  return this.substr(0, this.length / 2)
+}
 ```
 
 ##### Good
 
 ```js
 function half (text) {
-  return text.substr(0, text.length / 2);
+  return text.substr(0, text.length / 2)
 }
 ```
 
@@ -588,22 +534,22 @@ Instantiate using the egyptian notation `{}`. Use factories instead of construct
 ```js
 function util (options) {
   // private methods and state go here
-  var foo;
+  var foo
 
   function add () {
-    return foo++;
+    return foo++
   }
 
   function reset () { // note that this method isn't publicly exposed
-    foo = options.start || 0;
+    foo = options.start || 0
   }
 
-  reset();
+  reset()
 
   return {
     // public interface methods go here
     uuid: add
-  };
+  }
 }
 ```
 
@@ -642,16 +588,16 @@ Keep regular expressions in variables, don't use them inline. This will vastly i
 
 ```js
 if (/\d+/.test(text)) {
-  console.log('so many numbers!');
+  console.log('so many numbers!')
 }
 ```
 
 ##### Good
 
 ```js
-var numeric = /\d+/;
+var numeric = /\d+/
 if (numeric.test(text)) {
-  console.log('so many numbers!');
+  console.log('so many numbers!')
 }
 ```
 
@@ -669,27 +615,27 @@ Comments **aren't meant to explain what** the code does. Good **code is supposed
 
 ```js
 // create the centered container
-var p = $('<p/>');
-p.center(div);
-p.text('foo');
+var p = $('<p/>')
+p.center(div)
+p.text('foo')
 ```
 
 ##### Good
 
 ```js
-var container = $('<p/>');
-var contents = 'foo';
-container.center(parent);
-container.text(contents);
+var container = $('<p/>')
+var contents = 'foo'
+container.center(parent)
+container.text(contents)
 megaphone.on('data', function (value) {
-  container.text(value); // the megaphone periodically emits updates for container
-});
+  container.text(value) // the megaphone periodically emits updates for container
+})
 ```
 
 ```js
-var numeric = /\d+/; // one or more digits somewhere in the string
+var numeric = /\d+/ // one or more digits somewhere in the string
 if (numeric.test(text)) {
-  console.log('so many numbers!');
+  console.log('so many numbers!')
 }
 ```
 
@@ -703,9 +649,9 @@ Variables must have meaningful names so that you don't have to resort to comment
 
 ```js
 function a (x, y, z) {
-  return z * y / x;
+  return z * y / x
 }
-a(4, 2, 6);
+a(4, 2, 6)
 // <- 3
 ```
 
@@ -713,9 +659,9 @@ a(4, 2, 6);
 
 ```js
 function ruleOfThree (had, got, have) {
-  return have * got / had;
+  return have * got / had
 }
-ruleOfThree(4, 2, 6);
+ruleOfThree(4, 2, 6)
 // <- 3
 ```
 
@@ -731,8 +677,8 @@ Use `||` to define a default value. If the left-hand value is [falsy][29] then t
 
 ```js
 function a (value) {
-  var defaultValue = 33;
-  var used = value || defaultValue;
+  var defaultValue = 33
+  var used = value || defaultValue
 }
 ```
 
@@ -740,43 +686,43 @@ Use `.bind` to [partially-apply][30] functions.
 
 ```js
 function sum (a, b) {
-  return a + b;
+  return a + b
 }
 
-var addSeven = sum.bind(null, 7);
+var addSeven = sum.bind(null, 7)
 
-addSeven(6);
+addSeven(6)
 // <- 13
 ```
 
 Use `Array.prototype.slice.call` to cast array-like objects to true arrays.
 
 ```js
-var args = Array.prototype.slice.call(arguments);
+var args = Array.prototype.slice.call(arguments)
 ```
 
 Use [event emitters][31] on all the things!
 
 ```js
-var emitter = contra.emitter();
+var emitter = contra.emitter()
 
 body.addEventListener('click', function () {
-  emitter.emit('click', e.target);
-});
+  emitter.emit('click', e.target)
+})
 
 emitter.on('click', function (elem) {
-  console.log(elem);
-});
+  console.log(elem)
+})
 
 // simulate click
-emitter.emit('click', document.body);
+emitter.emit('click', document.body)
 ```
 
 Use `Function()` as a _"no-op"_.
 
 ```js
 function (cb) {
-  setTimeout(cb || Function(), 2000);
+  setTimeout(cb || Function(), 2000)
 }
 ```
 
@@ -823,3 +769,5 @@ MIT
   [31]: https://github.com/bevacqua/contra#%CE%BBemitterthing-options
   [32]: https://github.com/bevacqua/css
   [33]: https://github.com/bevacqua/js/issues
+
+
