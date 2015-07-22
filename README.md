@@ -1066,7 +1066,7 @@ anna.name // => 'Anna'
 
 This example uses [Object.assign](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign) which is not yet widely supported. Most utility libraries provide `extend` or `clone` function, or you can use some [standalone implementation](http://npm.im/clone).
 
-Arrays can be efficiently manipulated through standard functional methods like [`map`](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Array/map) or [`filter`](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Array/filter) which return new array.
+Arrays can be efficiently manipulated through standard functional methods like [`map`](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Array/map) or [`filter`](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Array/filter) which return a new array.
 
 ##### Bad
 
@@ -1165,12 +1165,12 @@ checkAgeEu(18) // => true
 ageChecker(21)(18) // => false
 ```
 
-Instead of manual currying many libraries provide universal curry function, e.g. [Ramda](http://ramdajs.com/docs/#curry), or you can use [a stand-alone module](http://npm.im/curry).
+Many libraries provide universal curry function, e.g. [Ramda](http://ramdajs.com/docs/#curry), or you can use [a stand-alone module](http://npm.im/curry-d).
 
 ##### Better
 
 ```js
-const ageChecker = curry((minimumAge, age) {
+const ageChecker = curry((minimumAge, age) => {
   return age >= minimumAge
 })
 
@@ -1184,6 +1184,36 @@ ageChecker(21)(18) // => false
 ageChecker(21, 18) // => false
 ```
 
+#### Parameters Order
+
+When currying, keep the order of parameters in mind: you want to put the most variable parameter, i.e. data, as the last parameter. This allows you to easily compose functions.
+
+For example popular libraries [Underscore](http://underscorejs.org/) and [lodash](https://lodash.com/) put data as the first parameter.
+
+Recommended watching: [Hey Underscore, You're Doing It Wrong!](https://www.youtube.com/watch?v=m3svKOdZijA).
+
+##### Bad
+
+```js
+function firstTwoLetters (words) {
+  return _.map(words, (word) => {
+    return _.take(word, 2)
+  })
+}
+
+firstTwoLetters(['foo', 'bar']) // => ['fo', 'ba']
+```
+
+On the other hand, functions in [Ramda](http://ramdajs.com) are curried and take data as the last parameter, so you can keep boilerplate to minimum.
+
+##### Good
+
+```js
+const firstTwoLetters = R.map(R.take(2))
+
+firstTwoLetters(['foo', 'bar']) // => ['fo', 'ba']
+```
+
 ### Functional Composition
 
 Pure functions and currying are powerful tools for manipulating data. You can [compose generic functions](http://drboolean.gitbooks.io/mostly-adequate-guide/content/ch5.html) to suit your specific needs with almost none code.
@@ -1194,7 +1224,7 @@ Compose applies functions outside-in, i.e. `compose(a, b, c)(x)` is the same as 
 
 Pipe does the opposite, i.e. `pipe(a, b, c)(x)` is the same as `c(b(a(x)))`; functions are applied from _left to right_.
 
-Use option which you find more natural, but be consistent within the project.
+While we find `pipe` more natural, use one , but be consistent within the project.
 
 Try to keep your functions [pointfree](http://drboolean.gitbooks.io/mostly-adequate-guide/content/ch5.html#pointfree) to make them easier to extract and reuse.
 
@@ -1212,11 +1242,11 @@ shout('send in the clowns') // => SEND IN THE CLOWNS!
 ##### Good
 
 ```js
-function toUpperCase (x) {
-  return x.toUpperCase()
+function toUpperCase (str) {
+  return str.toUpperCase()
 }
-function exclaim (x) { 
-  return `${x}!`
+function exclaim (str) { 
+  return `${str}!`
 }
 const shout = pipe(toUpperCase, exclaim)
 
