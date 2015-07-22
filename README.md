@@ -225,6 +225,28 @@ const heroes = [
 
 ### Naming
 
+Variables and functions must have meaningful names so that you don’t have to resort to commenting what a piece of functionality does. Instead, try to be expressive while succinct, and use meaningful variable names.
+
+##### Bad
+
+```js
+function a (x, y, z) {
+  return z * y / x
+}
+a(4, 2, 6)
+// <- 3
+```
+
+##### Good
+
+```js
+function ruleOfThree (had, got, have) {
+  return have * got / had
+}
+ruleOfThree(4, 2, 6)
+// <- 3
+```
+
 Use **camelCase** when naming objects, functions, and instances.
 
 ##### Bad
@@ -782,7 +804,6 @@ Instantiate using the egyptian notation `{}`.
 
 When constructing objects, consider using [`Object.freeze`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/freeze) to enforce immutability of the object, or at least [`Object.seal`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/seal) to maintain object's properties.
 
-
 ## Regular Expressions
 
 Keep regular expressions in variables, don’t use them inline. This will vastly improve readability.
@@ -798,7 +819,7 @@ if (/\d+/.test(text)) {
 ##### Good
 
 ```js
-var numeric = /\d+/
+const numeric = /\d+/
 if (numeric.test(text)) {
   console.log('so many numbers!')
 }
@@ -818,7 +839,7 @@ Comments **aren’t meant to explain what** the code does. Good **code is suppos
 
 ```js
 // create the centered container
-var p = $('<p/>')
+let p = $('<p/>')
 p.center(div)
 p.text('foo')
 ```
@@ -826,8 +847,8 @@ p.text('foo')
 ##### Good
 
 ```js
-var container = $('<p/>')
-var contents = 'foo'
+let container = $('<p/>')
+let contents = 'foo'
 container.center(parent)
 container.text(contents)
 megaphone.on('data', function (value) {
@@ -836,7 +857,7 @@ megaphone.on('data', function (value) {
 ```
 
 ```js
-var numeric = /\d+/ // one or more digits somewhere in the string
+const numeric = /\d+/ // one or more digits somewhere in the string
 if (numeric.test(text)) {
   console.log('so many numbers!')
 }
@@ -844,91 +865,11 @@ if (numeric.test(text)) {
 
 Commenting out entire blocks of code _should be avoided entirely_, that’s why you have version control systems in place!
 
-## Variable Naming
-
-Variables must have meaningful names so that you don’t have to resort to commenting what a piece of functionality does. Instead, try to be expressive while succinct, and use meaningful variable names.
-
-##### Bad
-
-```js
-function a (x, y, z) {
-  return z * y / x
-}
-a(4, 2, 6)
-// <- 3
-```
-
-##### Good
-
-```js
-function ruleOfThree (had, got, have) {
-  return have * got / had
-}
-ruleOfThree(4, 2, 6)
-// <- 3
-```
-
 ## Polyfills
 
 Where possible use the native browser implementation and include [a polyfill that provides that behavior][27] for unsupported browsers. This makes the code easier to work with and less involved in hackery to make things just work.
 
 If you can’t patch a piece of functionality with a polyfill, then [wrap all uses of the patching code][28] in a globally available method that is accessible from everywhere in the application.
-
-## Everyday Tricks
-
-Use `||` to define a default value. If the left-hand value is [falsy][29] then the right-hand value will be used. Be advised, that because of loose type comparison, inputs like `false`, `0`, `null` or `''` will be evaluated as falsy, and converted to default value. For strict type checking use `if (value === void 0) { value = defaultValue }`.
-
-```js
-function a (value) {
-  var defaultValue = 33
-  var used = value || defaultValue
-}
-```
-
-Use `.bind` to [partially-apply][30] functions.
-
-```js
-function sum (a, b) {
-  return a + b
-}
-
-var addSeven = sum.bind(null, 7)
-
-addSeven(6)
-// <- 13
-```
-
-Use `Array.prototype.slice.call` to cast array-like objects to true arrays.
-
-```js
-var args = Array.prototype.slice.call(arguments)
-```
-
-Use [event emitters][31] on all the things!
-
-```js
-var emitter = contra.emitter()
-
-body.addEventListener('click', function () {
-  emitter.emit('click', e.target)
-})
-
-emitter.on('click', function (elem) {
-  console.log(elem)
-})
-
-// simulate click
-emitter.emit('click', document.body)
-```
-
-Use `Function()` as a _“no-op.”_
-
-```js
-function (cb) {
-  setTimeout(cb || Function(), 2000)
-}
-```
-
 
 ## Functional Programming
 
