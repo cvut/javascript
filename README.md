@@ -36,7 +36,7 @@ Module systems also provide us with dependency injection patterns, which are cru
 
 Put [`'use strict'`][4] at the top of your modules. Strict mode allows you to catch nonsensical behavior, discourages poor practices, and _is faster_ because it allows compilers to make certain assumptions about your code.
 
-Babel [can do that for you](https://babeljs.io/docs/advanced/transformers/other/strict/) by default, but cannot hurt you to keep this in mind.
+Babel [can do that for you](https://babeljs.io/docs/advanced/transformers/other/strict/) by default, but it won't hurt you to keep this in mind.
 
 ## Code Style
 
@@ -346,7 +346,7 @@ const message = `oh hai ${name}!`
 
 ## Variables Declaration
 
-**Do not use `var`**. Use `const` to prevent reassignment of variables. Use `let` if you need to assign variables later.
+**Do not use `var`**. Use `const` to prevent reassignment of variables. Use `let` if you need to assign variables.
 
 <!-- TODO: Examples -->
 
@@ -612,6 +612,42 @@ function half (text) {
 - It causes headaches when creating `new` objects
 - Needs a closure to hide valuable private state of instances
 - Just use plain objects instead
+
+## Classes
+
+**Avoid ES6 classes**. Since it is just a syntactic sugar over prototypal inheritance, [same caveats apply](#prototypes).
+
+Recommended readings:
+
+- The Two Pillars of JavaScript: [Part 1](https://medium.com/javascript-scene/the-two-pillars-of-javascript-ee6f3281e7f3) and [Part 2](https://medium.com/javascript-scene/the-two-pillars-of-javascript-pt-2-functional-programming-a63aa53a41a4).
+- [How to Fix the ES6 `class` keyword](https://medium.com/javascript-scene/how-to-fix-the-es6-class-keyword-2d42bb3f4caf)
+- [Think twice about ES6 classes](https://christianalfoni.github.io/javascript/2015/01/01/think-twice-about-classes.html)
+
+Simple object factories and stateless pure functions get you usually further without all the complexity introduced by class-based object-oriented programming.
+
+##### Bad
+
+```js
+class Point {
+  constructor(x, y) {
+    [this.x, this.y] = [x, y]
+  }
+  get x() {
+    return this.x
+  }
+  get y() {
+    return this.y
+  }
+}
+```
+
+##### Good
+
+```js
+function Point(x, y) {
+  return Object.freeze({x, y})
+}
+```
 
 ## Object Literals
 
