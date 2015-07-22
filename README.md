@@ -840,7 +840,7 @@ emitter.on('click', function (elem) {
 emitter.emit('click', document.body)
 ```
 
-Use `Function()` as a _"no-op"_.
+Use `Function()` as a _“no-op.”_
 
 ```js
 function (cb) {
