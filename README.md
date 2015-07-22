@@ -26,7 +26,9 @@ See [tooling](tooling/) for tips how to manage your build process.
 
 ## Modules
 
-This style guide assumes you're using a module system such as [CommonJS][1], [AMD][2], [ES6 Modules][3], or any other kind of module system. Modules systems provide individual scoping, avoid leaks to the `global` object, and improve code base organization by **automating dependency graph generation**, instead of having to resort to manually creating multiple `<script>` tags.
+Organize your code into [modules](http://jsmodules.io/). Use [ES6 modules](http://jsmodules.io/) (with Babel) or [CommonJS](http://wiki.commonjs.org/wiki/CommonJS) (in other cases). Each module is scoped with explicit exports and does not pollute global namespace. Additionally you can easily share modules between server and browser projects.
+
+For browser projects, you can compose modules into a single _bundle_ with tools like [Browserify](http://browserify.org/) or [Webpack](https://webpack.github.io/). See [tooling](tooling/) for more information.
 
 Module systems also provide us with dependency injection patterns, which are crucial when it comes to testing individual components in isolation.
 
@@ -755,9 +757,6 @@ MIT
 
 > Fork away!
 
-  [1]: http://wiki.commonjs.org/wiki/CommonJS
-  [2]: http://requirejs.org/docs/whyamd.html
-  [3]: http://eviltrout.com/2014/05/03/getting-started-with-es6.html
   [4]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions_and_function_scope/Strict_mode
   [5]: http://editorconfig.org
   [6]: http://dailyjs.com/2012/12/24/javascript-survey-results/
