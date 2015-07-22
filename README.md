@@ -10,6 +10,19 @@ This guide aims to provide the ground rules for an application's JavaScript code
 - Avoid classes, `this`, and prototype manipulation. Stick with objects and pure functions.
 - Avoid mutating state. Treat immutability as baseline.
 
+## ES6
+
+[Learn about EcmaScript 6](http://git.io/es6features), its new syntax and features, and use it in you project today.
+
+For browser-oriented projects transpile your project with [Babel](https://babeljs.io/).
+
+For server oriented projects, you can use ES6 natively in Node.js version 0.12 (with [`--harmony` flag](https://github.com/joyent/node/wiki/es6-%28a.k.a.-harmony%29-features-implemented-in-v8-and-available-in-node)) and [io.js](https://iojs.org/). Alternatively you can use [babel-node](https://babeljs.io/docs/usage/cli/#babel-node) from the Babel project. Consult [ES6 Compatibility Table](https://kangax.github.io/compat-table/es6/).
+
+You may want to avoid Babel in smaller projects where Ethe code compilation brings unjustified overhead.
+
+Avoid using other languages which compile to JavaScript, like CoffeeScript. While they may have more syntactic sugar and features, they are much more opinionated and not everyone may like them.
+
+See [tooling](tooling/) for tips how to manage your build process.
 
 ## Modules
 
