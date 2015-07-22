@@ -649,88 +649,109 @@ function Point(x, y) {
 }
 ```
 
-## Functional Programming
+### Mutability
 
-While JavaScript does not emphasise any particular programming paradigm, it goes especially well with some aspects of functional programming. Learn about functional programming and embrace it in your code. While you may have heard of some scare stories about it and/or you may think it is highly impractical stuff made up by some mathematicians, the reality is quite different.
+### Functional Composition
 
-Recommended reading:
+## Arrays
 
-* [Professor Frisby's Mostly Adequate Guide to Functional Programming](http://drboolean.gitbooks.io/mostly-adequate-guide/)
+Instantiate arrays using the square bracketed notation `[]`. If you have to declare a fixed-dimension array for performance reasons then it’s fine to use the `new Array(length)` notation instead.
 
-The following section are few tips on how to start with functional style.
+### Manipulation
 
-### Separate Data and Behaviour
-
-**Put data into “dumb” structures and behaviour into functions.** Mainstream “object-oriented” programming languages bundle behaviour and data into classes. Many times, however, we operate with same data in different contexts. The fabulous OOP then becomes about managing inevitable complexity as we need to do various operations with same data, but classes and inheritance are extremely poor way to manage things.
-
-If you need to do something with your data, just put them into object or array and write a simple function to do stuff. No need to write `DoStuffWithDataExecutor` class to encapsulate your data. Functions in JavaScript are first-class citizens, treat them as such.
-
-Recommended reading: [Execution in the Kingdom of Nouns](http://steve-yegge.blogspot.cz/2006/03/execution-in-kingdom-of-nouns.html).
+Whenever you have to manipulate an array-like object, cast it to an array.
 
 ##### Bad
 
 ```js
-class Person {
-  constructor (first, last) {
-    [this.first, this.last] = [first, last]
-  }
-  fullName () {
-    return `${this.first} ${this.last}`
-  }
-}
+let divs = document.querySelectorAll('div')
 
-let jane = new Person('Jane', 'Doe')
-jane.fullName() // => 'Jane Doe'
+for (i = 0; i < divs.length; i++) {
+  console.log(divs[i].innerHTML)
+}
 ```
 
 ##### Good
 
 ```js
-function fullName(person) {
-  return `${person.first} ${person.last}`
-}
+let divs = document.querySelectorAll('div')
 
-let jane = {
-  first: 'Jane',
-  last: 'Doe',
-}
-
-fullName(jane) // => 'Jane Doe'
+[].slice.call(divs).forEach((div) => {
+  console.log(div.innerHTML)
+})
 ```
 
-### Mutability
+### Loops
 
-### Functional Composition
+Don't declare functions inside of loops.
 
-## Object Literals
-
-Instantiate using the egyptian notation `{}`. Use factories instead of constructors, here’s a proposed pattern for you to implement objects in general.
+##### Bad
 
 ```js
-function util (options) {
-  // private methods and state go here
-  var foo
+var values = [1, 2, 3]
+var i
 
-  function add () {
-    return foo++
-  }
-
-  function reset () { // note that this method isn’t publicly exposed
-    foo = options.start || 0
-  }
-
-  reset()
-
-  return {
-    // public interface methods go here
-    uuid: add
-  }
+for (i = 0; i < values.length; i++) {
+  setTimeout(function () {
+    console.log(values[i])
+  }, 1000 * i)
 }
 ```
 
-## Array Literals
+```js
+var values = [1, 2, 3]
+var i
 
-Instantiate using the square bracketed notation `[]`. If you have to declare a fixed-dimension array for performance reasons then it’s fine to use the `new Array(length)` notation instead.
+for (i = 0; i < values.length; i++) {
+  setTimeout((i) => {
+    return function () {
+      console.log(values[i])
+    }
+  }(i), 1000 * i)
+}
+```
+
+##### Somewhat Acceptable
+
+```js
+var values = [1, 2, 3]
+var i
+
+for (i = 0; i < values.length; i++) {
+  setTimeout(function (i) {
+    console.log(values[i])
+  }, 1000 * i, i)
+}
+```
+
+```js
+var values = [1, 2, 3]
+var i
+
+for (i = 0; i < values.length; i++) {
+  wait(i)
+}
+
+function wait (i) {
+  setTimeout(function () {
+    console.log(values[i])
+  }, 1000 * i)
+}
+```
+
+Whenever possible, use `.forEach` instead of `for` loop. There is also no issue with declaring anonymous function within other functions.
+
+##### Better
+
+```js
+[1, 2, 3].forEach((value, i) => {
+  setTimeout(() => {
+    console.log(value)
+  }, 1000 * i)
+})
+```
+
+### Manipulation
 
 It’s about time you master array manipulation! [Learn about the basics][24]. It’s way easier than you might think.
 
@@ -754,6 +775,13 @@ Learn and abuse the functional collection manipulation methods. These are **so**
 - [`.every`](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Array/every)
 - [`.sort`](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Array/sort)
 - [`.reverse`](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Array/reverse)
+
+## Objects
+
+Instantiate using the egyptian notation `{}`.
+
+When constructing objects, consider using [`Object.freeze`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/freeze) to enforce immutability of the object, or at least [`Object.seal`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/seal) to maintain object's properties.
+
 
 ## Regular Expressions
 
@@ -900,6 +928,57 @@ function (cb) {
   setTimeout(cb || Function(), 2000)
 }
 ```
+
+
+## Functional Programming
+
+While JavaScript does not emphasise any particular programming paradigm, it goes especially well with some aspects of functional programming. Learn about functional programming and embrace it in your code. While you may have heard of some scare stories about it and/or you may think it is highly impractical stuff made up by some mathematicians, the reality is quite different.
+
+Recommended reading:
+
+* [Professor Frisby's Mostly Adequate Guide to Functional Programming](http://drboolean.gitbooks.io/mostly-adequate-guide/)
+
+The following section are few tips on how to start with functional style.
+
+### Separate Data and Behaviour
+
+**Put data into “dumb” structures and behaviour into functions.** Mainstream “object-oriented” programming languages bundle behaviour and data into classes. Many times, however, we operate with same data in different contexts. The fabulous OOP then becomes about managing inevitable complexity as we need to do various operations with same data, but classes and inheritance are extremely poor way to manage things.
+
+If you need to do something with your data, just put them into object or array and write a simple function to do stuff. No need to write `DoStuffWithDataExecutor` class to encapsulate your data. Functions in JavaScript are first-class citizens, treat them as such.
+
+Recommended reading: [Execution in the Kingdom of Nouns](http://steve-yegge.blogspot.cz/2006/03/execution-in-kingdom-of-nouns.html).
+
+##### Bad
+
+```js
+class Person {
+  constructor (first, last) {
+    [this.first, this.last] = [first, last]
+  }
+  fullName () {
+    return `${this.first} ${this.last}`
+  }
+}
+
+let jane = new Person('Jane', 'Doe')
+jane.fullName() // => 'Jane Doe'
+```
+
+##### Good
+
+```js
+function fullName(person) {
+  return `${person.first} ${person.last}`
+}
+
+let jane = {
+  first: 'Jane',
+  last: 'Doe',
+}
+
+fullName(jane) // => 'Jane Doe'
+```
+
 
 ## Acknowledgements
 
