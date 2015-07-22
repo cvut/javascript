@@ -413,6 +413,7 @@ const a = 1
 const d = 2
 
 let b, c
+```
 
 ## Equality
 
@@ -784,10 +785,6 @@ function Point(x, y) {
 }
 ```
 
-### Mutability
-
-### Functional Composition
-
 ## Arrays
 
 Instantiate arrays using the square bracketed notation `[]`. If you have to declare a fixed-dimension array for performance reasons then it’s fine to use the `new Array(length)` notation instead.
@@ -1021,7 +1018,7 @@ jane.fullName() // => 'Jane Doe'
 ##### Good
 
 ```js
-function fullName(person) {
+function fullName (person) {
   return `${person.first} ${person.last}`
 }
 
@@ -1033,6 +1030,198 @@ let jane = {
 fullName(jane) // => 'Jane Doe'
 ```
 
+
+### Mutability
+
+**Avoid mutating state.** Instead of modifying the original object, return a new object with changes.
+
+##### Bad
+
+```js
+function rename (person, newName) {
+  person.name = newName
+  return person
+}
+
+const jane = {name: 'Jane'}
+const anna = rename(jane, 'Anna')
+jane.name // => 'Anna'
+anna.name // => 'Anna'
+```
+
+##### Good
+
+```js
+function rename (person, newName) {
+  const clone = Object.assign({}, person)
+  clone.name = newName
+  return clone
+}
+
+const jane = {name: 'Jane'}
+const anna = rename(jane, 'Anna')
+jane.name // => 'Jane'
+anna.name // => 'Anna'
+```
+
+This example uses [Object.assign](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign) which is not yet widely supported. Most utility libraries provide `extend` or `clone` function, or you can use some [standalone implementation](http://npm.im/clone).
+
+Arrays can be efficiently manipulated through standard functional methods like [`map`](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Array/map) or [`filter`](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Array/filter) which return new array.
+
+##### Bad
+
+```js
+const words = ['foobar', 'baz', 'a']
+const lengths = []
+
+for (let i = 0; i < words.length; i++) {
+  let len = words[i].length
+  lengths.push(len)
+};
+
+lengths // => [6, 3, 1]
+```
+
+##### Bad
+
+```js
+const words = ['foobar', 'baz', 'a']
+const lengths = []
+
+words.forEach((word) => {
+  lengths.push(word.length)
+})
+
+lengths // => [6, 3, 1]
+```
+
+`forEach` usually implies a side effect, in this case it is manipulating an outside array.
+
+##### Good
+
+```js
+const words = ['foobar', 'baz', 'a']
+
+const lengths = words.map(word => word.length)
+
+lengths // => [6, 3, 1]
+```
+
+
+### Pure Functions
+
+**Avoid side-effects and outside state.** [Pure functions](http://drboolean.gitbooks.io/mostly-adequate-guide/content/ch3.html) always return the same output given the same parameters. However, since programming without side-effects would be impossible, try to contain it in dedicated functions and keep the rest of your code pure.
+
+##### Impure
+
+```js
+const minimum = 21;
+
+function checkAge (age) {
+  return age >= minimum;
+};
+```
+
+
+##### Pure
+
+```js
+function checkAge (age) {
+  const minimum = 21;
+  return age >= minimum;
+};
+```
+
+
+### Currying
+
+The pure functions are easily testable and predictable. But don't fret, you won't need to pass _every single_ parameter _every time_ you call your function. With high-order functions, you can build your functions incrementally with [_currying_](http://drboolean.gitbooks.io/mostly-adequate-guide/content/ch4.html).
+
+##### Bad
+```js
+function checkAge (minimumAge, age) {
+  return age >= minimumAge
+}
+
+checkAge(21, 18) // => false
+checkAge(18, 18) // => true
+```
+
+##### Good
+```js
+function ageChecker (minimumAge) {
+  return function (age) {
+    return age >= minimumAge
+  }
+}
+
+const checkAgeUsa = ageChecker(21)
+const checkAgeEu = ageChecker(18)
+
+checkAgeUsa(18) // => false
+checkAgeEu(18) // => true
+
+// treating curried function as anonymous does not look pretty
+ageChecker(21)(18) // => false
+```
+
+Instead of manual currying many libraries provide universal curry function, e.g. [Ramda](http://ramdajs.com/docs/#curry), or you can use [a stand-alone module](http://npm.im/curry).
+
+##### Better
+
+```js
+const ageChecker = curry((minimumAge, age) {
+  return age >= minimumAge
+})
+
+const checkAgeUsa = ageChecker(21)
+checkAgeUsa(18) // => false
+
+// works the same as before
+ageChecker(21)(18) // => false
+
+// but you can also pass all the parameters
+ageChecker(21, 18) // => false
+```
+
+### Functional Composition
+
+Pure functions and currying are powerful tools for manipulating data. You can [compose generic functions](http://drboolean.gitbooks.io/mostly-adequate-guide/content/ch5.html) to suit your specific needs with almost none code.
+
+Use either `compose`, or `pipe` to combine functions into new functions. The only difference is order of functions:
+
+Compose applies functions outside-in, i.e. `compose(a, b, c)(x)` is the same as `a(b(c(x)))`; so functions are applied from _right to left_.
+
+Pipe does the opposite, i.e. `pipe(a, b, c)(x)` is the same as `c(b(a(x)))`; functions are applied from _left to right_.
+
+Use option which you find more natural, but be consistent within the project.
+
+Try to keep your functions [pointfree](http://drboolean.gitbooks.io/mostly-adequate-guide/content/ch5.html#pointfree) to make them easier to extract and reuse.
+
+##### Bad
+
+```js
+function shout (sentence) {
+  sentence.toUpperCase() + '!'
+}
+
+shout('send in the clowns') // => SEND IN THE CLOWNS!
+```
+
+
+##### Good
+
+```js
+function toUpperCase (x) {
+  return x.toUpperCase()
+}
+function exclaim (x) { 
+  return `${x}!`
+}
+const shout = pipe(toUpperCase, exclaim)
+
+shout('send in the clowns') // => SEND IN THE CLOWNS!
+```
 
 ## Acknowledgements
 
