@@ -563,6 +563,77 @@ function once (fn) {
 }
 ```
 
+### Function Parameters
+
+Learn about [default, rest, and spread parameters](https://github.com/lukehoban/es6features#default--rest--spread) in ES6.
+
+**Never name function parameter `arguments`** since it is a reserved keyword.
+
+##### Bad
+```js
+function nope(name, options, arguments) {
+  // ...stuff...
+}
+```
+
+##### Good
+```js
+function yup(name, options, args) {
+  // ...stuff...
+}
+```
+
+**Do not use `arguments` keyword in function.** Use rest arguments instead.
+
+##### Bad
+
+```js
+function concatenateAll() {
+  const args = Array.prototype.slice.call(arguments);
+  return args.join('');
+}
+```
+
+##### Good
+```js
+function concatenateAll(...args) {
+  return args.join('');
+}
+```
+
+
+**Use default parameter syntax** rather than mutating function arguments.
+
+##### Bad
+```js
+// really bad
+function handleThings(opts) {
+  // No! We shouldn't mutate function arguments.
+  // Double bad: if opts is falsy it'll be set to an object which may
+  // be what you want but it can introduce subtle bugs.
+  opts = opts || {};
+  // ...
+}
+```
+
+```js
+// still bad
+function handleThings(opts) {
+  if (opts === void 0) {
+    opts = {};
+  }
+  // ...
+}
+```
+
+##### Good
+```js
+// good
+function handleThings(opts = {}) {
+  // ...
+}
+```
+
 ### Conditional Return
 
 Avoid keeping indentation levels from raising more than necessary by using guard clauses instead of flowing `if` statements.
