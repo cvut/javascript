@@ -649,6 +649,59 @@ function Point(x, y) {
 }
 ```
 
+## Functional Programming
+
+While JavaScript does not emphasise any particular programming paradigm, it goes especially well with some aspects of functional programming. Learn about functional programming and embrace it in your code. While you may have heard of some scare stories about it and/or you may think it is highly impractical stuff made up by some mathematicians, the reality is quite different.
+
+Recommended reading:
+
+* [Professor Frisby's Mostly Adequate Guide to Functional Programming](http://drboolean.gitbooks.io/mostly-adequate-guide/)
+
+The following section are few tips on how to start with functional style.
+
+### Separate Data and Behaviour
+
+**Put data into “dumb” structures and behaviour into functions.** Mainstream “object-oriented” programming languages bundle behaviour and data into classes. Many times, however, we operate with same data in different contexts. The fabulous OOP then becomes about managing inevitable complexity as we need to do various operations with same data, but classes and inheritance are extremely poor way to manage things.
+
+If you need to do something with your data, just put them into object or array and write a simple function to do stuff. No need to write `DoStuffWithDataExecutor` class to encapsulate your data. Functions in JavaScript are first-class citizens, treat them as such.
+
+Recommended reading: [Execution in the Kingdom of Nouns](http://steve-yegge.blogspot.cz/2006/03/execution-in-kingdom-of-nouns.html).
+
+##### Bad
+
+```js
+class Person {
+  constructor (first, last) {
+    [this.first, this.last] = [first, last]
+  }
+  fullName () {
+    return `${this.first} ${this.last}`
+  }
+}
+
+let jane = new Person('Jane', 'Doe')
+jane.fullName() // => 'Jane Doe'
+```
+
+##### Good
+
+```js
+function fullName(person) {
+  return `${person.first} ${person.last}`
+}
+
+let jane = {
+  first: 'Jane',
+  last: 'Doe',
+}
+
+fullName(jane) // => 'Jane Doe'
+```
+
+### Mutability
+
+### Functional Composition
+
 ## Object Literals
 
 Instantiate using the egyptian notation `{}`. Use factories instead of constructors, here's a proposed pattern for you to implement objects in general.
