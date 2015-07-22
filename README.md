@@ -485,112 +485,32 @@ if (Math.random() > 0.5) {
 }
 ```
 
-If you need a _"no-op"_ method you can use either `Function.prototype`, or `function noop () {}`. Ideally a single reference to `noop` is used throughout the application.
+### Anonymous Functions
 
-Whenever you have to manipulate an array-like object, cast it to an array.
+Use [arrow functions](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Arrow_functions) for simple anonymous functions.
 
 ##### Bad
 
-```js
-var divs = document.querySelectorAll('div')
-
-for (i = 0; i < divs.length; i++) {
-  console.log(divs[i].innerHTML)
-}
+```javascript
+[1, 2, 3].map(function (x) {
+  return x * x
+});
 ```
 
 ##### Good
 
 ```js
-var divs = document.querySelectorAll('div')
-
-[].slice.call(divs).forEach(function (div) {
-  console.log(div.innerHTML)
+[1, 2, 3].map((x) => {
+  return x * x
 })
 ```
 
-However, be aware that there is a [substantial performance hit][22] in V8 environments when using this approach on `arguments`. If performance is a major concern, avoid casting `arguments` with `slice` and instead use a `for` loop.
-
-#### Bad
-```js
-var args = [].slice.call(arguments)
-```
-
-#### Good
-```js
-var i
-var args = new Array(arguments.length)
-for (i = 0; i < args.length; i++) {
-    args[i] = arguments[i]
-}
-```
-
-Don't declare functions inside of loops.
-
-##### Bad
-
-```js
-var values = [1, 2, 3]
-var i
-
-for (i = 0; i < values.length; i++) {
-  setTimeout(function () {
-    console.log(values[i])
-  }, 1000 * i)
-}
-```
-
-```js
-var values = [1, 2, 3]
-var i
-
-for (i = 0; i < values.length; i++) {
-  setTimeout(function (i) {
-    return function () {
-      console.log(values[i])
-    }
-  }(i), 1000 * i)
-}
-```
-
-##### Good
-
-```js
-var values = [1, 2, 3]
-var i
-
-for (i = 0; i < values.length; i++) {
-  setTimeout(function (i) {
-    console.log(values[i])
-  }, 1000 * i, i)
-}
-```
-
-```js
-var values = [1, 2, 3]
-var i
-
-for (i = 0; i < values.length; i++) {
-  wait(i)
-}
-
-function wait (i) {
-  setTimeout(function () {
-    console.log(values[i])
-  }, 1000 * i)
-}
-```
-
-Or even better, just use `.forEach` which doesn't have the same caveats as declaring functions in `for` loops.
+Omit braces and parentheses if the function accepts a single argument and fits into a single line.
 
 ##### Better
 
 ```js
-[1, 2, 3].forEach(function (value, i) {
-  setTimeout(function () {
-    console.log(value)
-  }, 1000 * i)
-})
+[1, 2, 3].map(x => x * x)
 ```
 
 Whenever a method is non-trivial, make the effort to **use a named function declaration rather than an anonymous function**. This will make it easier to pinpoint the root cause of an exception when analyzing stack traces.
@@ -620,6 +540,8 @@ function once (fn) {
   }
 }
 ```
+
+### Conditional Return
 
 Avoid keeping indentation levels from raising more than necessary by using guard clauses instead of flowing `if` statements.
 
