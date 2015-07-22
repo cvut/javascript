@@ -1,6 +1,6 @@
 # Czech Technical University JavaScript Quality Guide
 
-This guide aims to provide the ground rules for an application's JavaScript code, such that it's highly readable and consistent across different developers on a team. The focus is put on quality and coherence across the different pieces of your application.
+This guide aims to provide the ground rules for an application’s JavaScript code, such that it’s highly readable and consistent across different developers on a team. The focus is put on quality and coherence across the different pieces of your application.
 
 ## tl;dr
 
@@ -36,11 +36,11 @@ Module systems also provide us with dependency injection patterns, which are cru
 
 Put [`'use strict'`][4] at the top of your modules. Strict mode allows you to catch nonsensical behavior, discourages poor practices, and _is faster_ because it allows compilers to make certain assumptions about your code.
 
-Babel [can do that for you](https://babeljs.io/docs/advanced/transformers/other/strict/) by default, but it won't hurt you to keep this in mind.
+Babel [can do that for you](https://babeljs.io/docs/advanced/transformers/other/strict/) by default, but it won’t hurt you to keep this in mind.
 
 ## Code Style
 
-Use [Standard](https://github.com/feross/standard) code style. You may not like some features of it, but somebody else from your team may like them – and vice versa. The point is: somebody else made these decisions for you, so you can carry on with your life and [don't discuss what the color of the bikeshed](https://www.freebsd.org/doc/en_US.ISO8859-1/books/faq/misc.html#idp60682704).
+Use [Standard](https://github.com/feross/standard) code style. You may not like some features of it, but somebody else from your team may like them – and vice versa. The point is: somebody else made these decisions for you, so you can carry on with your life and [don’t discuss what the color of the bikeshed](https://www.freebsd.org/doc/en_US.ISO8859-1/books/faq/misc.html#idp60682704).
 
 ### Indentation
 
@@ -66,7 +66,7 @@ trim_trailing_whitespace = false
 
 ### Spacing
 
-Spacing doesn't just entail indentation, but also the spaces before, after, and in between arguments of a function declaration.
+Spacing doesn’t just entail indentation, but also the spaces before, after, and in between arguments of a function declaration.
 
 The style recommended by Standard is to put space before parenthesis and after comma.
 
@@ -82,7 +82,7 @@ if (true) {
 }
 ```
 
-Get used to it and try to stick with this style, but don't put much thought to it either. [Automatic formatter](https://github.com/beautify-web/js-beautify) can get care of this for you and it will keep your punctilious coworkers happy.
+Get used to it and try to stick with this style, but don’t put much thought to it either. [Automatic formatter](https://github.com/beautify-web/js-beautify) can get care of this for you and it will keep your punctilious coworkers happy.
 
 Where possible, improve readability by **keeping lines below the 100-character** mark. **Never go over 120 characters per line.**
 
@@ -171,7 +171,7 @@ const message = 'o hai!'
 
 ### Commas
 
-**Do not use leading commas**, it's just plain ugly.
+**Do not use leading commas**, it’s just plain ugly.
 
 ##### Bad
 
@@ -316,7 +316,7 @@ if (foo > 1) {
 }
 ```
 
-Variable declarations that aren't immediately assigned a value are acceptable to share the same line of code.
+Variable declarations that aren’t immediately assigned a value are acceptable to share the same line of code.
 
 ##### Acceptable
 
@@ -398,9 +398,9 @@ if (text == null) {
 
 ## Ternary Operators
 
-Ternary operators are fine for clear-cut conditionals, but unacceptable for confusing choices. As a rule, if you can't eye-parse it as fast as your brain can interpret the text that declares the ternary operator, chances are it's probably too complicated for its own good.
+Ternary operators are fine for clear-cut conditionals, but unacceptable for confusing choices. As a rule, if you can’t eye-parse it as fast as your brain can interpret the text that declares the ternary operator, chances are it’s probably too complicated for its own good.
 
-jQuery is a prime example of a codebase that's [**filled with nasty ternary operators**][16].
+jQuery is a prime example of a codebase that’s [**filled with nasty ternary operators**][16].
 
 ##### Bad
 
@@ -440,7 +440,7 @@ function sum (x, y) {
 }
 ```
 
-That being said, there's nothing wrong with function expressions that are just [currying another function][20].
+That being said, there’s nothing wrong with function expressions that are just [currying another function][20].
 
 ##### Good
 
@@ -448,7 +448,7 @@ That being said, there's nothing wrong with function expressions that are just [
 const plusThree = sum.bind(null, 3)
 ```
 
-Keep in mind that [function declarations will be hoisted][21] to the top of the scope so it doesn't matter the order they are declared in. That being said, you should always keep functions at the top level in a scope, and avoid placing them inside conditional statements.
+Keep in mind that [function declarations will be hoisted][21] to the top of the scope so it doesn’t matter the order they are declared in. That being said, you should always keep functions at the top level in a scope, and avoid placing them inside conditional statements.
 
 ##### Bad
 
@@ -608,7 +608,7 @@ function half (text) {
 **Avoid prototypical inheritance models** unless you have a very good _performance reason_ to justify yourself.
 
 - Prototypical inheritance boosts puts need for `this` through the roof
-- It's way more verbose than using plain objects
+- It’s way more verbose than using plain objects
 - It causes headaches when creating `new` objects
 - Needs a closure to hide valuable private state of instances
 - Just use plain objects instead
@@ -651,7 +651,7 @@ function Point(x, y) {
 
 ## Object Literals
 
-Instantiate using the egyptian notation `{}`. Use factories instead of constructors, here's a proposed pattern for you to implement objects in general.
+Instantiate using the egyptian notation `{}`. Use factories instead of constructors, here’s a proposed pattern for you to implement objects in general.
 
 ```js
 function util (options) {
@@ -662,7 +662,7 @@ function util (options) {
     return foo++
   }
 
-  function reset () { // note that this method isn't publicly exposed
+  function reset () { // note that this method isn’t publicly exposed
     foo = options.start || 0
   }
 
@@ -677,9 +677,9 @@ function util (options) {
 
 ## Array Literals
 
-Instantiate using the square bracketed notation `[]`. If you have to declare a fixed-dimension array for performance reasons then it's fine to use the `new Array(length)` notation instead.
+Instantiate using the square bracketed notation `[]`. If you have to declare a fixed-dimension array for performance reasons then it’s fine to use the `new Array(length)` notation instead.
 
-It's about time you master array manipulation! [Learn about the basics][24]. It's way easier than you might think.
+It’s about time you master array manipulation! [Learn about the basics][24]. It’s way easier than you might think.
 
 - [`.forEach`](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Array/forEach)
 - [`.slice`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/slice)
@@ -704,7 +704,7 @@ Learn and abuse the functional collection manipulation methods. These are **so**
 
 ## Regular Expressions
 
-Keep regular expressions in variables, don't use them inline. This will vastly improve readability.
+Keep regular expressions in variables, don’t use them inline. This will vastly improve readability.
 
 ##### Bad
 
@@ -727,11 +727,11 @@ Also [learn how to write regular expressions][25], and what they actually do. Th
 
 ## `console` statements
 
-Preferably bake `console` statements into a service that can easily be disabled in production. Alternatively, don't ship any `console.log` printing statements to production distributions.
+Preferably bake `console` statements into a service that can easily be disabled in production. Alternatively, don’t ship any `console.log` printing statements to production distributions.
 
 ## Comments
 
-Comments **aren't meant to explain what** the code does. Good **code is supposed to be self-explanatory**. If you're thinking of writing a comment to explain what a piece of code does, chances are you need to change the code itself. The exception to that rule is explaining what a regular expression does. Good comments are supposed to **explain why** code does something that may not seem to have a clear-cut purpose.
+Comments **aren’t meant to explain what** the code does. Good **code is supposed to be self-explanatory**. If you’re thinking of writing a comment to explain what a piece of code does, chances are you need to change the code itself. The exception to that rule is explaining what a regular expression does. Good comments are supposed to **explain why** code does something that may not seem to have a clear-cut purpose.
 
 ##### Bad
 
@@ -761,11 +761,11 @@ if (numeric.test(text)) {
 }
 ```
 
-Commenting out entire blocks of code _should be avoided entirely_, that's why you have version control systems in place!
+Commenting out entire blocks of code _should be avoided entirely_, that’s why you have version control systems in place!
 
 ## Variable Naming
 
-Variables must have meaningful names so that you don't have to resort to commenting what a piece of functionality does. Instead, try to be expressive while succinct, and use meaningful variable names.
+Variables must have meaningful names so that you don’t have to resort to commenting what a piece of functionality does. Instead, try to be expressive while succinct, and use meaningful variable names.
 
 ##### Bad
 
@@ -791,7 +791,7 @@ ruleOfThree(4, 2, 6)
 
 Where possible use the native browser implementation and include [a polyfill that provides that behavior][27] for unsupported browsers. This makes the code easier to work with and less involved in hackery to make things just work.
 
-If you can't patch a piece of functionality with a polyfill, then [wrap all uses of the patching code][28] in a globally available method that is accessible from everywhere in the application.
+If you can’t patch a piece of functionality with a polyfill, then [wrap all uses of the patching code][28] in a globally available method that is accessible from everywhere in the application.
 
 ## Everyday Tricks
 
