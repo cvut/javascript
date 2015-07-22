@@ -12,7 +12,7 @@ This guide aims to provide the ground rules for an application's JavaScript code
 
 ## ES6
 
-[Learn about EcmaScript 6](http://git.io/es6features), its new syntax and features, and use it in you project today.
+[Learn about ECMAScript 6](http://git.io/es6features), its new syntax and features, and use it in you project today.
 
 For browser-oriented projects transpile your project with [Babel](https://babeljs.io/).
 
