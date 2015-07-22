@@ -1,8 +1,14 @@
 # Czech Technical University JavaScript Quality Guide
 
-This style guide aims to provide the ground rules for an application's JavaScript code, such that it's highly readable and consistent across different developers on a team. The focus is put on quality and coherence across the different pieces of your application.
+This guide aims to provide the ground rules for an application's JavaScript code, such that it's highly readable and consistent across different developers on a team. The focus is put on quality and coherence across the different pieces of your application.
 
 ## tl;dr
+
+- Stick with [standard](https://github.com/feross/standard): 2 spaces, no semicolons, single quotes.
+- Use [ESLint](http://eslint.org/) with [our rules](linters/).
+- Use ES6 if it is feasible.
+- Avoid classes, `this`, and prototype manipulation. Stick with objects and pure functions.
+- Avoid mutating state. Treat immutability as baseline.
 
 
 ## Modules
