@@ -368,9 +368,51 @@ const message = `oh hai ${name}!`
 
 ## Variables Declaration
 
-**Do not use `var`**. Use `const` to prevent reassignment of variables. Use `let` if you need to assign variables.
+**Avoid using `var`.** Use `const` for all of your references. While this won't prevent mutation of structures (i.e. objects or arrays), it will prevent a reassignment of the variable.
 
-<!-- TODO: Examples -->
+If you must mutate references, use `let` instead of `var`.
+
+##### Bad
+
+```js
+var a = 1
+var b = 1
+
+if (true) {
+  b += 1
+}
+```
+
+
+##### Good
+
+```js
+const a = 1
+
+let b = 1
+
+if (true) {
+  b += 1
+}
+```
+
+Group declarations by their type: `const` first, `let` second.
+
+##### Bad
+
+```js
+const a = 1
+let b, c
+const d = 2
+```
+
+##### Good
+
+```js
+const a = 1
+const d = 2
+
+let b, c
 
 ## Equality
 
