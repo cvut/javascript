@@ -36,11 +36,15 @@ Module systems also provide us with dependency injection patterns, which are cru
 
 Put [`'use strict'`][4] at the top of your modules. Strict mode allows you to catch nonsensical behavior, discourages poor practices, and _is faster_ because it allows compilers to make certain assumptions about your code.
 
-While this is not needed when you are using [Babel](https://babeljs.io/), it won’t hurt you either.
+Babel [can do that for you](https://babeljs.io/docs/advanced/transformers/other/strict/) by default, but cannot hurt you to keep this in mind.
 
-## Spacing
+## Code Style
 
-Spacing must be consistent across every file in the application. To this end, using something like [`.editorconfig`][5] configuration files is highly encouraged. Here are the defaults I suggest to get started with JavaScript indentation.
+Use [Standard](https://github.com/feross/standard) code style. You may not like some features of it, but somebody else from your team may like them – and vice versa. The point is: somebody else made these decisions for you, so you can carry on with your life and [don't discuss what the color of the bikeshed](https://www.freebsd.org/doc/en_US.ISO8859-1/books/faq/misc.html#idp60682704).
+
+### Indentation
+
+Spacing must be consistent across every file in the project. Put [`.editorconfig`][5] configuration file into your project. These are recommended defaults:
 
 ```ini
 # editorconfig.org
@@ -60,9 +64,11 @@ trim_trailing_whitespace = false
 
 **Use 2 spaces for indentation.** The `.editorconfig` file can take care of that for us and everyone will be able to create the correct spacing by pressing the tab key.
 
-Spacing doesn't just entail indentation, but also the spaces before, after, and in between arguments of a function declaration. This kind of spacing is _typically highly irrelevant to get right_, and it'll be hard for most teams to even arrive at a scheme that will satisfy everyone.
+### Spacing
 
-However, we prefer this one particular style:
+Spacing doesn't just entail indentation, but also the spaces before, after, and in between arguments of a function declaration.
+
+The style recommended by Standard is to put space before parenthesis and after comma.
 
 ```js
 function (a, b) {
@@ -76,89 +82,234 @@ if (true) {
 }
 ```
 
-Try to keep these differences to a minimum, but don't put much thought to it either. [Automatic formatter](https://github.com/beautify-web/js-beautify) can get care of this for you and it will keep your punctilious coworkers happy.
+Get used to it and try to stick with this style, but don't put much thought to it either. [Automatic formatter](https://github.com/beautify-web/js-beautify) can get care of this for you and it will keep your punctilious coworkers happy.
 
-Where possible, improve readability by keeping lines below the 100-character mark. Never go over 120 characters per line.
+Where possible, improve readability by **keeping lines below the 100-character** mark. **Never go over 120 characters per line.**
 
-## Semicolons`;`
+### Brace Style
 
-We prefer not to use semicolons and rely on Automatic Semicolon Insertion _(ASI)_ instead. This is also [recommended by Standard](https://github.com/feross/standard/blob/master/RULES.md#automatic-semicolon-insertion-asi).
+Per Standard, use the “[one true brace style](http://eslint.org/docs/rules/brace-style.html#1tbs).”
 
-However, you may want to keep semicolons in JavaScript if your project uses languages which require them, like Java, to reduce cognitive overhead. [Semistandard](https://github.com/Flet/semistandard) is then for you.
-
-Regardless of your choice, a [linter](#linting) should be used to catch unnecessary or unintentional semicolons.
-
-## Linting
-
-Use [ESLint](http://eslint.org/) for linting your code with our [provided rules](linters/).
-
-## Strings
-
-Strings should always be quoted using the same quotation mark. Use `'` consistently throughout your codebase.
+Braces are [always required for conditionals](#conditionals).
 
 ##### Bad
 
 ```js
-var message = 'oh hai ' + name + "!"
-```
+function foo()
+{
+  return true;
+}
 
-##### Acceptable
+if (foo)
+{
+  bar();
+}
 
-```js
-var message = 'oh hai ' + name + '!'
-```
+try
+{
+  somethingRisky();
+} catch(e)
+{
+  handleError();
+}
 
-### ES6 Template Strings
-
-When using Babel or ES6-compatible environment, use [template strings](https://developer.mozilla.org/docs/Web/JavaScript/Reference/template_strings).
-
-##### Better
-
-```js
-let message = `oh hai ${name}!`
-```
-
-## Variable Declaration
-
-Always declare variables in a consistent manner, and at the top of their scope. Keeping variable declarations to _one per line is encouraged_. Always use one `var` statement for each assignment.
-
-##### Bad
-
-```js
-var foo = 1,
-    bar = 2
-
-var baz
-var pony
-
-var a
-  , b
-```
-
-```js
-var foo = 1
-
-if (foo > 1) {
-  var bar = 2
+if (foo) {
+  bar();
+}
+else {
+  baz();
 }
 ```
 
 ##### Good
 
 ```js
-var foo = 1
-var bar = 2
+function foo() {
+  return true;
+}
 
-var baz
-var pony
+if (foo) {
+  bar();
+}
 
-var a
-var b
+if (foo) {
+  bar();
+} else {
+  baz();
+}
+
+try {
+  somethingRisky();
+} catch(e) {
+  handleError();
+}
+```
+
+### Semicolons`;`
+
+We prefer not to use semicolons and rely on Automatic Semicolon Insertion _(ASI)_ instead. This is also [recommended by Standard](https://github.com/feross/standard/blob/master/RULES.md#automatic-semicolon-insertion-asi).
+
+However, you may want to keep semicolons in JavaScript if your project includes languages with mandatory semicolons, like Java. [Semistandard](https://github.com/Flet/semistandard) is then for you.
+
+Regardless of your choice, a [linter](#linting) should be used to catch unnecessary, unintentional or missing semicolons.
+
+### Quotes
+
+Use single quote `'` for quoting strings consistently throughout your codebase.
+
+##### Bad
+
+```js
+const message = "o hai!"
+```
+
+##### Good
+
+```js
+const message = 'o hai!'
+```
+
+### Commas
+
+**Do not use leading commas**, it's just plain ugly.
+
+##### Bad
+
+```js
+const story = [
+    once
+  , upon
+  , aTime
+]
+```
+
+##### Good
+
+```js
+const story = [
+  once,
+  upon,
+  aTime,
+]
+```
+
+**Use trailing commas**, it makes code diffs cleaner and modifications simpler.
+
+##### Bad
+
+```js
+const hero = {
+  firstName: 'Dana',
+  lastName: 'Scully'
+}
+
+const heroes = [
+  'Batman',
+  'Superman'
+]
+```
+
+##### Good
+
+```js
+const hero = {
+  firstName: 'Dana',
+  lastName: 'Scully',
+}
+
+const heroes = [
+  'Batman',
+  'Superman',
+];
+```
+
+### Naming
+
+Use **camelCase** when naming objects, functions, and instances.
+
+##### Bad
+
+```javascript
+const this_is_my_object = {}
+function MYFUNCTION() {}
+```
+
+##### Good
+
+```javascript
+const thisIsMyObject = {};
+function myFunction() {}
+```
+
+Use PascalCase when naming constructors (object factories) or classes.
+
+##### Bad
+
+```javascript
+function user(options) {
+  return {
+    name: options.name
+  }
+}
+
+const myUser = user({name: 'Ada'})
+```
+
+##### Good
+
+```javascript
+function User(options) {
+  return {
+    name: options.name
+  }
+}
+
+const myUser = User({name: 'Ada'})
+```
+
+<!-- TODO: SCREAMING_SNAKE_CASE for constants? -->
+
+### Variables
+
+Always declare variables in a consistent manner, and at the top of their scope. Keeping variable declarations to _one per line is encouraged_. Always use one `const`, `let` or `var` statement for each assignment.
+
+##### Bad
+
+```js
+const foo = 1,
+      bar = 2
+
+let baz
+let pony
+
+let a
+  , b
 ```
 
 ```js
-var foo = 1
-var bar
+const foo = 1
+
+if (foo > 1) {
+  let bar = 2
+}
+```
+
+##### Good
+
+```js
+const foo = 1
+const bar = 2
+
+let baz
+let pony
+
+let a
+let b
+```
+
+```js
+const foo = 1
+let bar
 
 if (foo > 1) {
   bar = 2
@@ -170,42 +321,34 @@ Variable declarations that aren't immediately assigned a value are acceptable to
 ##### Acceptable
 
 ```js
-var a = 'a'
-var b = 2
-var i, j
+let foo, bar
 ```
 
-### ES6 `const` and `let`
+## Linting
 
-When using Babel or ES6-compatible environment, **do not use `var`**. Use `const` to prevent reassignment of variables. If you need to mutate variables, use `let`.
+Use [ESLint](http://eslint.org/) for linting your code with our [provided rules](linters/).
 
-<!-- TODO: Examples -->
+## Strings
 
-## Conditionals
-
-**Brackets are enforced**. This, together with a reasonable spacing strategy will help you avoid mistakes such as [Apple's SSL/TLS bug][14].
+Use ES6 [template strings](https://developer.mozilla.org/docs/Web/JavaScript/Reference/template_strings) for strings formatting.
 
 ##### Bad
 
 ```js
-if (err) throw err
+const message = 'oh hai ' + name + '!'
 ```
 
 ##### Good
 
 ```js
-if (err) { throw err }
+const message = `oh hai ${name}!`
 ```
 
-It's even better if you avoid keeping conditionals on a single line, for the sake of text comprehension.
+## Variables Declaration
 
-##### Better
+**Do not use `var`**. Use `const` to prevent reassignment of variables. Use `let` if you need to assign variables later.
 
-```js
-if (err) {
-  throw err
-}
-```
+<!-- TODO: Examples -->
 
 ## Equality
 
@@ -284,7 +427,7 @@ When declaring a function, always use the [function declaration form][17] instea
 ##### Bad
 
 ```js
-var sum = function (x, y) {
+let sum = function (x, y) {
   return x + y
 }
 ```
@@ -302,7 +445,7 @@ That being said, there's nothing wrong with function expressions that are just [
 ##### Good
 
 ```js
-var plusThree = sum.bind(null, 3)
+const plusThree = sum.bind(null, 3)
 ```
 
 Keep in mind that [function declarations will be hoisted][21] to the top of the scope so it doesn't matter the order they are declared in. That being said, you should always keep functions at the top level in a scope, and avoid placing them inside conditional statements.
