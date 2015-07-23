@@ -1132,10 +1132,10 @@ Recommended reading:
 ##### Impure
 
 ```js
-const minimum = 21
+const majorityAge = 21
 
-function checkAge (age) {
-  return age >= minimum
+function isUnderage (age) {
+  return age < majorityAge
 }
 ```
 
@@ -1143,9 +1143,9 @@ function checkAge (age) {
 ##### Pure
 
 ```js
-function checkAge (age) {
-  const minimum = 21
-  return age >= minimum
+function isUnderage (age) {
+  const majorityAge = 21
+  return age < majorityAge
 }
 ```
 
@@ -1155,31 +1155,33 @@ function checkAge (age) {
 The pure functions are easily testable and predictable. But don’t fret, you won’t need to pass _every single_ parameter _every time_ you call your function. With high-order functions, you can build your functions incrementally with [_currying_](http://drboolean.gitbooks.io/mostly-adequate-guide/content/ch4.html).
 
 ##### Bad
+
 ```js
-function checkAge (minimumAge, age) {
-  return age >= minimumAge
+function isUnderage (majorityAge, age) {
+  return age < majorityAge
 }
 
-checkAge(21, 18) // => false
-checkAge(18, 18) // => true
+isUnderage(21, 19) // => true
+isUnderage(18, 19) // => false
 ```
 
 ##### Good
+
 ```js
-function ageChecker (minimumAge) {
+function underageChecker (majorityAge) {
   return function (age) {
-    return age >= minimumAge
+    return age < majorityAge
   }
 }
 
-const checkAgeUsa = ageChecker(21)
-const checkAgeEu = ageChecker(18)
+const isUnderageUsa = underageChecker(21)
+const isUnderageEu = underageChecker(18)
 
-checkAgeUsa(18) // => false
-checkAgeEu(18) // => true
+isUnderageUsa(19) // => true
+isUnderageEu(19) // => false
 
 // treating curried function as anonymous does not look pretty
-ageChecker(21)(18) // => false
+underageChecker(21)(19) // => true
 ```
 
 Many libraries provide universal curry function, e.g. [Ramda](http://ramdajs.com/docs/#curry), or you can use [a stand-alone module](http://npm.im/curry-d).
@@ -1187,18 +1189,18 @@ Many libraries provide universal curry function, e.g. [Ramda](http://ramdajs.com
 ##### Better
 
 ```js
-const ageChecker = curry((minimumAge, age) => {
-  return age >= minimumAge
+const underageChecker = curry((majorityAge, age) => {
+  return age < majorityAge
 })
 
-const checkAgeUsa = ageChecker(21)
-checkAgeUsa(18) // => false
+const isUnderageUsa = underageChecker(21)
+isUnderageUsa(19) // => true
 
 // works the same as before
-ageChecker(21)(18) // => false
+underageChecker(21)(19) // => true
 
 // but you can also pass all the parameters
-ageChecker(21, 18) // => false
+underageChecker(21, 19) // => true
 ```
 
 #### Parameters Order
