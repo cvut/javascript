@@ -100,9 +100,12 @@ function foo ()
   return true
 }
 
-if (foo)
+if (foo) bar()
+
+if (bar)
 {
-  bar()
+  for (let i; i < 10; i++)
+    console.log('Nan')
 }
 
 try
@@ -128,20 +131,24 @@ function foo () {
   return true
 }
 
-if (foo) {
-  bar()
-}
+if (foo) { bar() }
 
-if (foo) {
-  bar()
-} else {
-  baz()
+if (bar) {
+  for (let i; i < 10; i++) {
+    console.log('Nan')
+  }
 }
 
 try {
   somethingRisky()
 } catch (e) {
   handleError()
+}
+
+if (foo) {
+  bar()
+} else {
+  baz()
 }
 ```
 
