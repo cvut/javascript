@@ -716,22 +716,16 @@ if (condition) {
 ##### Good
 
 ```js
-if (!car) {
-  return
-}
-if (!black) {
-  return
-}
-if (!turbine) {
-  return
-}
+if (!car) { return }
+if (!black) { return }
+if (!turbine) { return }
+
 return 'batman!'
 ```
 
 ```js
-if (!condition) {
-  return
-}
+if (!condition) { return }
+
 // 10+ lines of code
 ```
 
