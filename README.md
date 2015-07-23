@@ -1051,7 +1051,7 @@ fullName(jane) // => 'Jane Doe'
 ```
 
 
-### Mutability
+### Immutability
 
 **Avoid mutating state.** Instead of modifying the original object, return a new object with changes.
 
@@ -1127,6 +1127,11 @@ const lengths = words.map(word => word.length)
 lengths // => [6, 3, 1]
 ```
 
+If you need to manipulate larger collections, consider using advanced libraries for immutable structures like [Immutable.js](https://facebook.github.io/immutable-js/) or [Mori](https://swannodette.github.io/mori/).
+
+Recommended reading:
+
+* [The Dao of Immutability](https://medium.com/javascript-scene/the-dao-of-immutability-9f91a70c88cd)
 
 ### Pure Functions
 
