@@ -97,27 +97,27 @@ Braces are [always required for conditionals](#conditionals).
 ```js
 function foo ()
 {
-  return true;
+  return true
 }
 
 if (foo)
 {
-  bar();
+  bar()
 }
 
 try
 {
-  somethingRisky();
+  somethingRisky()
 } catch (e)
 {
-  handleError();
+  handleError()
 }
 
 if (foo) {
-  bar();
+  bar()
 }
 else {
-  baz();
+  baz()
 }
 ```
 
@@ -125,23 +125,23 @@ else {
 
 ```js
 function foo () {
-  return true;
+  return true
 }
 
 if (foo) {
-  bar();
+  bar()
 }
 
 if (foo) {
-  bar();
+  bar()
 } else {
-  baz();
+  baz()
 }
 
 try {
-  somethingRisky();
+  somethingRisky()
 } catch (e) {
-  handleError();
+  handleError()
 }
 ```
 
@@ -240,7 +240,7 @@ const hero = {
 const heroes = [
   'Batman',
   'Superman',
-];
+]
 ```
 
 ### Naming
@@ -279,7 +279,7 @@ function MYFUNCTION () {}
 ##### Good
 
 ```javascript
-const thisIsMyObject = {};
+const thisIsMyObject = {}
 function myFunction () {}
 ```
 
@@ -573,7 +573,7 @@ Use [arrow functions](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Re
 ```javascript
 [1, 2, 3].map(function (x) {
   return x * x
-});
+})
 ```
 
 ##### Good
@@ -646,15 +646,15 @@ function yup (name, options, args) {
 
 ```js
 function concatenateAll () {
-  const args = Array.prototype.slice.call(arguments);
-  return args.join('');
+  const args = Array.prototype.slice.call(arguments)
+  return args.join('')
 }
 ```
 
 ##### Good
 ```js
 function concatenateAll (...args) {
-  return args.join('');
+  return args.join('')
 }
 ```
 
@@ -668,7 +668,7 @@ function handleThings (opts) {
   // No! We shouldn’t mutate function arguments.
   // Double bad: if opts is falsy it’ll be set to an object which may
   // be what you want but it can introduce subtle bugs.
-  opts = opts || {};
+  opts = opts || {}
   // ...
 }
 ```
@@ -677,7 +677,7 @@ function handleThings (opts) {
 // still bad
 function handleThings (opts) {
   if (opts === void 0) {
-    opts = {};
+    opts = {}
   }
   // ...
 }
@@ -1089,7 +1089,7 @@ const lengths = []
 for (let i = 0; i < words.length; i++) {
   let len = words[i].length
   lengths.push(len)
-};
+}
 
 lengths // => [6, 3, 1]
 ```
@@ -1132,11 +1132,11 @@ Recommended reading:
 ##### Impure
 
 ```js
-const minimum = 21;
+const minimum = 21
 
 function checkAge (age) {
-  return age >= minimum;
-};
+  return age >= minimum
+}
 ```
 
 
@@ -1144,9 +1144,9 @@ function checkAge (age) {
 
 ```js
 function checkAge (age) {
-  const minimum = 21;
-  return age >= minimum;
-};
+  const minimum = 21
+  return age >= minimum
+}
 ```
 
 
