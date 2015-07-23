@@ -95,7 +95,7 @@ Braces are [always required for conditionals](#conditionals).
 ##### Bad
 
 ```js
-function foo()
+function foo ()
 {
   return true;
 }
@@ -108,7 +108,7 @@ if (foo)
 try
 {
   somethingRisky();
-} catch(e)
+} catch (e)
 {
   handleError();
 }
@@ -124,7 +124,7 @@ else {
 ##### Good
 
 ```js
-function foo() {
+function foo () {
   return true;
 }
 
@@ -140,7 +140,7 @@ if (foo) {
 
 try {
   somethingRisky();
-} catch(e) {
+} catch (e) {
   handleError();
 }
 ```
@@ -273,14 +273,14 @@ Use **camelCase** when naming objects, functions, and instances.
 
 ```javascript
 const this_is_my_object = {}
-function MYFUNCTION() {}
+function MYFUNCTION () {}
 ```
 
 ##### Good
 
 ```javascript
 const thisIsMyObject = {};
-function myFunction() {}
+function myFunction () {}
 ```
 
 Use PascalCase when naming constructors (object factories) or classes.
@@ -288,7 +288,7 @@ Use PascalCase when naming constructors (object factories) or classes.
 ##### Bad
 
 ```javascript
-function user(options) {
+function user (options) {
   return {
     name: options.name
   }
@@ -300,7 +300,7 @@ const myUser = user({name: 'Ada'})
 ##### Good
 
 ```javascript
-function User(options) {
+function User (options) {
   return {
     name: options.name
   }
@@ -634,14 +634,14 @@ Learn about [default, rest, and spread parameters](https://github.com/lukehoban/
 
 ##### Bad
 ```js
-function nope(name, options, arguments) {
+function nope (name, options, arguments) {
   // ...stuff...
 }
 ```
 
 ##### Good
 ```js
-function yup(name, options, args) {
+function yup (name, options, args) {
   // ...stuff...
 }
 ```
@@ -651,7 +651,7 @@ function yup(name, options, args) {
 ##### Bad
 
 ```js
-function concatenateAll() {
+function concatenateAll () {
   const args = Array.prototype.slice.call(arguments);
   return args.join('');
 }
@@ -659,7 +659,7 @@ function concatenateAll() {
 
 ##### Good
 ```js
-function concatenateAll(...args) {
+function concatenateAll (...args) {
   return args.join('');
 }
 ```
@@ -670,7 +670,7 @@ function concatenateAll(...args) {
 ##### Bad
 ```js
 // really bad
-function handleThings(opts) {
+function handleThings (opts) {
   // No! We shouldn’t mutate function arguments.
   // Double bad: if opts is falsy it’ll be set to an object which may
   // be what you want but it can introduce subtle bugs.
@@ -681,7 +681,7 @@ function handleThings(opts) {
 
 ```js
 // still bad
-function handleThings(opts) {
+function handleThings (opts) {
   if (opts === void 0) {
     opts = {};
   }
@@ -692,7 +692,7 @@ function handleThings(opts) {
 ##### Good
 ```js
 // good
-function handleThings(opts = {}) {
+function handleThings (opts = {}) {
   // ...
 }
 ```
@@ -785,13 +785,13 @@ Simple object factories and stateless pure functions get you usually further wit
 
 ```js
 class Point {
-  constructor(x, y) {
+  constructor (x, y) {
     [this.x, this.y] = [x, y]
   }
-  get x() {
+  get x () {
     return this.x
   }
-  get y() {
+  get y () {
     return this.y
   }
 }
@@ -800,7 +800,7 @@ class Point {
 ##### Good
 
 ```js
-function Point(x, y) {
+function Point (x, y) {
   return Object.freeze({x, y})
 }
 ```
