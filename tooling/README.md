@@ -125,12 +125,30 @@ As usual, there are exceptions to these rules. Perhaps you have a project in oth
 
 ## Type Checking
 
-Special case of languages which compile to JavaScript are strongly typed languages which only add type-checking to the language. Type checking can help a lot in larger code base and it can also remove need for some kinds of tests we usually do to make up for the lack of proper types support. If you'd like to incorporate types, check out these projects:
+Special case of transpilers are type-check extensions for JavaScript. Type checking can help in a larger code base and it can also remove need for some kinds of tests we usually do to make up for the lack of proper types support. If you'd like to incorporate types, check out these projects:
 
 - [Flow](http://flowtype.org/) – Type checks are optional, so you can add types gradually to your project, plus the checker can infer a lot of checks on its own. No official support for Windows yet.
 - [TypeScript](http://www.typescriptlang.org/) – Adds interfaces and classes to the language. Supports [external type definitions](http://definitelytyped.org/) which is useful for working with external JavaScript code.
 
 ## Live Reloading
+
+Front-end development incorporates a lot of visual checking. Save your changes, switch to browser, click refresh, check the result, repeat. To reduce clicking on refresh button, you may want to use some live reload solution.
+
+- [Browsersync](http://www.browsersync.io/) watches HTML, JS, and CSS files and reloads the browser when there is a change. It can also act as [proxy](http://www.browsersync.io/docs/command-line/#proxy-example) for non-JavaScript projects (i.e. Java or Ruby server-side sites) and synchronize your interaction (so you can test on multiple devices at once!).
+- [beefy](https://github.com/chrisdickinson/beefy) is a development server for Browserify with live reloading.
+- [webpack-dev-server](https://webpack.github.io/docs/webpack-dev-server.html) is a similar solution for Webpack.
+
+### Hot Module Replacement
+
+Most live reload servers can inject CSS without reloading the whole page. What if you could do the same thing with your JavaScript code? Ideally your application would maintain exactly the same state and only replace the modules which were changed? This would be very hard without knowing where the state is located in your application. But if your code is stateless and you keep your state contained, hot module replacement may be easy to implement for you. React makes this more feasible since components have an explicit state.
+
+Check out these solutions:
+
+- [Webpack's Hot Module Replacement](https://webpack.github.io/docs/hot-module-replacement.html) – Webpack exposes `module.hot` object to handle hot replacement from within your modules.
+- [React Hot Loader](https://gaearon.github.io/react-hot-loader/) – The original React hot reloading solution based on Webpack.
+  - The author [works on a new, better solution](https://medium.com/@dan_abramov/the-death-of-react-hot-loader-765fa791d7c4).
+- [LiveReactload](https://github.com/milankinen/livereactload) – Solution for Browserify.
+- [Amok](http://amokjs.com/) – In browser editor with hot reloading. Great for parties.
 
 ## Minification
 
