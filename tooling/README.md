@@ -207,3 +207,20 @@ You may also want to check out [projects with support for PhantomJS](http://phan
 - [Jasmine vs. Mocha, Chai, and Sinon](http://thejsguy.com/2015/01/12/jasmine-vs-mocha-chai-and-sinon.html)
 
 ## Hosted Services
+
+If you publish your project as open-source on GitHub or NPM, consider using these useful services:
+
+- Continuous Integration (can be also used for [automatic publishing of packages](https://github.com/semantic-release/semantic-release))
+  - [Travis CI](https://travis-ci.org/)
+  - [Wercker](http://wercker.com/)
+- Code Coverage
+  - [Coveralls](https://coveralls.io/)
+  - [Codecov](https://codecov.io/)
+  - [Code Climate](https://codeclimate.com/)
+- Static Analysis (code smell etc.)
+  - [bitHound](https://www.bithound.io/)
+  - [Codacy](http://codacy.com/)
+  - [Code Climate](https://codeclimate.com/)
+- Dependency Management (monitor dependencies of your project)
+  - [David DM](https://david-dm.org/)
+  - [Version Eye](https://www.versioneye.com/)
