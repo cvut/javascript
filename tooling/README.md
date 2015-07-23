@@ -53,9 +53,58 @@ The choice of bundler depends on your preferences and project needs. Browserify 
 
 ## Build Tools
 
-Now that you have some tools in your toolbelt, you surely need a task runner! Choose yours: [Grunt](http://gruntjs.com/), [Gulp](), [Broccoli](http://broccolijs.com/)? Or how about [Mimosa](http://mimosa.io/), [Gobble](https://github.com/gobblejs/gobble), [Brunch](http://brunch.io/), [Jake](http://jakejs.com/), [Cake](http://coffeescript.org/#cake) or [Fly](https://git.io/fly)?
+Now that you have some tools in your toolbelt, you surely need a task runner to manage are your build needs! Choose yours: [Grunt](http://gruntjs.com/), [Gulp](http://gulpjs.com/), [Broccoli](http://broccolijs.com/)? Or how about [Mimosa](http://mimosa.io/), [Gobble](https://github.com/gobblejs/gobble), [Brunch](http://brunch.io/), [Jake](http://jakejs.com/), [Cake](http://coffeescript.org/#cake), [Gear.js](http://gearjs.org/) or [Fly](https://git.io/fly)?
+
+Well, you don't need any of these. [Use npm scripts](http://substack.net/task_automation_with_npm_run).
+
+Probably the main promise of most of these build tools is an easy composability; you can combine your [transpiler](#transpilers) with [code minification](#minification), copy assets, publish packages etc. from one place. No need to hunt for commands with long, complicated arguments.
+
+However [module bundlers](#module-bundlers) do that already for us; in the end, your fancy task runner is just a verbose way to pass configuration options to Browserify or Webpack.
+
+Put those tasks you do repeatedly in `"scripts"` section in your `package.json`, for example:
+
+```json
+...
+"scripts": {
+  "test": "tap test/*.js",
+  "build": "npm run build-js && npm run build-css",
+  "build-js": "browserify index.js -o dist/index.js",
+  "build-css": "cp index.css dist/index.css",
+  "watch-js": "watchify index.js -o dist/index.js"
+  ...
+}
+```
+
+You can run these scripts with `npm run <script_name>`, e.g. `npm run build`.
+
+If you need something more complex which the bundler won't do for you, like copy HTML files or images to `dist/` directory, just write a shell script.
+
+The only advantage of task runners is a portability: the same task will work in Mac OS X, Linux, and Windows (hopefully…). Your Bash scripts won't work in Windows out of the box. The solution is to write your scripts also in JavaScript. Use [ShellJS](http://documentup.com/arturadib/shelljs) which provides a familiarity of *nix commands with portability of JavaScript.
+
+> It's a Unix system, you know this!
+
+Put your custom scripts into `script/` folder. Name them in `package.json`:
+
+```json
+"scripts": {
+  "something-complicated": "node script/something-complicated.js",
+  ...
+}
+```
+
+If you need to run some tasks in parallel, for example a development server and a modules bundler, try [npm-run-all](https://github.com/mysticatea/npm-run-all).
+
+### Recommended Readings
+
+- [Task Automation with `npm run`](http://substack.net/task_automation_with_npm_run)
+- [Why we should stop using Grunt & Gulp](http://blog.keithcirkel.co.uk/why-we-should-stop-using-grunt/) and [How to Use npm as a Build Tool](http://blog.keithcirkel.co.uk/how-to-use-npm-as-a-build-tool/)
+- [Introducing ./task.js, THE new javascript task runner automation framework
+](https://gist.github.com/substack/8313379)
+- [NPM for Everything](http://beletsky.net/2015/04/npm-for-everything.html)
 
 ## Transpilers
+
+
 
 ## Type Checking
 
