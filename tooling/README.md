@@ -61,7 +61,7 @@ Probably the main promise of most of these build tools is an easy composability;
 
 However [module bundlers](#module-bundlers) do that already for us; in the end, your fancy task runner is just a verbose way to pass configuration options to Browserify or Webpack.
 
-Put those tasks you do repeatedly in `"scripts"` section in your `package.json`, for example:
+Put those tasks you do repeatedly in `"scripts"` section of your `package.json`, for example:
 
 ```json
 ...
@@ -171,6 +171,7 @@ If Tape doesn't work for you, well, you are on your own, good luck! There are ma
 For a rough idea, there are:
 
 - Assertion Libraries, need to be paired with framework or runner, provide helper functions for assertions, mocking, etc.:
+  - [Power Assert](https://github.com/power-assert-js/power-assert) – acts like a standard `assert`, but with very descriptive messages and integration with pretty much anything,
   - [Chai](http://chaijs.com) – supports various assertion styles,
   - [Sinon.js](http://sinonjs.org) – mocking, stubbing, and test spies,
   - [Should.js](https://shouldjs.github.io) – supports “BDD” syntax `should(x).be…`
