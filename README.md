@@ -147,15 +147,35 @@ try {
 
 ### Semicolons`;`
 
-We prefer not to use semicolons and rely on Automatic Semicolon Insertion _(ASI)_ instead. This is also [recommended by Standard](https://github.com/feross/standard/blob/master/RULES.md#automatic-semicolon-insertion-asi).
+**We don't use semicolons** and we rely on Automatic Semicolon Insertion _(ASI)_ instead. While [there are some caveats](https://github.com/feross/standard/blob/master/RULES.md#automatic-semicolon-insertion-asi), you shouldn't run into them if you are not doing anything crazy in your code (and thus breaking this guide). The most notable caveat is this one:
 
-However, you may want to keep semicolons in JavaScript if your project includes languages with mandatory semicolons, like Java. [Semistandard](https://github.com/Flet/semistandard) is then for you.
+> End of line is not treated as semicolon if the next line starts with `[`, `(`, `+` etc.
+
+##### Bad
+
+The following code won't work:
+
+```js
+let a = b + c
+(d + e).print()
+```
+
+Linter will warn you about these exceptions. You can solve this by putting semicolon _at the beginning_ of the line:
+
+##### Good
+
+```js
+let a = b + c
+;(d + e).print()
+```
+
+However, you may want to keep using semicolons in JavaScript if your project includes languages with mandatory semicolons, like Java. [Semistandard](https://github.com/Flet/semistandard) is then for you.
 
 Regardless of your choice, a [linter](#linting) should be used to catch unnecessary, unintentional or missing semicolons.
 
 ### Quotes
 
-Use single quote `'` for quoting strings consistently throughout your codebase.
+**Use single quote `'`** for quoting strings consistently throughout your codebase.
 
 ##### Bad
 
