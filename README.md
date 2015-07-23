@@ -506,7 +506,7 @@ When declaring a function, always use the [function declaration form][17] instea
 ##### Bad
 
 ```js
-let sum = function (x, y) {
+const sum = function (x, y) {
   return x + y
 }
 ```
@@ -598,7 +598,7 @@ Whenever a method is non-trivial, make the effort to **use a named function decl
 
 ```js
 function once (fn) {
-  var ran = false
+  let ran = false
   return function () {
     if (ran) { return }
     ran = true
@@ -611,7 +611,7 @@ function once (fn) {
 
 ```js
 function once (fn) {
-  var ran = false
+  let ran = false
   return function run () {
     if (ran) { return }
     ran = true
@@ -810,9 +810,9 @@ Whenever you have to manipulate an array-like object, cast it to an array.
 ##### Bad
 
 ```js
-let divs = document.querySelectorAll('div')
+const divs = document.querySelectorAll('div')
 
-for (i = 0; i < divs.length; i++) {
+for (let i = 0; i < divs.length; i++) {
   console.log(divs[i].innerHTML)
 }
 ```
@@ -820,7 +820,7 @@ for (i = 0; i < divs.length; i++) {
 ##### Good
 
 ```js
-let divs = document.querySelectorAll('div')
+const divs = document.querySelectorAll('div')
 
 [].slice.call(divs).forEach((div) => {
   console.log(div.innerHTML)
@@ -834,10 +834,9 @@ Don’t declare functions inside of loops.
 ##### Bad
 
 ```js
-var values = [1, 2, 3]
-var i
+const values = [1, 2, 3]
 
-for (i = 0; i < values.length; i++) {
+for (let i = 0; i < values.length; i++) {
   setTimeout(function () {
     console.log(values[i])
   }, 1000 * i)
@@ -845,10 +844,9 @@ for (i = 0; i < values.length; i++) {
 ```
 
 ```js
-var values = [1, 2, 3]
-var i
+const values = [1, 2, 3]
 
-for (i = 0; i < values.length; i++) {
+for (let i = 0; i < values.length; i++) {
   setTimeout((i) => {
     return function () {
       console.log(values[i])
@@ -860,10 +858,9 @@ for (i = 0; i < values.length; i++) {
 ##### Somewhat Acceptable
 
 ```js
-var values = [1, 2, 3]
-var i
+const values = [1, 2, 3]
 
-for (i = 0; i < values.length; i++) {
+for (let i = 0; i < values.length; i++) {
   setTimeout(function (i) {
     console.log(values[i])
   }, 1000 * i, i)
@@ -871,10 +868,9 @@ for (i = 0; i < values.length; i++) {
 ```
 
 ```js
-var values = [1, 2, 3]
-var i
+const values = [1, 2, 3]
 
-for (i = 0; i < values.length; i++) {
+for (let i = 0; i < values.length; i++) {
   wait(i)
 }
 
@@ -963,7 +959,7 @@ Comments **aren’t meant to explain what** the code does. Good **code is suppos
 
 ```js
 // create the centered container
-let p = $('<p/>')
+const p = $('<p/>')
 p.center(div)
 p.text('foo')
 ```
@@ -971,10 +967,12 @@ p.text('foo')
 ##### Good
 
 ```js
-let container = $('<p/>')
-let contents = 'foo'
+const container = $('<p/>')
+const contents = 'foo'
+
 container.center(parent)
 container.text(contents)
+
 megaphone.on('data', function (value) {
   container.text(value) // the megaphone periodically emits updates for container
 })
@@ -1025,7 +1023,7 @@ class Person {
   }
 }
 
-let jane = new Person('Jane', 'Doe')
+const jane = new Person('Jane', 'Doe')
 jane.fullName() // => 'Jane Doe'
 ```
 
@@ -1036,7 +1034,7 @@ function fullName (person) {
   return `${person.first} ${person.last}`
 }
 
-let jane = {
+const jane = {
   first: 'Jane',
   last: 'Doe',
 }
