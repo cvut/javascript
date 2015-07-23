@@ -104,9 +104,31 @@ If you need to run some tasks in parallel, for example a development server and 
 
 ## Transpilers
 
+If you think there's too much JavaScript task runners, just take a look at the [list of languages that compile to JS](https://github.com/jashkenas/coffeescript/wiki/list-of-languages-that-compile-to-JS). But most of them don't matter.
 
+One problem with many of these languages is that they require you to learn a new syntax _in addition_ to your knowledge about JavaScript; it is a leaky abstraction and you might end up debugging the resulting JavaScript code. Furthermore the syntax of these languages tends to be very opinionated and your team members might have quite different preferences. And most of these options lack a proper tooling, like linter or static analysis tools.
+
+Instead of hunting for syntactic sugar for JavaScript, focus on JavaScript and its new features, especially ES6. Use [Babel](https://babeljs.io/) to transpile ES6 code for backward compatibility with today browsers. Eventually these features will gain native support and we can move further to transpiling ES7.
+
+As usual, there are exceptions to these rules. Perhaps you have a project in other language and you want to share some parts of existing codebase with browser or just reduce the mental overhead of switching between languages. Or your project has specific needs. If you are adventurous, we recommend checking out these languages which transpile to JavaScript:
+
+- [LiveScript](http://livescript.net/) – An indirect descendant of CoffeeScript with nice functional programming features.
+- [Elm](http://elm-lang.org/) – Purely functional language similar to Haskell with direct support for GUI programming, time travelling debugger and other goodies.
+- [Opal](http://opalrb.org/) – Ruby to JavaScript compiler.
+- [ClojureScript](https://github.com/clojure/clojurescript) – Clojure to JavaScript compiler.
+
+
+### Recommended Readings
+
+- [Transpilers: This Time It's Different](http://dailyjs.com/2015/02/26/babel/)
+- [Why Babel Matters](http://codemix.com/blog/why-babel-matters)
 
 ## Type Checking
+
+Special case of languages which compile to JavaScript are strongly typed languages which only add type-checking to the language. Type checking can help a lot in larger code base and it can also remove need for some kinds of tests we usually do to make up for the lack of proper types support. If you'd like to incorporate types, check out these projects:
+
+- [Flow](http://flowtype.org/) – Type checks are optional, so you can add types gradually to your project, plus the checker can infer a lot of checks on its own. No official support for Windows yet.
+- [TypeScript](http://www.typescriptlang.org/) – Adds interfaces and classes to the language. Supports [external type definitions](http://definitelytyped.org/) which is useful for working with external JavaScript code.
 
 ## Live Reloading
 
