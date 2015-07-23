@@ -106,7 +106,7 @@ If you need to run some tasks in parallel, for example a development server and 
 
 If you think there's too much JavaScript task runners, just take a look at the [list of languages that compile to JS](https://github.com/jashkenas/coffeescript/wiki/list-of-languages-that-compile-to-JS). But most of them don't matter.
 
-One problem with many of these languages is that they require you to learn a new syntax _in addition_ to your knowledge about JavaScript; it is a leaky abstraction and you might end up debugging the resulting JavaScript code. Furthermore the syntax of these languages tends to be very opinionated and your team members might have quite different preferences. And most of these options lack a proper tooling, like linter or static analysis tools.
+One problem with many of these languages is that they require you to learn a new syntax _in addition_ to JavaScript; it is a leaky abstraction and you might end up debugging the resulting JavaScript code. Furthermore the syntax of these languages tends to be very opinionated and your team members might have quite different preferences. And most of these options lack a proper tooling, like linter or static analysis tools.
 
 Instead of hunting for syntactic sugar for JavaScript, focus on JavaScript and its new features, especially ES6. Use [Babel](https://babeljs.io/) to transpile ES6 code for backward compatibility with today browsers. Eventually these features will gain native support and we can move further to transpiling ES7.
 
@@ -163,5 +163,47 @@ Use code minifier for the module bundler of your choice. [Minifyify](https://git
 Avoid [JSCS](http://jscs.info/), it is only code style check. It will make your life hell if you miss some extra newline, but it won't point out real issues in your code.
 
 ## Testing
+
+Consider writing your tests with [Tape](https://github.com/substack/tape). It is extremely simple, works both in Node and in Browser and goes well with any package bundler (especially Browserify). It is the easiest option if you would like to run your tests against various browsers with [testling-ci](https://ci.testling.com/). Tape produces [TAP](https://testanything.org/) output which can be further used with some [nice summarizers](https://github.com/substack/tape#pretty-reporters). For headless testing with Tape check out [Prova](https://github.com/azer/prova).
+
+If Tape doesn't work for you, well, you are on your own, good luck! There are many testing frameworks, libraries and test runners for JavaScript. They are very similar in features and style, but take a bit different approach. Some of them are browser-only and some of them are very opinionated about your testing needs.
+
+For a rough idea, there are:
+
+- Assertion Libraries, need to be paired with framework or runner, provide helper functions for assertions, mocking, etc.:
+  - [Chai](http://chaijs.com) – supports various assertion styles,
+  - [Sinon.js](http://sinonjs.org) – mocking, stubbing, and test spies,
+  - [Should.js](https://shouldjs.github.io) – supports “BDD” syntax `should(x).be…`
+  - [Expect.js](https://github.com/Automattic/expect.js) – like should, but with `expect(x)`
+- Testing Frameworks, cover unit testing:
+  - [Mocha](http://mochajs.org) – provides runner and “outer shell” for tests; bring your own assertion library,
+  - [Jasmine](https://jasmine.github.io) – similar to Mocha, but provides its own assertions,
+  - [QUnit](https://qunitjs.com) – XUnit-style framework, originally for jQuery
+  - [Unit.js](http://unitjs.com) – Still kinda new, but with interesting features and focused on interoperability with runners and other frameworks.
+- Test Runners: Make some aspects of testing easier, like running with headless browsers, automatic mocking and code injection, etc.:
+  - [Jest](https://facebook.github.io/jest/) – Built on top of Jasmine, mocks dependencies and DOM, runs tests in parallel,
+  - [Karma](https://karma-runner.github.io) – Browser-only testing which launches (headless) browser against integrated test server,
+  - [Intern](https://theintern.github.io/) – Buzzword-heavy, name-dropping runner with support for both unit tests (Node and browser) and headless functional tests. Uses Chai for assertions by default.
+
+### Functional Testing
+
+Functional tests simulate user interaction and it is a world of its own. Most projects build upon [Selenium WebDriver](http://docs.seleniumhq.org/), which allows automating pretty much any browser which supports it. You can automate desktop browsers or special headless browsers like [PhantomJS](http://www.phantomjs.org/) and [SlimerJS](http://www.slimerjs.org/).
+
+Given the indirection of WebDriver protocol, you can write functional tests in pretty much any language with a proper driver. The following projects run under Node, so you can automate interaction with JavaScript.
+
+- Intern,
+- [DalekJS](http://dalekjs.com/)
+- [Nightwatch.js](http://nightwatchjs.org/)
+- [CasperJS](http://casperjs.org/) – instead of going throught the WebDriver, it directly controls PhantomJS or SlimerJS.
+
+You may also want to check out [projects with support for PhantomJS](http://phantomjs.org/headless-testing.html).
+
+### Recommended Readings
+
+- [test-anything](https://github.com/finnp/test-anything) – Interactive course in Node testing with TAP.
+- [Why I use Tape Instead of Mocha & So Should You](https://medium.com/javascript-scene/why-i-use-tape-instead-of-mocha-so-should-you-6aa105d8eaf4)
+- [TAP & Tape, the awesome way to test JavaScript](http://www.macwright.org/2014/03/11/tape-is-cool.html)
+- [How I write tests for node and the browser](http://substack.net/how_I_write_tests_for_node_and_the_browser)
+- [Jasmine vs. Mocha, Chai, and Sinon](http://thejsguy.com/2015/01/12/jasmine-vs-mocha-chai-and-sinon.html)
 
 ## Hosted Services
