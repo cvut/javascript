@@ -152,8 +152,15 @@ Check out these solutions:
 
 ## Minification
 
+Use code minifier for the module bundler of your choice. [Minifyify](https://github.com/ben-ng/minifyify) for Browserify or [minimize option](https://webpack.github.io/docs/optimization.html#minimize) for Webpack. Pretty much everyone uses [UglifyJS](https://github.com/mishoo/UglifyJS2) for minification.
+
+[Closure Compiler](https://developers.google.com/closure/compiler/) may give you better results if you [annotate the code for it](https://developers.google.com/closure/compiler/docs/js-for-compiler). But unless you properly document all your code (or you use some type checker), it is probably not worth it.
+
 ## Linters
 
+[ESLint](http://eslint.org/) is our favourite solution. It is extensible, configurable, and supports JSX and ES6. We have [linting rules for it](../linters). Do not accept substitutes!
+
+Avoid [JSCS](http://jscs.info/), it is only code style check. It will make your life hell if you miss some extra newline, but it won't point out real issues in your code.
 
 ## Testing
 
