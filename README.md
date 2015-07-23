@@ -758,11 +758,11 @@ function half (text) {
 
 **Avoid prototypical inheritance models** unless you have a very good _performance reason_ to justify yourself.
 
-- Prototypical inheritance boosts puts need for `this` through the roof
-- It’s way more verbose than using plain objects
-- It causes headaches when creating `new` objects
-- Needs a closure to hide valuable private state of instances
-- Just use plain objects instead
+- Prototypical inheritance boosts puts need for `this` through the roof.
+- It’s way more verbose than using plain objects.
+- It causes headaches when creating `new` objects.
+- Needs a closure to hide valuable private state of instances.
+- Just use plain objects instead.
 
 ## Classes
 
