@@ -147,13 +147,13 @@ try {
 
 ### Semicolons`;`
 
-**We don't use semicolons** and we rely on Automatic Semicolon Insertion _(ASI)_ instead. While [there are some caveats](https://github.com/feross/standard/blob/master/RULES.md#automatic-semicolon-insertion-asi), you shouldn't run into them if you are not doing anything crazy in your code (and thus breaking this guide). The most notable caveat is this one:
+**We don’t use semicolons** and we rely on Automatic Semicolon Insertion _(ASI)_ instead. While [there are some caveats](https://github.com/feross/standard/blob/master/RULES.md#automatic-semicolon-insertion-asi), you shouldn’t run into them if you are not doing anything crazy in your code (and thus breaking this guide). The most notable caveat is this one:
 
 > End of line is not treated as semicolon if the next line starts with `[`, `(`, `+` etc.
 
 ##### Bad
 
-The following code won't work:
+The following code won’t work:
 
 ```js
 let a = b + c
@@ -388,7 +388,7 @@ const message = `oh hai ${name}!`
 
 ## Variables Declaration
 
-**Avoid using `var`.** Use `const` for all of your references. While this won't prevent mutation of structures (i.e. objects or arrays), it will prevent a reassignment of the variable.
+**Avoid using `var`.** Use `const` for all of your references. While this won’t prevent mutation of structures (i.e. objects or arrays), it will prevent a reassignment of the variable.
 
 If you must mutate references, use `let` instead of `var`.
 
@@ -671,8 +671,8 @@ function concatenateAll(...args) {
 ```js
 // really bad
 function handleThings(opts) {
-  // No! We shouldn't mutate function arguments.
-  // Double bad: if opts is falsy it'll be set to an object which may
+  // No! We shouldn’t mutate function arguments.
+  // Double bad: if opts is falsy it’ll be set to an object which may
   // be what you want but it can introduce subtle bugs.
   opts = opts || {};
   // ...
@@ -835,7 +835,7 @@ let divs = document.querySelectorAll('div')
 
 ### Loops
 
-Don't declare functions inside of loops.
+Don’t declare functions inside of loops.
 
 ##### Bad
 
@@ -932,7 +932,7 @@ Learn and abuse the functional collection manipulation methods. These are **so**
 
 Instantiate using the egyptian notation `{}`.
 
-When constructing objects, consider using [`Object.freeze`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/freeze) to enforce immutability of the object, or at least [`Object.seal`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/seal) to maintain object's properties.
+When constructing objects, consider using [`Object.freeze`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/freeze) to enforce immutability of the object, or at least [`Object.seal`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/seal) to maintain object’s properties.
 
 ## Regular Expressions
 
@@ -1007,7 +1007,7 @@ While JavaScript does not emphasise any particular programming paradigm, it goes
 
 Recommended reading:
 
-* [Professor Frisby's Mostly Adequate Guide to Functional Programming](http://drboolean.gitbooks.io/mostly-adequate-guide/)
+* [Professor Frisby’s Mostly Adequate Guide to Functional Programming](http://drboolean.gitbooks.io/mostly-adequate-guide/)
 
 The following section are few tips on how to start with functional style.
 
@@ -1155,7 +1155,7 @@ function checkAge (age) {
 
 ### Currying
 
-The pure functions are easily testable and predictable. But don't fret, you won't need to pass _every single_ parameter _every time_ you call your function. With high-order functions, you can build your functions incrementally with [_currying_](http://drboolean.gitbooks.io/mostly-adequate-guide/content/ch4.html).
+The pure functions are easily testable and predictable. But don’t fret, you won’t need to pass _every single_ parameter _every time_ you call your function. With high-order functions, you can build your functions incrementally with [_currying_](http://drboolean.gitbooks.io/mostly-adequate-guide/content/ch4.html).
 
 ##### Bad
 ```js
@@ -1210,7 +1210,7 @@ When currying, keep the order of parameters in mind: you want to put the most va
 
 For example popular libraries [Underscore](http://underscorejs.org/) and [lodash](https://lodash.com/) put data as the first parameter.
 
-Recommended watching: [Hey Underscore, You're Doing It Wrong!](https://www.youtube.com/watch?v=m3svKOdZijA).
+Recommended watching: [Hey Underscore, You’re Doing It Wrong!](https://www.youtube.com/watch?v=m3svKOdZijA).
 
 ##### Bad
 
@@ -1275,7 +1275,7 @@ shout('send in the clowns') // => SEND IN THE CLOWNS!
 
 ## Acknowledgements
 
-This guide is based upon [JavaScript Quality Guide](https://github.com/bevacqua/js) by Nicolas Bevacqua and [AirBnB Style Guide](https://github.com/airbnb/javascript). Some examples are based on [Professor Frisby's Mostly Adequate Guide to Functional Programming](http://drboolean.gitbooks.io/mostly-adequate-guide/). Many thanks to the original authors and [countless](https://github.com/bevacqua/js/graphs/contributors) [contributors](https://github.com/airbnb/javascript/graphs/contributors).
+This guide is based upon [JavaScript Quality Guide](https://github.com/bevacqua/js) by Nicolas Bevacqua and [AirBnB Style Guide](https://github.com/airbnb/javascript). Some examples are based on [Professor Frisby’s Mostly Adequate Guide to Functional Programming](http://drboolean.gitbooks.io/mostly-adequate-guide/). Many thanks to the original authors and [countless](https://github.com/bevacqua/js/graphs/contributors) [contributors](https://github.com/airbnb/javascript/graphs/contributors).
 
 ## License
 
