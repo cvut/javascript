@@ -1,0 +1,13 @@
+---
+extends: [standard]
+env:
+  browser: true
+  node: true
+  es6: true
+ecmaFeatures:
+  modules: true
+rules:
+  camelcase: [2]
+  no-var: [1]
+  prefer-const: [1]
+  comma-dangle: [2, always-multiline]
