@@ -321,9 +321,6 @@ Always declare variables in a consistent manner, and at the top of their scope. 
 const foo = 1,
       bar = 2
 
-let baz
-let pony
-
 let a
   , b
 ```
@@ -341,9 +338,6 @@ if (foo > 1) {
 ```js
 const foo = 1
 const bar = 2
-
-let baz
-let pony
 
 let a
 let b
