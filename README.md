@@ -141,22 +141,45 @@ Per Standard, use the “[one true brace style](http://eslint.org/docs/rules/bra
 
 Braces are [always required for conditionals](#conditionals).
 
-##### Bad
-
 ```js
+// bad
 function foo ()
 {
   return true
 }
 
+// good
+function foo () {
+  return true
+}
+```
+
+```js
+// bad
 if (foo) bar()
 
+// good
+if (foo) { bar() }
+```
+
+```js
+// bad
 if (bar)
 {
   for (let i; i < 10; i++)
     console.log('Nan')
 }
 
+// good
+if (bar) {
+  for (let i; i < 10; i++) {
+    console.log('Nan')
+  }
+}
+```
+
+```js
+// bad
 try
 {
   somethingRisky()
@@ -165,35 +188,24 @@ try
   handleError()
 }
 
+// good
+try {
+  somethingRisky()
+} catch (e) {
+  handleError()
+}
+```
+
+```js
+// bad
 if (foo) {
   bar()
 }
 else {
   baz()
 }
-```
 
-##### Good
-
-```js
-function foo () {
-  return true
-}
-
-if (foo) { bar() }
-
-if (bar) {
-  for (let i; i < 10; i++) {
-    console.log('Nan')
-  }
-}
-
-try {
-  somethingRisky()
-} catch (e) {
-  handleError()
-}
-
+// good
 if (foo) {
   bar()
 } else {
@@ -231,15 +243,11 @@ Regardless of your choice, a [linter](#linting) should be used to catch unnecess
 
 **Use single quote `'`** for quoting strings consistently throughout your codebase.
 
-##### Bad
-
 ```js
+// bad
 const message = "o hai!"
-```
 
-##### Good
-
-```js
+// good
 const message = 'o hai!'
 ```
 
@@ -247,19 +255,15 @@ const message = 'o hai!'
 
 **Do not use leading commas**, it’s just plain ugly.
 
-##### Bad
-
 ```js
+// bad
 const story = [
     once
   , upon
   , aTime
 ]
-```
 
-##### Good
-
-```js
+// good
 const story = [
   once,
   upon,
@@ -269,28 +273,28 @@ const story = [
 
 **Use trailing commas**, it makes code diffs cleaner and modifications simpler.
 
-##### Bad
-
 ```js
+// bad
 const hero = {
   firstName: 'Ramona',
   lastName: 'Flowers'
 }
 
-const heroes = [
-  'Batman',
-  'Iron Man'
-]
-```
-
-##### Good
-
-```js
+// good
 const hero = {
   firstName: 'Ramona',
   lastName: 'Flowers',
 }
+```
 
+```js
+// bad
+const heroes = [
+  'Batman',
+  'Iron Man'
+]
+
+// good
 const heroes = [
   'Batman',
   'Iron Man',
@@ -301,65 +305,49 @@ const heroes = [
 
 Variables and functions must have meaningful names so that you don’t have to resort to commenting what a piece of functionality does. Instead, try to be expressive while succinct, and use meaningful variable names.
 
-##### Bad
-
 ```js
+// bad
 function a (x, y, z) {
   return z * y / x
 }
-a(4, 2, 6)
-// <- 3
-```
+a(4, 2, 6) // => 3
 
-##### Good
-
-```js
+// good
 function ruleOfThree (had, got, have) {
   return have * got / had
 }
-ruleOfThree(4, 2, 6)
-// <- 3
+ruleOfThree(4, 2, 6) // => 3
 ```
 
 Use **camelCase** when naming objects, functions, and instances.
 
-##### Bad
-
-```javascript
+```js
+// bad
 const this_is_my_object = {}
 function MYFUNCTION () {}
-```
 
-##### Good
-
-```javascript
+// good
 const thisIsMyObject = {}
 function myFunction () {}
 ```
 
 Use PascalCase when naming constructors (object factories) or classes.
 
-##### Bad
-
-```javascript
+```js
+// bad
 function user (options) {
   return {
     name: options.name
   }
 }
-
 const myUser = user({name: 'Ada'})
-```
 
-##### Good
-
-```javascript
+// good
 function User (options) {
   return {
     name: options.name
   }
 }
-
 const myUser = User({name: 'Ada'})
 ```
 
@@ -371,35 +359,35 @@ Declare variables where you need them, but place them in a reasonable place (e.g
 
 Keeping variable declarations to _one per line is encouraged_. Always use one `const`, `let` or `var` statement for each assignment.
 
-##### Bad
-
 ```js
+// bad
 const foo = 1,
       bar = 2
 
-let a
-  , b
-```
-
-```js
-const foo = 1
-
-if (foo > 1) {
-  let bar = 2
-}
-```
-
-##### Good
-
-```js
+// good
 const foo = 1
 const bar = 2
+```
 
+```js
+// bad
+let a
+  , b
+
+// good
 let a
 let b
 ```
 
 ```js
+// bad
+const foo = 1
+
+if (foo > 1) {
+  let bar = 2
+}
+
+// good
 const foo = 1
 let bar
 
@@ -414,23 +402,13 @@ Variable declarations that aren’t immediately assigned a value are acceptable 
 
 If you must mutate references, use `let` instead of `var`. `const` and `let` are scoped to block (i.e. within braces `{}`), while `var` is scoped within a function. See [JavaScript Scoping and Hoisting](http://www.adequatelygood.com/JavaScript-Scoping-and-Hoisting.html) for more details.
 
-##### Bad
-
 ```js
+// bad
 var a = 1
 var b = 1
 
-if (true) {
-  b += 1
-}
-```
-
-
-##### Good
-
-```js
+// good
 const a = 1
-
 let b = 1
 
 if (true) {
@@ -440,26 +418,19 @@ if (true) {
 
 Group declarations by their type: `const` first, `let` second.
 
-##### Bad
-
 ```js
+// bad
 const a = 1
 let b, c
 const d = 2
-```
 
-##### Good
-
-```js
+// good
 const a = 1
 const d = 2
 
 let b, c
-```
 
-##### Acceptable
-
-```js
+// acceptable
 let foo, bar
 ```
 
@@ -467,15 +438,11 @@ let foo, bar
 
 Use ES6 [template strings](https://developer.mozilla.org/docs/Web/JavaScript/Reference/template_strings) for strings formatting.
 
-##### Bad
-
 ```js
+// bad
 const message = 'oh hai ' + name + '!'
-```
 
-##### Good
-
-```js
+// good
 const message = `oh hai ${name}!`
 ```
 
@@ -483,41 +450,29 @@ const message = `oh hai ${name}!`
 
 Avoid using `==` and `!=` operators, always favor `===` and `!==`. These operators are called the “strict equality operators,” while [their counterparts will attempt to cast the operands][15] into the same value type.
 
-##### Bad
-
 ```js
+// bad
 function isEmptyString (text) {
   return text == ''
 }
+isEmptyString(0) // => true
 
-isEmptyString(0)
-// <- true
-```
-
-##### Good
-
-```js
+// good
 function isEmptyString (text) {
   return text === ''
 }
-
-isEmptyString(0)
-// <- false
+isEmptyString(0) // => false
 ```
 
 There is one exception: use `==` and `!=` to check for `null` _or_ `undefined` values in one statement.
 
-##### Bad
-
 ```js
+// bad
 if (text === null || text === undefined) {
   console.log('text is null or undefined')
 }
-```
 
-##### Good
-
-```js
+// good
 if (text == null) {
   console.log('text is null or undefined')
 }
@@ -537,7 +492,9 @@ if (name !== '') {
 if (name) {
   // ...stuff...
 }
+```
 
+```js
 // bad
 if (collection.length > 0) {
   // ...stuff...
@@ -571,17 +528,13 @@ if ([0]) {
 
 jQuery is a prime example of a codebase that’s [**filled with nasty ternary operators**][16].
 
-##### Bad
-
 ```js
+// bad
 function calculate (a, b) {
   return a && b ? 11 : a ? 10 : b ? 1 : 0
 }
-```
 
-##### Good
-
-```js
+// good
 function getName (mobile) {
   return mobile ? mobile.name : 'Generic Player'
 }
@@ -593,17 +546,13 @@ In cases that may prove confusing just use `if` and `else` statements instead.
 
 When declaring a function, always use the [function declaration form][17] instead of [function expressions][18]. Because [hoisting][19].
 
-##### Bad
-
 ```js
+// bad
 const sum = function (x, y) {
   return x + y
 }
-```
 
-##### Good
-
-```js
+// good
 function sum (x, y) {
   return x + y
 }
@@ -611,17 +560,15 @@ function sum (x, y) {
 
 That being said, there’s nothing wrong with function expressions that are just [currying another function][20].
 
-##### Good
-
 ```js
+// good
 const plusThree = sum.bind(null, 3)
 ```
 
 Keep in mind that [function declarations will be hoisted][21] to the top of the scope so it doesn’t matter the order they are declared in. That being said, you should always keep functions at the top level in a scope, and avoid placing them inside conditional statements.
 
-##### Bad
-
 ```js
+// bad
 if (Math.random() > 0.5) {
   sum(1, 3)
 
@@ -630,11 +577,7 @@ if (Math.random() > 0.5) {
   }
 }
 
-```
-
-##### Good
-
-```js
+// good
 if (Math.random() > 0.5) {
   sum(1, 3)
 }
@@ -642,9 +585,8 @@ if (Math.random() > 0.5) {
 function sum (x, y) {
   return x + y
 }
-```
 
-```js
+// also good
 function sum (x, y) {
   return x + y
 }
@@ -658,17 +600,13 @@ if (Math.random() > 0.5) {
 
 Use [arrow functions](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Arrow_functions) for simple anonymous functions. <!-- FIXME: explain `this` -->
 
-##### Bad
-
-```javascript
+```js
+// bad
 [1, 2, 3].map(function (x) {
   return x * x
 })
-```
 
-##### Good
-
-```js
+// good
 [1, 2, 3].map((x) => {
   return x * x
 })
@@ -676,17 +614,15 @@ Use [arrow functions](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Re
 
 Omit braces, parentheses, and return if the function accepts a single argument and fits into a single line.
 
-##### Better
-
 ```js
+// better
 [1, 2, 3].map(x => x * x)
 ```
 
 Whenever a method is non-trivial, make the effort to **use a named function declaration rather than an anonymous function**. This will make it easier to pinpoint the root cause of an exception when analyzing stack traces.
 
-##### Bad
-
 ```js
+// bad
 function once (fn) {
   let ran = false
   return function () {
@@ -695,11 +631,8 @@ function once (fn) {
     fn.apply(this, arguments)
   }
 }
-```
 
-##### Good
-
-```js
+// good
 function once (fn) {
   let ran = false
   return function run () {
@@ -716,15 +649,13 @@ Learn about [default, rest, and spread parameters](https://github.com/lukehoban/
 
 **Never name function parameter `arguments`** since it is a reserved variable name (in fact, [it using it should cause a syntax error](http://ecma-international.org/ecma-262/5.1/#sec-12.2.1)).
 
-##### Bad
 ```js
+// bad
 function nope (name, options, arguments) {
   // ...stuff...
 }
-```
 
-##### Good
-```js
+// good
 function yup (name, options, args) {
   // ...stuff...
 }
@@ -732,17 +663,14 @@ function yup (name, options, args) {
 
 **Do not use `arguments` keyword in function.** Use rest arguments instead.
 
-##### Bad
-
 ```js
+// bad
 function concatenateAll () {
   const args = Array.prototype.slice.call(arguments)
   return args.join('')
 }
-```
 
-##### Good
-```js
+// good
 function concatenateAll (...args) {
   return args.join('')
 }
@@ -751,7 +679,6 @@ function concatenateAll (...args) {
 
 **Use default parameter syntax** rather than mutating function arguments.
 
-##### Bad
 ```js
 // really bad
 function handleThings (opts) {
@@ -761,9 +688,7 @@ function handleThings (opts) {
   opts = opts || {}
   // ...
 }
-```
 
-```js
 // still bad
 function handleThings (opts) {
   if (opts === void 0) {
@@ -771,10 +696,7 @@ function handleThings (opts) {
   }
   // ...
 }
-```
 
-##### Good
-```js
 // good
 function handleThings (opts = {}) {
   // ...
@@ -785,9 +707,8 @@ function handleThings (opts = {}) {
 
 Avoid keeping indentation levels from raising more than necessary by using guard clauses instead of flowing `if` statements.
 
-##### Bad
-
 ```js
+// bad
 if (car) {
   if (black) {
     if (turbine) {
@@ -795,17 +716,8 @@ if (car) {
     }
   }
 }
-```
 
-```js
-if (condition) {
-  // 10+ lines of code
-}
-```
-
-##### Good
-
-```js
+// good
 if (!car) { return }
 if (!black) { return }
 if (!turbine) { return }
@@ -814,6 +726,12 @@ return 'batman!'
 ```
 
 ```js
+// bad
+if (condition) {
+  // 10+ lines of code
+}
+
+// good
 if (!condition) { return }
 
 // 10+ lines of code
@@ -883,17 +801,13 @@ const { left, right } = processInput(input)
 
 Hacking native prototypes should be avoided at all costs, use a method instead. If you must extend the functionality in a native type, try using something like [poser][23] instead.
 
-##### Bad
-
 ```js
+// bad
 String.prototype.half = function () {
   return this.substr(0, this.length / 2)
 }
-```
 
-##### Good
-
-```js
+// good
 function half (text) {
   return text.substr(0, text.length / 2)
 }
@@ -919,9 +833,8 @@ Recommended reading:
 
 Simple object factories and stateless pure functions get you usually further without all the complexity introduced by class-based object-oriented programming.
 
-##### Bad
-
 ```js
+// bad
 class Point {
   constructor (x, y) {
     [this.x, this.y] = [x, y]
@@ -933,11 +846,8 @@ class Point {
     return this.y
   }
 }
-```
 
-##### Good
-
-```js
+// good
 function Point (x, y) {
   return Object.freeze({x, y})
 }
@@ -966,23 +876,19 @@ const nodes = Array.from(divs)
 
 ### Loops
 
-Don’t declare functions inside of loops.
-
-##### Bad
+Don’t declare functions inside of loops. Whenever possible, use `.forEach` instead of a `for` loop. There is also no issue with declaring anonymous function within other functions.
 
 ```js
 const values = [1, 2, 3]
 
+// bad
 for (let i = 0; i < values.length; i++) {
   setTimeout(function () {
     console.log(values[i])
   }, 1000 * i)
 }
-```
 
-```js
-const values = [1, 2, 3]
-
+// also bad
 for (let i = 0; i < values.length; i++) {
   setTimeout((i) => {
     return function () {
@@ -990,23 +896,15 @@ for (let i = 0; i < values.length; i++) {
     }
   }(i), 1000 * i)
 }
-```
 
-##### Somewhat Acceptable
-
-```js
-const values = [1, 2, 3]
-
+// somewhat acceptable
 for (let i = 0; i < values.length; i++) {
   setTimeout(function (i) {
     console.log(values[i])
   }, 1000 * i, i)
 }
-```
 
-```js
-const values = [1, 2, 3]
-
+// also somewhat acceptable
 for (let i = 0; i < values.length; i++) {
   wait(i)
 }
@@ -1016,13 +914,8 @@ function wait (i) {
     console.log(values[i])
   }, 1000 * i)
 }
-```
 
-Whenever possible, use `.forEach` instead of a `for` loop. There is also no issue with declaring anonymous function within other functions.
-
-##### Better
-
-```js
+// better
 [1, 2, 3].forEach((value, i) => {
   setTimeout(() => {
     console.log(value)
@@ -1139,27 +1032,29 @@ Comments **aren’t meant to explain what** the code does. Good **code is suppos
 ##### Bad
 
 ```js
-// create the centered container
-const p = $('<p/>')
+// bad
+const p = $('<p/>') // create the centered container
 p.center(div)
 p.text('foo')
-```
 
-##### Good
-
-```js
+// good
 const container = $('<p/>')
 const contents = 'foo'
 
 container.center(parent)
 container.text(contents)
+```
 
+```js
+// good
 megaphone.on('data', function (value) {
-  container.text(value) // the megaphone periodically emits updates for container
+  // the megaphone periodically emits updates for container
+  container.text(value)
 })
 ```
 
 ```js
+// good
 const numeric = /\d+/ // one or more digits somewhere in the string
 if (numeric.test(text)) {
   console.log('so many numbers!')
@@ -1192,9 +1087,8 @@ If you need to do something with your data, just put them into object or array a
 
 Recommended reading: [Execution in the Kingdom of Nouns](http://steve-yegge.blogspot.cz/2006/03/execution-in-kingdom-of-nouns.html).
 
-##### Bad
-
 ```js
+// bad
 class Person {
   constructor (first, last) {
     [this.first, this.last] = [first, last]
@@ -1206,11 +1100,8 @@ class Person {
 
 const jane = new Person('Jane', 'Doe')
 jane.fullName() // => 'Jane Doe'
-```
 
-##### Good
-
-```js
+// good
 function fullName (person) {
   return `${person.first} ${person.last}`
 }
@@ -1228,30 +1119,26 @@ fullName(jane) // => 'Jane Doe'
 
 **Avoid mutating state.** Instead of modifying the original object, return a new object with changes.
 
-##### Bad
-
 ```js
+// bad
 function rename (person, newName) {
   person.name = newName
   return person
 }
 
-const jane = {name: 'Jane'}
+const jane = { name: 'Jane' }
 const anna = rename(jane, 'Anna')
 jane.name // => 'Anna'
 anna.name // => 'Anna'
-```
 
-##### Good
-
-```js
+// good
 function rename (person, newName) {
   const clone = Object.assign({}, person)
   clone.name = newName
   return clone
 }
 
-const jane = {name: 'Jane'}
+const jane = { name: 'Jane' }
 const anna = rename(jane, 'Anna')
 jane.name // => 'Jane'
 anna.name // => 'Anna'
@@ -1261,44 +1148,28 @@ This example uses [Object.assign](https://developer.mozilla.org/en-US/docs/Web/J
 
 Arrays can be efficiently manipulated through standard functional methods like [`map`](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Array/map) or [`filter`](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Array/filter) which return a new array.
 
-##### Bad
-
 ```js
 const words = ['foobar', 'baz', 'a']
 const lengths = []
 
+// really bad
 for (let i = 0; i < words.length; i++) {
   let len = words[i].length
   lengths.push(len)
 }
 
-lengths // => [6, 3, 1]
-```
-
-##### Bad
-
-```js
-const words = ['foobar', 'baz', 'a']
-const lengths = []
-
+// bad
 words.forEach((word) => {
   lengths.push(word.length)
 })
+
+// good
+const lengths = words.map(word => word.length)
 
 lengths // => [6, 3, 1]
 ```
 
 `forEach` usually implies a side effect, in this case it is manipulating an outside array.
-
-##### Good
-
-```js
-const words = ['foobar', 'baz', 'a']
-
-const lengths = words.map(word => word.length)
-
-lengths // => [6, 3, 1]
-```
 
 If you need to manipulate larger collections, consider using advanced libraries for immutable structures like [Immutable.js](https://facebook.github.io/immutable-js/) or [Mori](https://swannodette.github.io/mori/).
 
@@ -1310,34 +1181,28 @@ Recommended reading:
 
 **Avoid side-effects and outside state.** [Pure functions](http://drboolean.gitbooks.io/mostly-adequate-guide/content/ch3.html) always return the same output given the same parameters. However, since programming without side-effects would be impossible, try to contain it in dedicated functions and keep the rest of your code pure.
 
-##### Impure
-
 ```js
+// impure
 const majorityAge = 21
 
 function isUnderage (age) {
   return age < majorityAge
 }
-```
 
-
-##### Pure
-
-```js
+// pure
 function isUnderage (age) {
   const majorityAge = 21
   return age < majorityAge
 }
 ```
 
-
 ### Currying
 
 The pure functions are easily testable and predictable. But don’t fret, you won’t need to pass _every single_ parameter _every time_ you call your function. With high-order functions, you can build your functions incrementally with [_currying_](http://drboolean.gitbooks.io/mostly-adequate-guide/content/ch4.html).
 
-##### Bad
-
 ```js
+// bad
+
 function isUnderage (majorityAge, age) {
   return age < majorityAge
 }
@@ -1346,9 +1211,9 @@ isUnderage(21, 19) // => true
 isUnderage(18, 19) // => false
 ```
 
-##### Good
-
 ```js
+// good
+
 function underageChecker (majorityAge) {
   return function (age) {
     return age < majorityAge
@@ -1367,9 +1232,8 @@ underageChecker(21)(19) // => true
 
 Many libraries provide universal curry function, e.g. [Ramda](http://ramdajs.com/docs/#curry), or you can use [a stand-alone module](http://npm.im/curry-d).
 
-##### Better
-
 ```js
+// better
 const underageChecker = curry((majorityAge, age) => {
   return age < majorityAge
 })
@@ -1392,9 +1256,8 @@ For example popular libraries [Underscore](http://underscorejs.org/) and [lodash
 
 Recommended watching: [Hey Underscore, You’re Doing It Wrong!](https://www.youtube.com/watch?v=m3svKOdZijA).
 
-##### Bad
-
 ```js
+// bad
 function firstTwoLetters (words) {
   return _.map(words, (word) => {
     return _.take(word, 2)
@@ -1406,9 +1269,8 @@ firstTwoLetters(['foo', 'bar']) // => ['fo', 'ba']
 
 On the other hand, functions in [Ramda](http://ramdajs.com) are curried and take data as the last parameter, so you can keep boilerplate to minimum.
 
-##### Good
-
 ```js
+// good
 const firstTwoLetters = R.map(R.take(2))
 
 firstTwoLetters(['foo', 'bar']) // => ['fo', 'ba']
