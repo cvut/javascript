@@ -1428,29 +1428,16 @@ While we find `pipe` more natural, use one , but be consistent within the projec
 
 Try to keep your functions [pointfree](http://drboolean.gitbooks.io/mostly-adequate-guide/content/ch5.html#pointfree) to make them easier to extract and reuse.
 
-##### Bad
-
 ```js
-function shout (sentence) {
-  sentence.toUpperCase() + '!'
-}
+// not pointfree because we mention the data: word
+function snakeCase (word) {
+  return word.toLowerCase().replace(/\s+/ig, '_')
+};
 
-shout('send in the clowns') // => SEND IN THE CLOWNS!
-```
+// pointfree
+const snakeCase = pipe(toLowerCase, replace(/\s+/ig, '_'))
 
-
-##### Good
-
-```js
-function toUpperCase (str) {
-  return str.toUpperCase()
-}
-function exclaim (str) { 
-  return `${str}!`
-}
-const shout = pipe(toUpperCase, exclaim)
-
-shout('send in the clowns') // => SEND IN THE CLOWNS!
+snakeCase('ChunkyBacon') // => chunky_bacon
 ```
 
 ## Acknowledgements
