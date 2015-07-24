@@ -1067,6 +1067,39 @@ Where possible use the native browser implementation and include [a polyfill tha
 
 If you can’t patch a piece of functionality with a polyfill, then [wrap all uses of the patching code][28] in a globally available method that is accessible from everywhere in the application.
 
+## The Harmful Parts
+
+Many parts of JavaScript are just ugly, to the point it would be better to just ignore them. We particularly draw from ideas of Douglas Crockford. In his classic book [JavaScript the Good Parts](http://shop.oreilly.com/product/9780596517748.do) Crockford defined the “good subset” of the language which specifically avoids some features of language.
+
+While ideas in this section are very opinionated and not always practical, you should at least know them. A lot of problems in JavaScript arise from following familiar, not the best practices.
+
+Resources:
+
+* [Douglas Crockford – The Better Parts](https://www.youtube.com/watch?v=PSGEjv3Tqo0) (Nordic.js 2014)
+
+### `this` Keyword
+
+`this` in JavaScript is a traditional source of frustration because it is deceptive. It _should_ point to the current object, but it can easily point somewhere else, even nowhere. The meaning of `this` can easily change within a function, so many coders settle for workarounds like:
+
+```js
+function foo () {
+  const that = this
+  somethingThatRebindsThis(function() {
+    that.whatever()
+  })
+}
+```
+
+ES6 solves _some_ sources of frustration through [arrow functions](#anonymous-functions), but a heavy reliance on `this` may suggest a flaw in your approach. Your code may be unnecessarily verbose, you are using [inappropriate abstraction](#classes), [mutating state](#immutability) or [relying on side effect](#pure-functions).
+
+<!-- TODO: example -->
+
+Resources:
+
+* [Javascript without the this](http://radar.oreilly.com/2014/03/javascript-without-the-this.html)
+
+### `new` Keyword
+
 ## Functional Programming
 
 While JavaScript does not emphasise any particular programming paradigm, it goes especially well with some aspects of functional programming. Learn about functional programming and embrace it in your code. While you may have heard of some scare stories about it and/or you may think it is highly impractical stuff made up by some mathematicians, the reality is quite different.
