@@ -2,7 +2,7 @@
 
 This guide aims to provide the ground rules for an application’s JavaScript code, such that it’s highly readable and consistent across different developers on a team. The focus is put on quality and coherence across the different pieces of your application.
 
-<!-- TODO: update tl;dr; add section about comments (aribnb#17); project structure -->
+<!-- TODO: add section about comments (aribnb#17); project structure -->
 
 
 ## tl;dr
@@ -331,7 +331,7 @@ const thisIsMyObject = {}
 function myFunction () {}
 ```
 
-Use PascalCase when naming constructors (object factories) or classes.
+Use **PascalCase** when naming constructors (object factories) or classes.
 
 ```js
 // bad
@@ -1028,8 +1028,6 @@ Preferably bake `console` statements into a service that can easily be disabled 
 ## Comments
 
 Comments **aren’t meant to explain what** the code does. Good **code is supposed to be self-explanatory**. If you’re thinking of writing a comment to explain what a piece of code does, chances are you need to change the code itself. The exception to that rule is explaining what a regular expression does. Good comments are supposed to **explain why** code does something that may not seem to have a clear-cut purpose.
-
-##### Bad
 
 ```js
 // bad
