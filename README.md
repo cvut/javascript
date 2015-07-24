@@ -2,6 +2,9 @@
 
 This guide aims to provide the ground rules for an application’s JavaScript code, such that it’s highly readable and consistent across different developers on a team. The focus is put on quality and coherence across the different pieces of your application.
 
+<!-- TODO: update tl;dr; add section about comments (aribnb#17); project structure -->
+
+
 ## tl;dr
 
 - Stick with [standard](https://github.com/feross/standard): 2 spaces, no semicolons, single quotes.
@@ -12,15 +15,13 @@ This guide aims to provide the ground rules for an application’s JavaScript co
 
 ## ES6
 
-[Learn about ECMAScript 6](http://git.io/es6features), its new syntax and features, and use it in you project today.
+[Learn about ECMAScript 6](http://git.io/es6features), its new syntax and features, and use it in your project today.
 
 For browser-oriented projects transpile your project with [Babel](https://babeljs.io/).
 
 For server oriented projects, you can use ES6 natively in Node.js version 0.12 (with [`--harmony` flag](https://github.com/joyent/node/wiki/es6-%28a.k.a.-harmony%29-features-implemented-in-v8-and-available-in-node)) and [io.js](https://iojs.org/). Alternatively you can use [babel-node](https://babeljs.io/docs/usage/cli/#babel-node) from the Babel project. Consult [ES6 Compatibility Table](https://kangax.github.io/compat-table/es6/).
 
-You may want to avoid Babel in smaller projects where Ethe code compilation brings unjustified overhead.
-
-Avoid using other languages which compile to JavaScript, like CoffeeScript. While they may have more syntactic sugar and features, they are much more opinionated and not everyone may like them.
+You may want to avoid Babel in smaller projects where the code compilation brings unjustified overhead.
 
 See [tooling](tooling/) for tips how to manage your build process.
 
@@ -36,16 +37,21 @@ Module systems also provide us with dependency injection patterns, which are cru
 
 Put [`'use strict'`][4] at the top of your modules. Strict mode allows you to catch nonsensical behavior, discourages poor practices, and _is faster_ because it allows compilers to make certain assumptions about your code.
 
-Babel [can do that for you](https://babeljs.io/docs/advanced/transformers/other/strict/) by default, but it won’t hurt you to keep this in mind.
+[Linter](#linting) can warn you about this. Babel [inserts `'use strict'`](https://babeljs.io/docs/advanced/transformers/other/strict/) by default, so this rule does not apply.
+
+## Linting
+
+Use [ESLint](http://eslint.org/) for linting your code with our [provided rules](linters/).
 
 ## Code Style
 
-Use [Standard](https://github.com/feross/standard) code style. You may not like some features of it, but somebody else from your team may like them – and vice versa. The point is: somebody else made these decisions for you, so you can carry on with your life and [don’t discuss what the color of the bikeshed](https://www.freebsd.org/doc/en_US.ISO8859-1/books/faq/misc.html#idp60682704).
+We build upon the [Standard](https://github.com/feross/standard) code style. You may not like some features of it, but your team members may like them – and vice versa. The point is: somebody else made these decisions for you, so you can carry on with your life and [don’t discuss the color of the bikeshed](https://www.freebsd.org/doc/en_US.ISO8859-1/books/faq/misc.html#idp60682704).
 
 ### Indentation
 
 Spacing must be consistent across every file in the project. Put [`.editorconfig`][5] configuration file into your project. These are recommended defaults:
 
+<a name="editorconfig"></a>
 ```ini
 # editorconfig.org
 root = true
@@ -68,7 +74,7 @@ trim_trailing_whitespace = false
 
 Spacing doesn’t just entail indentation, but also the spaces before, after, and in between arguments of a function declaration.
 
-The style recommended by Standard is to put space before parenthesis and after comma.
+Put space before parenthesis and after comma.
 
 ```js
 function (a, b) {
@@ -82,7 +88,47 @@ if (true) {
 }
 ```
 
-Get used to it and try to stick with this style, but don’t put much thought to it either. [Automatic formatter](https://github.com/beautify-web/js-beautify) can get care of this for you and it will keep your punctilious coworkers happy.
+Set off operators with spaces.
+
+```js
+// bad
+const x=y+5
+
+// good
+const x = y + 5
+```
+
+End files with a single newline character ([`.editorconfig`](#editorconfig) will take care of it for you).
+
+```js
+(function(global) {
+  // ...stuff...
+})(this)↵
+```
+
+When making long method chains, use indentation. Use a leading dot, which emphasizes that the line is a method call, not a new statement.
+
+```js
+// bad
+$('#items').
+  find('.selected').
+    highlight().
+    end().
+  find('.open').
+    updateCount()
+
+// good
+$('#items')
+  .find('.selected')
+    .highlight()
+    .end()
+  .find('.open')
+    .updateCount()
+```
+
+[Linter](#linting) will remind you about this style and [automatic formatter](https://github.com/rdio/jsfmt) can fix the code for you.
+
+## Line Length
 
 Where possible, improve readability by **keeping lines below the 100-character** mark. **Never go over 120 characters per line.**
 
@@ -154,24 +200,22 @@ if (foo) {
 
 ### Semicolons`;`
 
-**We don’t use semicolons** and we rely on Automatic Semicolon Insertion _(ASI)_ instead. While [there are some caveats](https://github.com/feross/standard/blob/master/RULES.md#automatic-semicolon-insertion-asi), you shouldn’t run into them if you are not doing anything crazy in your code (and thus breaking this guide). The most notable caveat is this one:
+**We don’t use semicolons;** we rely on Automatic Semicolon Insertion _(ASI)_ instead. While [there are some caveats](https://github.com/feross/standard/blob/master/RULES.md#automatic-semicolon-insertion-asi), you shouldn’t run into them if you are not doing anything crazy in your code (and thus breaking this guide). The most notable caveat is this one:
 
 > End of line is not treated as semicolon if the next line starts with `[`, `(`, `+` etc.
-
-##### Bad
 
 The following code won’t work:
 
 ```js
+// bad
 let a = b + c
 (d + e).print()
 ```
 
 Linter will warn you about these exceptions. You can solve this by putting semicolon _at the beginning_ of the line:
 
-##### Good
-
 ```js
+// good
 let a = b + c
 ;(d + e).print()
 ```
@@ -320,7 +364,9 @@ const myUser = User({name: 'Ada'})
 
 ### Variables
 
-Always declare variables in a consistent manner, and at the top of their scope. Keeping variable declarations to _one per line is encouraged_. Always use one `const`, `let` or `var` statement for each assignment.
+Declare variables where you need them, but place them in a reasonable place (e.g. not inside conditions).
+
+Keeping variable declarations to _one per line is encouraged_. Always use one `const`, `let` or `var` statement for each assignment.
 
 ##### Bad
 
@@ -361,37 +407,9 @@ if (foo > 1) {
 
 Variable declarations that aren’t immediately assigned a value are acceptable to share the same line of code.
 
-##### Acceptable
-
-```js
-let foo, bar
-```
-
-## Linting
-
-Use [ESLint](http://eslint.org/) for linting your code with our [provided rules](linters/).
-
-## Strings
-
-Use ES6 [template strings](https://developer.mozilla.org/docs/Web/JavaScript/Reference/template_strings) for strings formatting.
-
-##### Bad
-
-```js
-const message = 'oh hai ' + name + '!'
-```
-
-##### Good
-
-```js
-const message = `oh hai ${name}!`
-```
-
-## Variables Declaration
-
 **Avoid using `var`.** Use `const` for all of your references. While this won’t prevent mutation of structures (i.e. objects or arrays), it will prevent a reassignment of the variable.
 
-If you must mutate references, use `let` instead of `var`.
+If you must mutate references, use `let` instead of `var`. `const` and `let` are scoped to block (i.e. within braces `{}`), while `var` is scoped within a function. See [JavaScript Scoping and Hoisting](http://www.adequatelygood.com/JavaScript-Scoping-and-Hoisting.html) for more details.
 
 ##### Bad
 
@@ -434,6 +452,28 @@ const a = 1
 const d = 2
 
 let b, c
+```
+
+##### Acceptable
+
+```js
+let foo, bar
+```
+
+## Strings
+
+Use ES6 [template strings](https://developer.mozilla.org/docs/Web/JavaScript/Reference/template_strings) for strings formatting.
+
+##### Bad
+
+```js
+const message = 'oh hai ' + name + '!'
+```
+
+##### Good
+
+```js
+const message = `oh hai ${name}!`
 ```
 
 ## Equality
@@ -480,11 +520,51 @@ if (text == null) {
 }
 ```
 
-<!-- TODO: note about truthy and falsey conditionals -->
+### “Truthy” and “Falsy” Values
+
+Keep comparisons simple, but make sure you know what you are doing.
+
+```js
+// bad
+if (name !== '') {
+  // ...stuff...
+}
+
+// good
+if (name) {
+  // ...stuff...
+}
+
+// bad
+if (collection.length > 0) {
+  // ...stuff...
+}
+
+// good
+if (collection.length) {
+  // ...stuff...
+}
+```
+
+Conditional statements such as the `if` statement evaluate their expression using and convert value to boolean using these rules:
+
+- Objects evaluate to `true`
+- `undefined` evaluates to `false`
+- `null` evaluates to `false`
+- Booleans evaluate to the value of the boolean
+- Numbers evaluate to false if `+0`, `-0`, or `NaN`, otherwise `true`
+- Strings evaluate to false if an empty string `''`, otherwise `true`
+
+```js
+if ([0]) {
+  console.log('this is true')
+  // An array is an object, objects evaluate to true
+}
+```
 
 ## Ternary Operators
 
-Ternary operators are fine for clear-cut conditionals, but unacceptable for confusing choices. As a rule, if you can’t eye-parse it as fast as your brain can interpret the text that declares the ternary operator, chances are it’s probably too complicated for its own good.
+**Avoid nested ternary operators.** Ternary operators are fine for clear-cut conditionals, but unacceptable for confusing choices.
 
 jQuery is a prime example of a codebase that’s [**filled with nasty ternary operators**][16].
 
@@ -573,7 +653,7 @@ if (Math.random() > 0.5) {
 
 ### Anonymous Functions
 
-Use [arrow functions](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Arrow_functions) for simple anonymous functions.
+Use [arrow functions](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Arrow_functions) for simple anonymous functions. <!-- FIXME: explain `this` -->
 
 ##### Bad
 
@@ -591,7 +671,7 @@ Use [arrow functions](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Re
 })
 ```
 
-Omit braces and parentheses if the function accepts a single argument and fits into a single line.
+Omit braces, parentheses, and return if the function accepts a single argument and fits into a single line.
 
 ##### Better
 
@@ -631,7 +711,7 @@ function once (fn) {
 
 Learn about [default, rest, and spread parameters](https://github.com/lukehoban/es6features#default--rest--spread) in ES6.
 
-**Never name function parameter `arguments`** since it is a reserved keyword.
+**Never name function parameter `arguments`** since it is a reserved variable name (in fact, [it using it should cause a syntax error](http://ecma-international.org/ecma-262/5.1/#sec-12.2.1)).
 
 ##### Bad
 ```js
@@ -736,6 +816,66 @@ if (!condition) { return }
 // 10+ lines of code
 ```
 
+## Destructuring
+
+Use object destructuring when accessing and using multiple properties of an object.
+
+```js
+// bad
+function fullName (user) {
+  const firstName = user.firstName
+  const lastName = user.lastName
+
+  return `${firstName} ${lastName}`
+}
+
+// good
+function fullName(obj) {
+  const { firstName, lastName } = obj
+  return `${firstName} ${lastName}`
+}
+
+// best
+function fullName ({ firstName, lastName }) {
+  return `${firstName} ${lastName}`
+}
+```
+
+Use array destructuring.
+
+```js
+const arr = [1, 2, 3, 4]
+
+// bad
+const first = arr[0]
+const second = arr[1]
+
+// good
+const [first, second] = arr
+```
+
+Use object destructuring for multiple return values, not array destructuring. If you add properties over time or change the order of things, you won't break call sites.
+
+```js
+// bad
+function processInput (input) {
+  // then a miracle occurs
+  return [left, right, top, bottom]
+}
+
+// the caller needs to think about the order of return data
+const [left, __, top] = processInput(input)
+
+// good
+function processInput (input) {
+  // then a miracle occurs
+  return { left, right, top, bottom }
+}
+
+// the caller selects only the data they need
+const { left, right } = processInput(input)
+```
+
 ## Prototypes
 
 Hacking native prototypes should be avoided at all costs, use a method instead. If you must extend the functionality in a native type, try using something like [poser][23] instead.
@@ -756,9 +896,9 @@ function half (text) {
 }
 ```
 
-**Avoid prototypical inheritance models** unless you have a very good _performance reason_ to justify yourself.
+**Avoid [prototypal inheritance](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Inheritance_and_the_prototype_chain) models** unless you have a very good _performance reason_ to justify yourself.
 
-- Prototypical inheritance boosts puts need for `this` through the roof.
+- Prototypal inheritance boosts need for `this` through the roof.
 - It’s way more verbose than using plain objects.
 - It causes headaches when creating `new` objects.
 - Needs a closure to hide valuable private state of instances.
@@ -768,7 +908,7 @@ function half (text) {
 
 **Avoid ES6 classes**. Since it is just a syntactic sugar over prototypal inheritance, [same caveats apply](#prototypes).
 
-Recommended readings:
+Recommended reading:
 
 - The Two Pillars of JavaScript: [Part 1](https://medium.com/javascript-scene/the-two-pillars-of-javascript-ee6f3281e7f3) and [Part 2](https://medium.com/javascript-scene/the-two-pillars-of-javascript-pt-2-functional-programming-a63aa53a41a4).
 - [How to Fix the ES6 `class` keyword](https://medium.com/javascript-scene/how-to-fix-the-es6-class-keyword-2d42bb3f4caf)
@@ -806,26 +946,19 @@ Instantiate arrays using the square bracketed notation `[]`. If you have to decl
 
 ### Manipulation
 
-Whenever you have to manipulate an array-like object, cast it to an array.
-
-##### Bad
+Whenever you have to manipulate an array-like object, use [`Array.from`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/from).
 
 ```js
 const divs = document.querySelectorAll('div')
 
+// bad
+const nodes = []
 for (let i = 0; i < divs.length; i++) {
-  console.log(divs[i].innerHTML)
+  nodes.push(divs[i])
 }
-```
 
-##### Good
-
-```js
-const divs = document.querySelectorAll('div')
-
-[].slice.call(divs).forEach((div) => {
-  console.log(div.innerHTML)
-})
+// good
+const nodes = Array.from(divs)
 ```
 
 ### Loops
@@ -882,7 +1015,7 @@ function wait (i) {
 }
 ```
 
-Whenever possible, use `.forEach` instead of `for` loop. There is also no issue with declaring anonymous function within other functions.
+Whenever possible, use `.forEach` instead of a `for` loop. There is also no issue with declaring anonymous function within other functions.
 
 ##### Better
 
@@ -919,34 +1052,78 @@ Learn and abuse the functional collection manipulation methods. These are **so**
 - [`.sort`](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Array/sort)
 - [`.reverse`](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Array/reverse)
 
+### Copy
+
+Use array spreads `...` to copy arrays.
+
+```js
+// bad
+const len = items.length
+const itemsCopy = []
+
+for (let i = 0; i < len; i++) {
+  itemsCopy[i] = items[i]
+}
+
+// good
+const itemsCopy = [...items]
+```
+
 ## Objects
 
 Instantiate using the egyptian notation `{}`.
 
-When constructing objects, consider using [`Object.freeze`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/freeze) to enforce immutability of the object, or at least [`Object.seal`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/seal) to maintain object’s properties.
+```js
+// bad
+const obj = new Object()
 
-## Regular Expressions
+// good
+const obj = {}
+```
 
-Keep regular expressions in variables, don’t use them inline. This will vastly improve readability.
+When returning objects, consider using [`Object.freeze`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/freeze) to enforce immutability of the object, or at least [`Object.seal`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/seal) to maintain object’s properties.
 
-##### Bad
+### ES6 Shorthands
+
+ES6 has some [nice improvements for object literal](https://github.com/lukehoban/es6features#enhanced-object-literals) which reduce boilerplate.
+
+Use object method shorthand:
 
 ```js
-if (/\d+/.test(text)) {
-  console.log('so many numbers!')
+// bad
+const atom = {
+  value: 1,
+
+  addValue: function (value) {
+    return atom.value + value
+  },
+}
+
+// good
+const atom = {
+  value: 1,
+  // you can omit function
+  addValue(value) {
+    return atom.value + value
+  },
 }
 ```
 
-##### Good
+Use property value shorthand.
 
 ```js
-const numeric = /\d+/
-if (numeric.test(text)) {
-  console.log('so many numbers!')
+const lukeSkywalker = 'Luke Skywalker'
+
+// bad
+const obj = {
+  lukeSkywalker: lukeSkywalker,
+}
+
+// good
+const obj = {
+  lukeSkywalker,
 }
 ```
-
-Also [learn how to write regular expressions][25], and what they actually do. Then you can also [visualize them online][26].
 
 ## `console` statements
 
