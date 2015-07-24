@@ -1,8 +1,21 @@
 # Tooling Recommendations for JavaScript Projects
 
-![It Is Dangerous To Go Alone, Take One Of These](tooling.png)
+This is an overview of tools you may use in your project and (rather opinionated) guide to choosing the right set of options.
 
-This is an overview of tools you may use in your project and (rather opinionated) guide to choosing the right option.
+## tl;dr
+
+- [Use npm for packaging](#package-managers), avoid Bower.
+- [Use Browserify](#module-bundlers) or Webpack.
+- [Use npm and simple scripts for task automation](#build-tools). Avoid Grunt, Gulp et al.
+- [Transpile your code from ES6 with Babel](#transpilers). Avoid opinionated languages like CoffeeScript.
+- [Consider type checking in your project](#type-checking).
+- [Save your time with live reloading](#live-reloading).
+- [Minify your code with UglifyJS](#minification) with bundler of your choice.
+- [Use ESLint for linting](#linters).
+- [Test with Tape](#testing) to keep things simple.
+- [Take advantage of hosted services](#hosted-services) if your project is open-source.
+
+![It Is Dangerous To Go Alone, Take One Of These](tooling.png)
 
 ## Package Managers
 
