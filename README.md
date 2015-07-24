@@ -226,13 +226,13 @@ const story = [
 
 ```js
 const hero = {
-  firstName: 'Dana',
-  lastName: 'Scully'
+  firstName: 'Ramona',
+  lastName: 'Flowers'
 }
 
 const heroes = [
   'Batman',
-  'Superman'
+  'Iron Man'
 ]
 ```
 
@@ -240,13 +240,13 @@ const heroes = [
 
 ```js
 const hero = {
-  firstName: 'Dana',
-  lastName: 'Scully',
+  firstName: 'Ramona',
+  lastName: 'Flowers',
 }
 
 const heroes = [
   'Batman',
-  'Superman',
+  'Iron Man',
 ]
 ```
 
