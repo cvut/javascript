@@ -1069,7 +1069,7 @@ If you can’t patch a piece of functionality with a polyfill, then [wrap all us
 
 ## The Harmful Parts
 
-JavaScript got some bad reputation, partly for its troubled past and incompatibility across implementations in various browsers, and partly for just being a misunderstood language. Some features of JavaScript look deceptively similar to other languages (typically Java), but in JavaScript they just _work different_. But many times you actually don’t need these features – and you may arrive to a better, more robust solutions.
+JavaScript got some bad reputation, partly for its troubled past and incompatibility across implementations in various browsers, and partly for just being a misunderstood language. Some features of JavaScript look deceptively similar to other languages (typically Java), but in JavaScript they just _work different_. But many times these frustrations are self-inflicted; you can easily avoid the problematic features altogether.
 
 We particularly draw from Douglas Crockford’s recommendations, or what he calls “the good parts” of JavaScript.
 
@@ -1080,7 +1080,40 @@ Resources:
 
 ### `this` Keyword
 
-`this` in JavaScript is a traditional source of frustration because it is deceptive. It _should_ point to the current object, but it can easily point somewhere else, even nowhere. The meaning of `this` can easily change within a function, so many coders settle for workarounds like:
+`this` in JavaScript is a typical source of frustration. Based on our familiarity with class-based languages (Java, C#, PHP…) we may _assume_ it always points to the current object. However, the meaning of `this` depends on invocation of the function where it is used.
+
+This way we can pass our objects to native methods as `this`:
+
+```js
+Array.prototype.slice.call(arrayLikeObject) // Array.slice() will operate on arrayLikeObject
+```
+
+But hardly ever we want to settle for such behaviour in our code.
+
+`this` keyword in functions defaults to the _global object_ (i.e. `window` in browsers), which is extremely dangerous and lead to particularly nasty bugs:
+
+```js
+// very bad
+function setThis () {
+  this.foo = 'foo set'
+}
+setThis()
+window.foo // => 'foo set'
+```
+
+With [strict mode](#strict-mode) `this` will be undefined and buggy code will crash early insted.
+
+```js
+function setThis () {
+  'use strict'
+  this.foo = 'foo set'
+}
+setThis() // => TypeError: Cannot set property 'foo' of undefined
+```
+
+Typically we use `this` keyword in [prototypal inheritance](#prototypes), or with [ES6 classes](#classes). The issue is with asynchronous code. Typically you want to call a method on your instance from the callback, but `this` doesn’t point to your original instance.
+
+Coders typically avoid these issues by closure, i.e. storing `this` to an outside variable:
 
 ```js
 function foo () {
@@ -1091,9 +1124,9 @@ function foo () {
 }
 ```
 
-ES6 solves _some_ sources of frustration through [arrow functions](#anonymous-functions), but a heavy reliance on `this` may suggest a flaw in your approach. Your code may be unnecessarily verbose, you are using [inappropriate abstraction](#classes), [mutating state](#immutability) or [relying on side effect](#pure-functions).
+It is preferred to avoid it with [`bind` function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/bind) or [arrow functions](#anonymous-functions) in ES6 (where `this` is always bound to the outside scope). But as you can imagine, heavy reliance on `this` leads to verbose and unreadable code since we are working around JavaScript’s behaviour in attempt to make it behave like something else. We can certainly blame JavaScript for not being Java/C#/PHP/whatever, but perhaps we should blame ourselves for preferring familiarity over simplicity.
 
-<!-- TODO: example -->
+So **try to avoid `this`**. If you find yourself repeating `this` all over your code or fighting with binding, reconsider your approach. Perhaps you are using an [inappropriate abstraction](#classes), [mutating state](#immutability) or [relying on side effects](#pure-functions).
 
 Resources:
 
