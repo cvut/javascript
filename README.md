@@ -1069,12 +1069,13 @@ If you can’t patch a piece of functionality with a polyfill, then [wrap all us
 
 ## The Harmful Parts
 
-Many parts of JavaScript are just ugly, to the point it would be better to just ignore them. We particularly draw from ideas of Douglas Crockford. In his classic book [JavaScript the Good Parts](http://shop.oreilly.com/product/9780596517748.do) Crockford defined the “good subset” of the language which specifically avoids some features of language.
+JavaScript got some bad reputation, partly for its troubled past and incompatibility across implementations in various browsers, and partly for just being a misunderstood language. Some features of JavaScript look deceptively similar to other languages (typically Java), but in JavaScript they just _work different_. But many times you actually don’t need these features – and you may arrive to a better, more robust solutions.
 
-While ideas in this section are very opinionated and not always practical, you should at least know them. A lot of problems in JavaScript arise from following familiar, not the best practices.
+We particularly draw from Douglas Crockford’s recommendations, or what he calls “the good parts” of JavaScript.
 
 Resources:
 
+* Book: [Douglas Crockford: JavaScript the Good Parts](http://shop.oreilly.com/product/9780596517748.do)
 * [Douglas Crockford – The Better Parts](https://www.youtube.com/watch?v=PSGEjv3Tqo0) (Nordic.js 2014)
 
 ### `this` Keyword
