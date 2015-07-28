@@ -1205,10 +1205,6 @@ It is preferred to avoid it with [`bind` function](https://developer.mozilla.org
 
 So **try to avoid `this`**. If you find yourself repeating `this` all over your code or fighting with binding, reconsider your approach. Perhaps you are using an [inappropriate abstraction](#classes), [mutating state](#immutability) or [relying on side effects](#pure-functions).
 
-Resources:
-
-* [Javascript without the this](http://radar.oreilly.com/2014/03/javascript-without-the-this.html)
-
 ### `new` Operator
 
 We typically use `new` to instantiate objects in class-based languages. But technically there are no classes in JavaScript, only functions. So the [`new` operator](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/new) is instead a _syntactic sugar_ for object instantiation, which calls your constructing function with a correct binding for `this`.
@@ -1248,7 +1244,13 @@ _Note the use of [ES6 property shorthands](#es6-shorthands). `Object.freeze` is 
 
 Resources:
 
-* [“new” Only Makes Javascript OO Harder](http://www.ianbicking.org/blog/2013/04/new-considered-harmful.html)
+
+### Recommended Reading
+
+- [JavaScript without “new” and “this”keywords ](https://nemisj.com/js-without-new-and-this/)
+- [“new” Only Makes Javascript OO Harder](http://www.ianbicking.org/blog/2013/04/new-considered-harmful.html)
+- [Javascript without the this](http://radar.oreilly.com/2014/03/javascript-without-the-this.html)
+
 
 ## Functional Programming
 
