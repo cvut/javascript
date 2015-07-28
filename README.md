@@ -1067,6 +1067,83 @@ Where possible use the native browser implementation and include [a polyfill tha
 
 If you can’t patch a piece of functionality with a polyfill, then [wrap all uses of the patching code][28] in a globally available method that is accessible from everywhere in the application.
 
+## Asynchronous Behaviour
+
+If your application works with external data or handles user interaction, you will have to deal with asynchronous code. Typically we pass around callbacks, for example (in Node):
+
+```js
+fs.readdir(source, function(err, files) {
+  if (err) {
+    // error
+  } else {
+    // do something else
+  }
+})
+```
+
+While callbacks are very simple in context, things get nasty if we need to do a more asynchronous operations which depend on each other. By layering callbacks upon callbacks, we may end up in [the Callback Hell](http://callbackhell.com/). Typical scenery also includes a gloomy vista upon the infamous [Pyramid of Doom](http://tritarget.org/blog/2012/11/28/the-pyramid-of-doom-a-javascript-style-trap/).
+
+![Pyramid of Doom](images/pyramid_of_doom.png)
+
+If you find yourself on a path to the Callback Hell, rethink your approach. Read the [recommendations by Max Ogden](http://callbackhell.com/):
+
+- Name your functions (instead of using anonymous functions everywhere).
+- Keep your code shallow.
+- Split your code into smaller modules.
+
+### Callbacks
+
+If you write a library which accepts callback for parameters, stick to [_error-first_ convention](http://thenodeway.io/posts/understanding-error-first-callbacks/). You should pass an error as the first parameter and result of the call as second.
+
+```js
+function calculateAsync (callback) {
+  try {
+    // get result of some operation
+    const result = calculate()
+    callback(null, result)
+  } catch(error) {
+    // operation failed, return with error
+    callback(error)
+  }
+}
+
+```
+
+For high-level operations with callbacks (i.e. such as resolving multiple callbacks into one), take a look a library such as [async](https://github.com/caolan/async).
+
+### Promises
+
+A better approach may be using [Promises](https://developer.mozilla.org/en-US/docs/Mozilla/JavaScript_code_modules/Promise.jsm/Promise), which let you chain asynchronous operations without nesting:
+
+```js
+doAsync()
+.then((data) => {
+  return doMoreAsync()
+})
+.then((data) => {
+  return evenMoreAsync()
+})
+.then((data) => {
+  // we’re done
+})
+```
+
+Native promises are only partially supported in [some browsers](http://caniuse.com/#feat=promises) and environments, so most applications rely on promise libraries like [Bluebird](https://github.com/petkaantonov/bluebird) which also provide some extra features. However, consider if introducing such a dependency is worth it, especially if you don’t do too much async operations.
+
+Existing callback-based API can be easily converted to promises. Most libraries [provide `promisify`](https://github.com/petkaantonov/bluebird/blob/master/API.md#promisification) and similar methods to convert existing callback-based functions to return promises (especially if they stick with [error-first convention](#callbacks)). Alternatively, you can [write similar wrapper yourself](http://stackoverflow.com/a/22519785/240963).
+
+### Recommended Reading
+
+- [Callback Hell](http://callbackhell.com/)
+- [Control Flow](https://raynos.github.io/presentation/shower/controlflow.htm), a talk by Jake Verbaten
+- [Callbacks are imperative, promises are functional: Node’s biggest missed opportunity](https://blog.jcoglan.com/2013/03/30/callbacks-are-imperative-promises-are-functional-nodes-biggest-missed-opportunity/) and [Callbacks, promises and simplicity](https://blog.jcoglan.com/2013/04/01/callbacks-promises-and-simplicity/)
+- [Promise anti-patterns](https://github.com/petkaantonov/bluebird/wiki/Promise-anti-patterns)
+- [What Color is Your Function?](http://journal.stuffwithstuff.com/2015/02/01/what-color-is-your-function/) (on general handling of asynchronous behaviour)
+
+<!--
+- [Taming Asynchronous Programming (Beyond Promises)](https://eamodeorubio.github.io/tamingasync/)
+-->
+
 ## The Harmful Parts
 
 JavaScript got some bad reputation, partly for its troubled past and incompatibility across implementations in various browsers, and partly for just being a misunderstood language. Some features of JavaScript look deceptively similar to other languages (typically Java), but in JavaScript they just _work different_. But many times these frustrations are self-inflicted; you can easily avoid the problematic features altogether.
