@@ -1132,7 +1132,46 @@ Resources:
 
 * [Javascript without the this](http://radar.oreilly.com/2014/03/javascript-without-the-this.html)
 
-### `new` Keyword
+### `new` Operator
+
+We typically use `new` to instantiate objects in class-based languages. But technically there are no classes in JavaScript, only functions. So the [`new` operator](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/new) is instead a _syntactic sugar_ for object instantiation, which calls your constructing function with a correct binding for `this`.
+
+```js
+function Car (make, model, year) {
+  this.make = make
+  this.model = model
+  this.year = year
+}
+const trabant = new Car('Trabant', '601', 1964)
+```
+
+Now, consider what happens if you call `Car` function without the `new` operator? If you read [previous section](#this-keyword), you probably know: `this` is a global object and you end-up setting properties on it – unless you [use the strict mode](#strict-mode).
+
+```js
+const trabant = Car('Trabant')
+trabant // => undefined
+make // => 'Trabant'
+```
+
+There are [techniques](http://elegantcode.com/2010/12/21/basic-javascript-part-4-enforcing-new-on-constructor-functions/) to guard your constructors from this misuse and [ES6 transpiler](#es6) can take care of necessary boilerplate code for you. But perhaps it is unnecessarily complicated to treat constructors and standard functions differently. You can easily avoid `new` operator by treating your constructors as simple functions which construct objects:
+
+```js
+function Car (make, model, year) {
+  return Object.freeze({
+    make,
+    model,
+    year
+  })
+}
+
+const tesla = Car('Tesla', '3', 2016)
+```
+
+_Note the use of [ES6 property shorthands](#es6-shorthands). `Object.freeze` is optional but [recommended](#objects)._
+
+Resources:
+
+* [“new” Only Makes Javascript OO Harder](http://www.ianbicking.org/blog/2013/04/new-considered-harmful.html)
 
 ## Functional Programming
 
