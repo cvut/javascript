@@ -2,8 +2,9 @@
 
 This guide aims to provide the ground rules for an application’s JavaScript code, such that it’s highly readable and consistent across different developers on a team. The focus is put on quality and coherence across the different pieces of your application.
 
-<!-- TODO: add section about comments (aribnb#17); project structure -->
+The guide goes a bit beyond code style guidelines; it offers recommendations for technology stack, tooling and programming approach. It is purposefully opinionated – you don’t need to agree with everything, but you should at least think why you disagree.
 
+This guide is aimed at needs of ICT development teams at [Faculty of Information Technology](http://fit.cvut.cz/) of [Czech Technical University in Prague](http://www.cvut.cz/), but you are more than welcome to adapt it for your organisation.
 
 ## tl;dr
 
