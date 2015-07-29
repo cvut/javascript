@@ -9,9 +9,9 @@ This guide is aimed at needs of ICT development teams at [Faculty of Information
 ## tl;dr
 
 - Stick with [Standard](https://github.com/feross/standard): [2 spaces, no semicolons, single quotes…](#code-style)
-- Organize your code into [modules](#modules).
+- Organise your code into [modules](#modules).
 - Use [ESLint](http://eslint.org/) with [our rules](linters/).
-- [Use ES6](#es6) with [Babel](https://babeljs.io/) unless the buildprocess would add too much overhead to your project.
+- [Use ES6](#es6) with [Babel](https://babeljs.io/) unless the build process would add too much overhead to your project.
 - Use `const` and `let` instead of `var`.
 - Learn about [functional programming](#functional-programming). It will make you a better developer.
 - [Avoid classes](#classes), [prototypes](#prototypes) and `this`. Stick with objects and pure functions.
@@ -31,7 +31,7 @@ See [tooling](tooling/) for tips how to manage your build process.
 
 ## Modules
 
-Organize your code into [modules](http://jsmodules.io/). Use [ES6 modules](http://jsmodules.io/) (with Babel) or [CommonJS](http://wiki.commonjs.org/wiki/CommonJS) (in other cases). Each module is scoped with explicit exports and does not pollute global namespace. Additionally you can easily share modules between server and browser projects.
+Organise your code into [modules](http://jsmodules.io/). Use [ES6 modules](http://jsmodules.io/) (with Babel) or [CommonJS](http://wiki.commonjs.org/wiki/CommonJS) (in other cases). Each module is scoped with explicit exports and does not pollute global namespace. Additionally you can easily share modules between server and browser projects.
 
 For browser projects, you can compose modules into a single _bundle_ with tools like [Browserify](http://browserify.org/) or [Webpack](https://webpack.github.io/). See [tooling](tooling/) for more information.
 
@@ -39,7 +39,7 @@ Module systems also provide us with dependency injection patterns, which are cru
 
 ## Strict Mode
 
-Put [`'use strict'`][4] at the top of your modules. Strict mode allows you to catch nonsensical behavior, discourages poor practices, and _is faster_ because it allows compilers to make certain assumptions about your code.
+Put [`'use strict'`][4] at the top of your modules. Strict mode allows you to catch nonsensical behaviour, discourages poor practices, and _is faster_ because it allows compilers to make certain assumptions about your code.
 
 [Linter](#linting) can warn you about this. Babel [inserts `'use strict'`](https://babeljs.io/docs/advanced/transformers/other/strict/) by default, so this rule does not apply.
 
@@ -110,7 +110,7 @@ End files with a single newline character ([`.editorconfig`](#editorconfig) will
 })(this)↵
 ```
 
-When making long method chains, use indentation. Use a leading dot, which emphasizes that the line is a method call, not a new statement.
+When making long method chains, use indentation. Use a leading dot, which emphasises that the line is a method call, not a new statement.
 
 ```js
 // bad
@@ -1064,7 +1064,7 @@ Commenting out entire blocks of code _should be avoided entirely_, that’s why 
 
 ## Polyfills
 
-Where possible use the native browser implementation and include [a polyfill that provides that behavior][27] for unsupported browsers. This makes the code easier to work with and less involved in hackery to make things just work.
+Where possible use the native browser implementation and include [a polyfill that provides that behaviour][27] for unsupported browsers. This makes the code easier to work with and less involved in hackery to make things just work.
 
 If you can’t patch a piece of functionality with a polyfill, then [wrap all uses of the patching code][28] in a globally available method that is accessible from everywhere in the application.
 
@@ -1110,7 +1110,7 @@ function calculateAsync (callback) {
 
 ```
 
-For high-level operations with callbacks (i.e. such as resolving multiple callbacks into one), take a look a library such as [async](https://github.com/caolan/async).
+For high-level operations with callbacks (i.e. such as resolving multiple callbacks into one), take a look at some library such as [async](https://github.com/caolan/async).
 
 ### Promises
 
