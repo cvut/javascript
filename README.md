@@ -130,7 +130,7 @@ $('#items')
     .updateCount()
 ```
 
-[Linter](#linting) will remind you about this style and [automatic formatter](https://github.com/rdio/jsfmt) can fix the code for you.
+[Linter](#linting) will remind you about this style and [automatic formatter](https://github.com/maxogden/standard-format) can fix the code for you.
 
 ## Line Length
 
