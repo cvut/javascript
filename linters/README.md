@@ -61,3 +61,7 @@ extends: [standard, standard-react]
 ## Editor Integration
 
 You will get the most of linting by integrating ESLint to your text editor or IDE. See [the list of integrations](http://eslint.org/docs/user-guide/integrations).
+
+## Resources
+
+* [Linting JavaScript in 2015](http://blog.lauritz.me/linting-javascript-in-2015/)
