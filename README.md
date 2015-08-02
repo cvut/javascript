@@ -1250,8 +1250,9 @@ const tesla = Car('Tesla', '3', 2016)
 
 _Note the use of [ES6 property shorthands](#es6-shorthands). `Object.freeze` is optional but [recommended](#objects)._
 
-Resources:
+#### But How About Performance?
 
+Some JavaScript engines can optimise object creation with `new`. Additionally [prototypal inheritance](#prototypal-inehritance) should have smaller memory consumption, since you don’t duplicate properties. First thing: object creation performance hardly matters for most applications, unless you need to create hundreds of objects within milliseconds. The difference can be between allocation of 2 or 30 objects within _one microsecond_ (you have 16.67 _milliseconds_ for each frame in a browser, which uses 60 FPS). Your biggest enemy then will be garbage collector, which can kick in any time and kill your application performance. So _if_ you need to work with huge amounts of objects, perhaps you should [use object pool](http://www.html5rocks.com/en/tutorials/speed/static-mem-pools/) to avoid object allocation in the first place. Otherwise [do the sanity check](http://blog.getify.com/sanity-check-object-creation-performance/).
 
 ### Recommended Reading
 
