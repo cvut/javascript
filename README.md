@@ -798,9 +798,11 @@ function processInput (input) {
 const { left, right } = processInput(input)
 ```
 
-## Prototypes
+## Prototypes & Classes
 
-Hacking native prototypes should be avoided at all costs, use a method instead. If you must extend the functionality in a native type, try using something like [poser][23] instead.
+### Extending Native Prototypes
+
+Hacking native prototypes should be avoided at all costs. Use a function instead. If you must extend the functionality in a native type, try using something like [poser][23] instead.
 
 ```js
 // bad
@@ -814,7 +816,9 @@ function half (text) {
 }
 ```
 
-**Avoid [prototypal inheritance](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Inheritance_and_the_prototype_chain) models** unless you have a very good _performance reason_ to justify yourself.
+### Prototypal Inheritance
+
+**Avoid [prototypal inheritance](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Inheritance_and_the_prototype_chain) models** unless you have a very good _memory-consumption reason_ to justify yourself.
 
 - Prototypal inheritance boosts need for `this` through the roof.
 - It’s way more verbose than using plain objects.
@@ -822,17 +826,13 @@ function half (text) {
 - Needs a closure to hide valuable private state of instances.
 - Just use plain objects instead.
 
-## Classes
+### Class Based Inheritance
 
 **Avoid ES6 classes**. Since it is just a syntactic sugar over prototypal inheritance, [same caveats apply](#prototypes).
 
-Recommended reading:
+You should always prefer _[composition over inheritance](https://en.wikipedia.org/wiki/Composition_over_inheritance)_, but class-based OOP makes inheritance very easy and composition unnecessarily complicated. Class-based OOP has a tendency to invite a lot of additional complexity to manage its own shortcomings.
 
-- The Two Pillars of JavaScript: [Part 1](https://medium.com/javascript-scene/the-two-pillars-of-javascript-ee6f3281e7f3) and [Part 2](https://medium.com/javascript-scene/the-two-pillars-of-javascript-pt-2-functional-programming-a63aa53a41a4).
-- [How to Fix the ES6 `class` keyword](https://medium.com/javascript-scene/how-to-fix-the-es6-class-keyword-2d42bb3f4caf)
-- [Think twice about ES6 classes](https://christianalfoni.github.io/javascript/2015/01/01/think-twice-about-classes.html)
-
-Simple object factories and stateless pure functions get you usually further without all the complexity introduced by class-based object-oriented programming.
+Simple object factories and stateless, pure functions get you usually further without all the complexity introduced by class-based object-oriented programming.
 
 ```js
 // bad
@@ -853,6 +853,13 @@ function Point (x, y) {
   return Object.freeze({x, y})
 }
 ```
+
+### Recommended Reading
+
+- The Two Pillars of JavaScript: [Part 1](https://medium.com/javascript-scene/the-two-pillars-of-javascript-ee6f3281e7f3) and [Part 2](https://medium.com/javascript-scene/the-two-pillars-of-javascript-pt-2-functional-programming-a63aa53a41a4).
+- [How to Fix the ES6 `class` keyword](https://medium.com/javascript-scene/how-to-fix-the-es6-class-keyword-2d42bb3f4caf)
+- [Think twice about ES6 classes](https://christianalfoni.github.io/javascript/2015/01/01/think-twice-about-classes.html)
+- [Object Oriented Programming is an expensive disaster which must end](http://www.smashcompany.com/technology/object-oriented-programming-is-an-expensive-disaster-which-must-end)
 
 ## Arrays
 
