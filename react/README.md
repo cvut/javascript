@@ -1,6 +1,4 @@
-# Airbnb React/JSX Style Guide
-
-*A mostly reasonable approach to React and JSX*
+# CTU React/JSX Style Guide
 
 ## Table of Contents
 
@@ -18,29 +16,35 @@
 
 ## Basic Rules
 
-  - Only include one React component per file.
-  - Always use JSX syntax.
-  - Do not use `React.createElement` unless you're initializing the app from a file that is not JSX.
+* Only include one React component per file.
+* Always use JSX syntax.
+* Do not use `React.createElement` unless you're initializing the app from a file that is not JSX.
 
-## Class vs React.createClass
+## `React.createClass` vs. `class`
 
-  - Use class extends React.Component unless you have a very good reason to use mixins.
+Use `React.createClass` instead of ES6 `class extends React.Component` to take advantage of mixins and autobinding, and you can easily setup [props validation](https://facebook.github.io/react/docs/reusable-components.html#prop-validation) and [default prop values](https://facebook.github.io/react/docs/reusable-components.html#default-prop-values).
 
-  ```javascript
-  // bad
-  const Listing = React.createClass({
-    render() {
-      return <div />;
-    }
-  });
-  
-  // good
-  class Listing extends React.Component {
-    render() {
-      return <div />;
-    }
+```javascript
+// good
+const Listing = React.createClass({
+  render () {
+    return <div />
   }
-  ```
+})
+
+// bad
+class Listing extends React.Component {
+  render () {
+    return <div />
+  }
+}
+```
+
+### Stateless Components
+
+Future version of React should support [stateless functions](https://github.com/reactjs/react-future/blob/master/01%20-%20Core/03%20-%20Stateless%20Functions.js) for components. This is [planned for React 0.14](https://github.com/facebook/react/pull/3995) – once this functionality is available, you are encouraged to use it.
+
+In the meantime, explore [alternative ways to declare React components](https://gist.github.com/jquense/47bbd2613e0b03d7e51c), especially [react-stampit](https://github.com/stampit-org/react-stampit).
 
 ## Naming
 
@@ -49,46 +53,46 @@
   - **Reference Naming**: Use PascalCase for React components and camelCase for their instances:
     ```javascript
     // bad
-    const reservationCard = require('./ReservationCard');
+    import reservationCard from './ReservationCard'
 
     // good
-    const ReservationCard = require('./ReservationCard');
+    import ReservationCard from './ReservationCard'
 
     // bad
-    const ReservationItem = <ReservationCard />;
+    const ReservationItem = <ReservationCard />
 
     // good
-    const reservationItem = <ReservationCard />;
+    const reservationItem = <ReservationCard />
     ```
 
-    **Component Naming**: Use the filename as the component name. For example, `ReservationCard.jsx` should have a reference name of `ReservationCard`. However, for root components of a directory, use `index.jsx` as the filename and use the directory name as the component name:
+  - **Component Naming**: Use the filename as the component name. For example, `ReservationCard.jsx` should have a reference name of `ReservationCard`. However, for root components of a directory, use `index.jsx` as the filename and use the directory name as the component name:
     ```javascript
     // bad
-    const Footer = require('./Footer/Footer.jsx')
+    import Footer from './Footer/Footer.jsx'
 
     // bad
-    const Footer = require('./Footer/index.jsx')
+    import Footer from './Footer/index.jsx'
 
     // good
-    const Footer = require('./Footer')
+    import Footer from './Footer'
     ```
 
 
 ## Declaration
-  - Do not use displayName for naming components. Instead, name the component by reference.
+  - Do not use `displayName` for naming components. Instead, name the component by reference. (JSX will [infer the name from reference](https://facebook.github.io/react/docs/jsx-in-depth.html#the-transform).)
 
     ```javascript
     // bad
     export default React.createClass({
       displayName: 'ReservationCard',
       // stuff goes here
-    });
+    })
 
     // good
-    class ReservationCard extends React.Component {
+    const ReservationCard = React.createClass {
     }
  
-    export default ReservationCard;
+    export default ReservationCard
     ```
 
 ## Alignment
@@ -170,25 +174,25 @@
   - Wrap JSX tags in parentheses when they span more than one line:
     ```javascript
     /// bad
-    render() {
+    render () {
       return <MyComponent className="long body" foo="bar">
                <MyChild />
-             </MyComponent>;
+             </MyComponent>
     }
 
     // good
-    render() {
+    render () {
       return (
         <MyComponent className="long body" foo="bar">
           <MyChild />
         </MyComponent>
-      );
+      )
     }
 
     // good, when single line
-    render() {
-      const body = <div>hello</div>;
-      return <MyComponent>{body}</MyComponent>;
+    render () {
+      const body = <div>hello</div>
+      return <MyComponent>{body}</MyComponent>
     }
     ```
 
@@ -226,90 +230,39 @@
       }
 
       // other stuff
-    });
+    })
 
     // good
-    class extends React.Component {
+    React.createClass({
       onClickSubmit() {
         // do stuff
       }
 
       // other stuff
-    });
+    })
     ```
 
 ## Ordering
 
-  - Ordering for class extends React.Component:
-  
-  1. constructor
-  1. optional static methods
-  1. getChildContext
-  1. componentWillMount
-  1. componentDidMount
-  1. componentWillReceiveProps
-  1. shouldComponentUpdate
-  1. componentWillUpdate
-  1. componentDidUpdate
-  1. componentWillUnmount
-  1. *clickHandlers or eventHandlers* like onClickSubmit() or onChangeDescription()
-  1. *getter methods for render* like getSelectReason() or getFooterContent()
-  1. *Optional render methods* like renderNavigation() or renderProfilePicture()
-  1. render
+Ordering for `React.createClass`:
 
-  - How to define propTypes, defaultProps, contextTypes, etc...  
-
-  ```javascript
-  import React, { Component, PropTypes } from 'react';
-  
-  const propTypes = {
-    id: PropTypes.number.isRequired,
-    url: PropTypes.string.isRequired,
-    text: PropTypes.string,
-  };
-  
-  const defaultProps = {
-    text: 'Hello World',
-  };
-  
-  class Link extends Component {
-    static methodsAreOk() {
-      return true;
-    }
-  
-    render() {
-      return <a href={this.props.url} data-id={this.props.id}>{this.props.text}</a>
-    }
-  }
-  
-  Link.propTypes = propTypes;
-  Link.defaultProps = defaultProps;
-  
-  export default Link;
-  ```
-
-  - Ordering for React.createClass:
-
-  1. displayName
-  1. propTypes
-  1. contextTypes
-  1. childContextTypes
-  1. mixins
-  1. statics
-  1. defaultProps
-  1. getDefaultProps
-  1. getInitialState
-  1. getChildContext
-  1. componentWillMount
-  1. componentDidMount
-  1. componentWillReceiveProps
-  1. shouldComponentUpdate
-  1. componentWillUpdate
-  1. componentDidUpdate
-  1. componentWillUnmount
-  1. *clickHandlers or eventHandlers* like onClickSubmit() or onChangeDescription()
-  1. *getter methods for render* like getSelectReason() or getFooterContent()
-  1. *Optional render methods* like renderNavigation() or renderProfilePicture()
-  1. render
-
-**[⬆ back to top](#table-of-contents)**
+1. propTypes
+1. contextTypes
+1. childContextTypes
+1. mixins
+1. statics
+1. defaultProps
+1. getDefaultProps
+1. getInitialState
+1. getChildContext
+1. componentWillMount
+1. componentDidMount
+1. componentWillReceiveProps
+1. shouldComponentUpdate
+1. componentWillUpdate
+1. componentDidUpdate
+1. componentWillUnmount
+1. *clickHandlers or eventHandlers* like onClickSubmit() or onChangeDescription()
+1. *getter methods for render* like getSelectReason() or getFooterContent()
+1. *Optional render methods* like renderNavigation() or renderProfilePicture()
+1. render
