@@ -16,6 +16,68 @@ This guide is aimed at needs of ICT development teams at [Faculty of Information
 - Learn about [functional programming](#functional-programming). It will make you a better developer.
 - [Avoid classes](#classes), [prototypes](#prototypes) and `this`. Stick with objects and pure functions.
 
+## Table of Contents
+
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+
+
+- [ES6](#es6)
+- [Modules](#modules)
+- [Strict Mode](#strict-mode)
+- [Linting](#linting)
+- [Code Style](#code-style)
+  - [Indentation](#indentation)
+  - [Spacing](#spacing)
+- [Line Length](#line-length)
+  - [Brace Style](#brace-style)
+  - [Semicolons`;`](#semicolons)
+  - [Quotes](#quotes)
+  - [Commas](#commas)
+  - [Naming](#naming)
+  - [Variables](#variables)
+- [Strings](#strings)
+- [Equality](#equality)
+  - [“Truthy” and “Falsy” Values](#%E2%80%9Ctruthy%E2%80%9D-and-%E2%80%9Cfalsy%E2%80%9D-values)
+- [Ternary Operators](#ternary-operators)
+- [Functions](#functions)
+  - [Anonymous Functions](#anonymous-functions)
+  - [Function Parameters](#function-parameters)
+  - [Conditional Return](#conditional-return)
+- [Destructuring](#destructuring)
+- [Prototypes & Classes](#prototypes-&-classes)
+  - [Extending Native Prototypes](#extending-native-prototypes)
+  - [Prototypal Inheritance](#prototypal-inheritance)
+  - [Class Based Inheritance](#class-based-inheritance)
+  - [Recommended Reading](#recommended-reading)
+- [Arrays](#arrays)
+  - [Manipulation](#manipulation)
+  - [Loops](#loops)
+  - [Manipulation](#manipulation-1)
+  - [Copy](#copy)
+- [Objects](#objects)
+  - [ES6 Shorthands](#es6-shorthands)
+- [`console` statements](#console-statements)
+- [Comments](#comments)
+- [Polyfills](#polyfills)
+- [Asynchronous Behaviour](#asynchronous-behaviour)
+  - [Callbacks](#callbacks)
+  - [Promises](#promises)
+  - [Recommended Reading](#recommended-reading-1)
+- [The Harmful Parts](#the-harmful-parts)
+  - [`this` Keyword](#this-keyword)
+  - [`new` Operator](#new-operator)
+  - [Recommended Reading](#recommended-reading-2)
+- [Functional Programming](#functional-programming)
+  - [Separate Data and Behaviour](#separate-data-and-behaviour)
+  - [Immutability](#immutability)
+  - [Pure Functions](#pure-functions)
+  - [Currying](#currying)
+  - [Functional Composition](#functional-composition)
+- [Acknowledgements](#acknowledgements)
+- [License](#license)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 ## ES6
 
