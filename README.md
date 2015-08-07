@@ -29,7 +29,7 @@ This guide is aimed at needs of ICT development teams at [Faculty of Information
 - [Code Style](#code-style)
   - [Indentation](#indentation)
   - [Spacing](#spacing)
-- [Line Length](#line-length)
+  - [Line Length](#line-length)
   - [Brace Style](#brace-style)
   - [Semicolons`;`](#semicolons)
   - [Quotes](#quotes)
@@ -194,7 +194,7 @@ $('#items')
 
 [Linter](#linting) will remind you about this style and [automatic formatter](https://github.com/maxogden/standard-format) can fix the code for you.
 
-## Line Length
+### Line Length
 
 Where possible, improve readability by **keeping lines below the 100-character** mark. **Never go over 120 characters per line.**
 
