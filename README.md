@@ -35,7 +35,7 @@ This guide is aimed at needs of ICT development teams at [Faculty of Information
   - [Quotes](#quotes)
   - [Commas](#commas)
   - [Naming](#naming)
-  - [Variables](#variables)
+- [Variables](#variables)
 - [Strings](#strings)
 - [Equality](#equality)
   - [“Truthy” and “Falsy” Values](#%E2%80%9Ctruthy%E2%80%9D-and-%E2%80%9Cfalsy%E2%80%9D-values)
@@ -416,7 +416,7 @@ const myUser = User({name: 'Ada'})
 
 <!-- TODO: SCREAMING_SNAKE_CASE for constants? -->
 
-### Variables
+## Variables
 
 Declare variables where you need them, but place them in a reasonable place (e.g. not inside conditions).
 
