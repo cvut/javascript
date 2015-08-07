@@ -1207,6 +1207,7 @@ Existing callback-based API can be easily converted to promises. Most libraries 
 - [Callback Hell](http://callbackhell.com/)
 - [Control Flow](https://raynos.github.io/presentation/shower/controlflow.htm), a talk by Jake Verbaten
 - [Callbacks are imperative, promises are functional: Node’s biggest missed opportunity](https://blog.jcoglan.com/2013/03/30/callbacks-are-imperative-promises-are-functional-nodes-biggest-missed-opportunity/) and [Callbacks, promises and simplicity](https://blog.jcoglan.com/2013/04/01/callbacks-promises-and-simplicity/)
+- [From Callback to Future → Functor → Monad](https://medium.com/@yelouafi/from-callback-to-future-functor-monad-6c86d9c16cb5)
 - [Promise anti-patterns](https://github.com/petkaantonov/bluebird/wiki/Promise-anti-patterns)
 - [What Color is Your Function?](http://journal.stuffwithstuff.com/2015/02/01/what-color-is-your-function/) (on general handling of asynchronous behaviour)
 
