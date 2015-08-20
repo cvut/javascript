@@ -101,7 +101,7 @@ Module systems also provide us with dependency injection patterns, which are cru
 
 ## Strict Mode
 
-Put [`'use strict'`][4] at the top of your modules. Strict mode allows you to catch nonsensical behaviour, discourages poor practices, and _is faster_ because it allows compilers to make certain assumptions about your code.
+Put [`'use strict'`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions_and_function_scope/Strict_mode) at the top of your modules. Strict mode allows you to catch nonsensical behaviour, discourages poor practices, and _is faster_ because it allows compilers to make certain assumptions about your code.
 
 [Linter](#linting) can warn you about this. Babel [inserts `'use strict'`](https://babeljs.io/docs/advanced/transformers/other/strict/) by default, so this rule does not apply.
 
@@ -115,7 +115,7 @@ We build upon the [Standard](https://github.com/feross/standard) code style. You
 
 ### Indentation
 
-Spacing must be consistent across every file in the project. Put [`.editorconfig`][5] configuration file into your project. These are recommended defaults:
+Spacing must be consistent across every file in the project. Put [`.editorconfig`](http://editorconfig.org) configuration file into your project. These are recommended defaults:
 
 <a name="editorconfig"></a>
 ```ini
@@ -511,7 +511,7 @@ const message = `oh hai ${name}!`
 
 ## Equality
 
-Avoid using `==` and `!=` operators, always favor `===` and `!==`. These operators are called the “strict equality operators,” while [their counterparts will attempt to cast the operands][15] into the same value type.
+Avoid using `==` and `!=` operators, always favor `===` and `!==`. These operators are called the “strict equality operators,” while [their counterparts will attempt to cast the operands](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Comparison_Operators) into the same value type.
 
 ```js
 // bad
@@ -589,7 +589,7 @@ if ([0]) {
 
 **Avoid nested ternary operators.** Ternary operators are fine for clear-cut conditionals, but unacceptable for confusing choices.
 
-jQuery is a prime example of a codebase that’s [**filled with nasty ternary operators**][16].
+jQuery is a prime example of a codebase that’s [**filled with nasty ternary operators**](https://github.com/jquery/jquery/blob/c869a1ef8a031342e817a2c063179a787ff57239/src/ajax.js#L117).
 
 ```js
 // bad
@@ -607,7 +607,7 @@ In cases that may prove confusing just use `if` and `else` statements instead.
 
 ## Functions
 
-When declaring a function, always use the [function declaration form][17] instead of [function expressions][18]. Because [hoisting][19].
+When declaring a function, always use the [function declaration form](http://stackoverflow.com/q/336859/389745) instead of [function expressions](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/function). Because [hoisting](https://github.com/buildfirst/buildfirst/tree/master/ch05/04_hoisting).
 
 ```js
 // bad
@@ -621,14 +621,14 @@ function sum (x, y) {
 }
 ```
 
-That being said, there’s nothing wrong with function expressions that are just [currying another function][20].
+That being said, there’s nothing wrong with function expressions that are just [currying another function](http://ejohn.org/blog/partial-functions-in-javascript/).
 
 ```js
 // good
 const plusThree = sum.bind(null, 3)
 ```
 
-Keep in mind that [function declarations will be hoisted][21] to the top of the scope so it doesn’t matter the order they are declared in. That being said, you should always keep functions at the top level in a scope, and avoid placing them inside conditional statements.
+Keep in mind that [function declarations will be hoisted](https://github.com/buildfirst/buildfirst/tree/master/ch05/04_hoisting) to the top of the scope so it doesn’t matter the order they are declared in. That being said, you should always keep functions at the top level in a scope, and avoid placing them inside conditional statements.
 
 ```js
 // bad
@@ -864,7 +864,7 @@ const { left, right } = processInput(input)
 
 ### Extending Native Prototypes
 
-Hacking native prototypes should be avoided at all costs. Use a function instead. If you must extend the functionality in a native type, try using something like [poser][23] instead.
+Hacking native prototypes should be avoided at all costs. Use a function instead. If you must extend the functionality in a native type, try using something like [poser](https://github.com/bevacqua/poser) instead.
 
 ```js
 // bad
@@ -995,7 +995,7 @@ function wait (i) {
 
 ### Manipulation
 
-It’s about time you master array manipulation! [Learn about the basics][24]. It’s way easier than you might think.
+It’s about time you master array manipulation! [Learn about the basics](http://blog.ponyfoo.com/2013/11/19/fun-with-native-arrays). It’s way easier than you might think.
 
 - [`.forEach`](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Array/forEach)
 - [`.slice`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/slice)
@@ -1133,9 +1133,9 @@ Commenting out entire blocks of code _should be avoided entirely_, that’s why 
 
 ## Polyfills
 
-Where possible use the native browser implementation and include [a polyfill that provides that behaviour][27] for unsupported browsers. This makes the code easier to work with and less involved in hackery to make things just work.
+Where possible use the native browser implementation and include [a polyfill that provides that behaviour](http://remysharp.com/2010/10/08/what-is-a-polyfill/) for unsupported browsers. This makes the code easier to work with and less involved in hackery to make things just work.
 
-If you can’t patch a piece of functionality with a polyfill, then [wrap all uses of the patching code][28] in a globally available method that is accessible from everywhere in the application.
+If you can’t patch a piece of functionality with a polyfill, then [wrap all uses of the patching code](http://blog.ponyfoo.com/2014/08/05/building-high-quality-front-end-modules) in a globally available method that is accessible from everywhere in the application.
 
 ## Asynchronous Behaviour
 
@@ -1567,36 +1567,3 @@ This guide is based upon [JavaScript Quality Guide](https://github.com/bevacqua/
 MIT
 
 > Fork away!
-
-  [4]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions_and_function_scope/Strict_mode
-  [5]: http://editorconfig.org
-  [6]: http://dailyjs.com/2012/12/24/javascript-survey-results/
-  [7]: http://blog.izs.me/post/2353458699/an-open-letter-to-javascript-leaders-regarding
-  [8]: https://github.com/mdevils/node-jscs
-  [9]: http://www.jslint.com/
-  [10]: https://github.com/jshint/jshint/
-  [11]: https://github.com/eslint/eslint
-  [12]: http://nodejs.org/api/util.html#util_util_format_format
-  [13]: https://github.com/visionmedia/jade
-  [14]: https://www.imperialviolet.org/2014/02/22/applebug.html
-  [15]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Comparison_Operators
-  [16]: https://github.com/jquery/jquery/blob/c869a1ef8a031342e817a2c063179a787ff57239/src/ajax.js#L117
-  [17]: http://stackoverflow.com/q/336859/389745
-  [18]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/function
-  [19]: https://github.com/buildfirst/buildfirst/tree/master/ch05/04_hoisting
-  [20]: http://ejohn.org/blog/partial-functions-in-javascript/
-  [21]: https://github.com/buildfirst/buildfirst/tree/master/ch05/04_hoisting
-  [22]: https://github.com/petkaantonov/bluebird/wiki/Optimization-killers#3-managing-arguments
-  [23]: https://github.com/bevacqua/poser
-  [24]: http://blog.ponyfoo.com/2013/11/19/fun-with-native-arrays
-  [25]: http://blog.ponyfoo.com/2013/05/27/learn-regular-expressions
-  [26]: http://www.regexper.com/#%2F%5Cd%2B%2F
-  [27]: http://remysharp.com/2010/10/08/what-is-a-polyfill/
-  [28]: http://blog.ponyfoo.com/2014/08/05/building-high-quality-front-end-modules
-  [29]: http://james.padolsey.com/javascript/truthy-falsey/
-  [30]: http://ejohn.org/blog/partial-functions-in-javascript/
-  [31]: https://github.com/bevacqua/contra#%CE%BBemitterthing-options
-  [32]: https://github.com/bevacqua/css
-  [33]: https://github.com/bevacqua/js/issues
-
-
