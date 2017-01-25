@@ -85,7 +85,7 @@ This guide is aimed at needs of ICT development teams at [Faculty of Information
 
 For browser-oriented projects transpile your project with [Babel](https://babeljs.io/).
 
-For server oriented projects, you can use _some features_ of ES6 natively in Node.js version 0.12 (with [`--harmony` flag](https://github.com/joyent/node/wiki/es6-%28a.k.a.-harmony%29-features-implemented-in-v8-and-available-in-node)) and [io.js](https://iojs.org/). Alternatively you can use [babel-node](https://babeljs.io/docs/usage/cli/#babel-node) from the Babel project. Consult [ES6 Compatibility Table](https://kangax.github.io/compat-table/es6/).
+For server oriented projects, you can use most features of ES6 natively in Node.js. Alternatively you can use [babel-node](https://babeljs.io/docs/usage/cli/#babel-node) from the Babel project. Consult [ES6 Compatibility Table](https://kangax.github.io/compat-table/es6/) and [node.green](http://node.green/).
 
 You may want to avoid Babel in smaller projects where the code compilation brings unjustified overhead.
 
