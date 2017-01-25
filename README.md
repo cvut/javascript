@@ -927,23 +927,6 @@ function Point (x, y) {
 
 Instantiate arrays using the square bracketed notation `[]`. If you have to declare a fixed-dimension array for performance reasons then it’s fine to use the `new Array(length)` notation instead.
 
-### Manipulation
-
-Whenever you have to manipulate an array-like object, use [`Array.from`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/from).
-
-```js
-const divs = document.querySelectorAll('div')
-
-// bad
-const nodes = []
-for (let i = 0; i < divs.length; i++) {
-  nodes.push(divs[i])
-}
-
-// good
-const nodes = Array.from(divs)
-```
-
 ### Loops
 
 Don’t declare functions inside of loops. Whenever possible, use `.forEach` instead of a `for` loop. There is also no issue with declaring anonymous function within other functions.
@@ -974,7 +957,7 @@ for (let i = 0; i < values.length; i++) {
   }, 1000 * i, i)
 }
 
-// also somewhat acceptable
+// a bit more acceptable
 for (let i = 0; i < values.length; i++) {
   wait(i)
 }
@@ -1034,6 +1017,24 @@ for (let i = 0; i < len; i++) {
 // good
 const itemsCopy = [...items]
 ```
+
+### Array-like Objects
+
+Whenever you have to manipulate an array-like object, use [`Array.from`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/from).
+
+```js
+const divs = document.querySelectorAll('div')
+
+// bad
+const nodes = []
+for (let i = 0; i < divs.length; i++) {
+  nodes.push(divs[i])
+}
+
+// good
+const nodes = Array.from(divs)
+```
+
 
 ## Objects
 
