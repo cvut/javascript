@@ -4,7 +4,7 @@ This is an overview of tools you may use in your project and (rather opinionated
 
 ## tl;dr
 
-- [Use npm for packaging](#package-managers), avoid Bower.
+- [Use Yarn and/or npm for packaging](#package-managers), avoid Bower.
 - [Use Browserify](#module-bundlers) or Webpack to bundle your modules.
 - [Use npm and simple scripts for task automation](#build-tools). Avoid Grunt, Gulp et al.
 - [Transpile your code from ES6 with Babel](#transpilers). Avoid opinionated languages like CoffeeScript.
@@ -19,9 +19,23 @@ This is an overview of tools you may use in your project and (rather opinionated
 
 ## Package Managers
 
-When it comes to package management in JavaScript, there is [npm](https://www.npmjs.com/) (which [_isn’t_ an acronym for “node package manager”](https://docs.npmjs.com/misc/faq#if-npm-is-an-acronym-why-is-it-never-capitalized)) and then there are others. You will use npm to install all Node-based tools, including other package managers. However, it is perfectly okay to use npm for front-end dependencies (i.e. for browsers) – it is even [officially endorsed](http://blog.npmjs.org/post/101775448305/npm-and-front-end-packaging).
+When it comes to package management in JavaScript, there is [npm](https://www.npmjs.com/) (which [_isn’t_ an acronym for “node package manager”](https://web.archive.org/web/20151125135410/https://docs.npmjs.com/misc/faq#if-npm-is-an-acronym-why-is-it-never-capitalized)) and then there are others. You will use npm to install all Node-based tools, including other package managers. However, it is perfectly okay to use npm for front-end dependencies (i.e. for browsers) – it is even [officially endorsed](http://blog.npmjs.org/post/101775448305/npm-and-front-end-packaging).
 
 npm packages are “[CommonJS modules](https://nodejs.org/docs/latest/api/modules.html):” every module _requires_ dependencies and _exports_ stuff to be consumed by other modules. Thus your code has an obvious [dependency graph](https://en.wikipedia.org/wiki/Dependency_graph) and you don't need to pollute global namespace with your functions. The only disadvantage of npm is that you need to _bundle_ your modules to be consumed by browsers, even while you are developing the application. There are more details [in separate section](#module-bundlers).
+
+### Consider Yarn
+
+[Yarn](https://yarnpkg.com/) is a new dependency manager originally started by Facebook. The awesome thing about Yarn is full compatibility with npm. It works with `package.json` and it downloads all the npm packages you need. In addition, it has also following advantages:
+
+- It is very fast,
+- It has nicer CLI (for example `yarn add` works like `npm install --save`, saving you a few keystrokes),
+- It manages a lockfile (`yarn.lock`) for reliable and deterministic dependency management.
+
+[The `yarn.lock` file](https://yarnpkg.com/en/docs/yarn-lock) contains exact version and checksum of installed packages. This way the whole team has the exact same versions of dependencies and the deployments are safer.
+
+You will likely use npm for global package installation or for `npm run`; these functions are supported by Yarn but may behave a bit differently. However, for project-level package management **Yarn is strongly recommended**.
+
+### Avoid Bower
 
 Another popular package manager specifically for front-end projects is [Bower](http://bower.io/). It is strictly a dependency manager: it will just download your dependencies to `bower_components` directory and the rest is up to you; usually you will place `<script>` into your HTML files for every dependency you want to use. This is fine for very small projects, but it can get out of hand very quickly.
 
@@ -30,7 +44,7 @@ Another popular package manager specifically for front-end projects is [Bower](h
 - since there is no dependency graph, you will usually resort to passing dependencies through the global space and/or by modifying global objects (popular with jQuery plugins),
 - for code minification and concatenation you will end-up with [some crazy magic comments](https://github.com/stephenplusplus/grunt-wiredep).
 
-On the other hand, Bower does not require you to bundle your code and does not assume anything about your modules, which gives you more options (usually to do some very messy stuff). It is still better than manually downloading JS files and placing it into your repository, but only marginally. If you have only a few dependencies or you want to avoid compile step, you may as well [use libraries from CDN](https://cdnjs.com/).
+On the other hand, Bower does not require you to bundle your code and does not assume anything about your modules, which gives you more freedom. It is still better than manually downloading JS files and placing it into your repository, but only marginally. If you have only a few dependencies or you want to avoid compile step, you may as well [use libraries from CDN](https://cdnjs.com/).
 
 <!--
 One alternative worth mentioning is [jspm](http://jspm.io/), made specifically to work with module loader and compatible with npm registry. This may be very interesting future-facing option as more browsers gain support for HTTP/2 and ES6 features; we will go a bit into detail in [Module Loaders](#module-loaders) section.
@@ -39,6 +53,7 @@ One alternative worth mentioning is [jspm](http://jspm.io/), made specifically t
 ### Recomended Reading
 
 - [A Beginner’s Guide to npm](http://www.sitepoint.com/beginners-guide-node-package-manager/).
+- [Yarn vs. npm](https://www.sitepoint.com/yarn-vs-npm/)
 
 ## Module Bundlers
 
