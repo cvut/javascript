@@ -7,7 +7,7 @@ This is an overview of tools you may use in your project and (rather opinionated
 - [Use Yarn and/or npm for packaging](#package-managers), avoid Bower.
 - [Use Browserify](#module-bundlers) or Webpack to bundle your modules.
 - [Use npm and simple scripts for task automation](#build-tools). Avoid Grunt, Gulp et al.
-- [Transpile your code from ES6 with Babel](#transpilers). Avoid opinionated languages like CoffeeScript.
+- [Transpile your code from ES2016 with Babel](#transpilers). Avoid opinionated languages like CoffeeScript.
 - [Consider type checking in your project](#type-checking).
 - [Save your time with live reloading](#live-reloading).
 - [Minify your code with UglifyJS](#minification) through  bundler of your choice.
@@ -47,7 +47,7 @@ Another popular package manager specifically for front-end projects is [Bower](h
 On the other hand, Bower does not require you to bundle your code and does not assume anything about your modules, which gives you more freedom. It is still better than manually downloading JS files and placing it into your repository, but only marginally. If you have only a few dependencies or you want to avoid compile step, you may as well [use libraries from CDN](https://cdnjs.com/).
 
 <!--
-One alternative worth mentioning is [jspm](http://jspm.io/), made specifically to work with module loader and compatible with npm registry. This may be very interesting future-facing option as more browsers gain support for HTTP/2 and ES6 features; we will go a bit into detail in [Module Loaders](#module-loaders) section.
+One alternative worth mentioning is [jspm](http://jspm.io/), made specifically to work with module loader and compatible with npm registry. This may be very interesting future-facing option as more browsers gain support for HTTP/2 and ES2016 features; we will go a bit into detail in [Module Loaders](#module-loaders) section.
 -->
 
 ### Recomended Reading
@@ -57,15 +57,24 @@ One alternative worth mentioning is [jspm](http://jspm.io/), made specifically t
 
 ## Module Bundlers
 
-Once you decide to divide your code into neat modules or tap into [npm’s huge registry](https://www.npmjs.com/), you will need to decide how to deliver your code for browser.
+Once you decide to divide your code into neat modules or tap into [npm’s huge registry](https://www.npmjs.com/), you will need to decide how to deliver your code to browsers.
 
 Node.js supports CommonJS by default, so your server-side code will work out of the box. However, browsers don't understand `require` or `exports` in your modules. This is where _module bundler_ comes to play: it will load your _entry file_, traverse your dependency graph and spits out a single JS file, _bundle_, ready to be served to browsers.
 
-Our favourite bundler is [Browserify](http://browserify.org/); it’s very simple to use, can be nicely extended and plays well with existing Node ecosystem. While developing project, you may want to use [Watchify](https://github.com/substack/watchify), which monitors changes in your files and rebuilds the bundle for you.
+### Webpack
 
-Recently [Webpack](https://webpack.github.io/) gained traction as more complete solution. It handles all assets, including CSS files and images. Webpack takes a “batteries-included” approach: it has more closed ecosystem and it is less composable, but handles common use cases more easily. Perhaps the most controversial feature of Webpack is use of “[loaders](https://webpack.github.io/docs/using-loaders.html)” [directly within the code](https://webpack.github.io/docs/using-loaders.html#loaders-in-require) which breaks interoperability with other CommonJS modules and can lead to duplication of code, since you need to repeat your loaders all over the place. The recommended way is to specify your configuration in [`webpack.config.js` file](https://webpack.github.io/docs/configuration.html) outside of your code.
+[Webpack](https://webpack.js.org/) is the most popular and mature solution these days. It handles all assets, including CSS files and images. Webpack takes a “batteries-included” approach: it has a specific ecosystem and it is less composable than Browserify, but handles common use cases more easily. The possible issue with Webpack is a tight coupling with your code; since Webpack encourages you to import everything to your JS, including CSS files, the code won't work without compile step in Node. This is especially visible with its overloading of `require` by specifying loaders [directly within the code](https://webpack.js.org/loaders/#via-require). However, this practice is discouraged and not used much in practice; the recommended way is to specify your configuration in [`webpack.config.js` file](https://webpack.js.org/configuration/) outside of your code.
 
-The choice of bundler depends on your preferences and project needs. Browserify is a great choice for small and JavaScript-only projects, it is easy to tinker with and compose with others and its sharper focus on JS bundling can be also advantage. Webpack seems to be a favourite solution for React projects and it lets you do more with your assets with less hassle, like inlining images to CSS or [combining CSS with JavaScript components](https://github.com/css-modules/css-modules).
+On the other hand, Webpack brings some significant advantages:
+
+- It has a [live reloading server](https://webpack.js.org/guides/development/#webpack-dev-server) and supports [Hot Module Replacement](https://webpack.js.org/concepts/hot-module-replacement/).
+- With [Code Splitting](https://webpack.js.org/guides/code-splitting/) you can break your JS into multiple bundles so browser progressively loads only the code it needs on the current page.
+- Your JS components can be aware of CSS which helps keep your styles contained and sane (see [CSS Modules](https://github.com/css-modules/css-modules)).
+- You can compile the same codebase for both browser and Node (see Universal or [“Isomorphic” JavaScript](http://isomorphic.net/)).
+
+### Browserify
+
+For smaller and JS-only projects consider [Browserify](http://browserify.org/); it’s very simple to use, can be nicely extended and plays well with existing Node ecosystem. While developing project, you may want to use [Watchify](https://github.com/substack/watchify), which monitors changes in your files and rebuilds the bundle for you.
 
 ### Recommended Readings
 
@@ -130,11 +139,11 @@ If you need to run some tasks in parallel, for example a development server and 
 
 ## Transpilers
 
-If you think there's too many JavaScript task runners, just take a look at the [list of languages that compile to JS](https://github.com/jashkenas/coffeescript/wiki/list-of-languages-that-compile-to-JS). But most of them don't matter.
+If you think there's too many JavaScript task runners, just take a look at the [list of languages that compile to JS](https://github.com/jashkenas/coffeescript/wiki/list-of-languages-that-compile-to-JS). Honestly, most of them don't matter.
 
 One problem with many of these languages is that they require you to learn a new syntax _in addition_ to JavaScript; it is a leaky abstraction and you might end up debugging the resulting JavaScript code. Furthermore the syntax of these languages tends to be very opinionated and your team members might have quite different preferences. And most of these options lack a proper tooling, like linter or static analysis tools.
 
-Instead of hunting for syntactic sugar for JavaScript, focus on JavaScript and its new features, especially ES6. Use [Babel](https://babeljs.io/) to transpile ES6 code for backward compatibility with today browsers. Eventually these features will gain native support and we can move to transpiling ES7.
+Instead of hunting for syntactic sugar for JavaScript, focus on JavaScript and its new features, especially ES2016. Use [Babel](https://babeljs.io/) to transpile ES2016 code for backward compatibility with today browsers. Eventually these features will gain native support and we can move to transpiling ES2017.
 
 As usual, there are exceptions to these rules. Perhaps you have a project in other language and you want to share some parts of existing codebase with browser or just reduce the mental overhead of switching between languages. Or your project has specific needs. If you are adventurous, we recommend checking out these languages which transpile to JavaScript:
 
@@ -151,10 +160,14 @@ As usual, there are exceptions to these rules. Perhaps you have a project in oth
 
 ## Type Checking
 
-Special case of transpilers are type-check extensions for JavaScript. Type checking can help in a larger code base and it can also remove need for some kinds of tests we usually do to make up for the lack of strict typing. If you'd like to incorporate type annotations, check out these projects:
+Type checking can help in a larger code base and it can also remove need for some kinds of tests we usually do to make up for the lack of strict typing. If you'd like to incorporate type annotations, check out these projects:
 
-- [Flow](http://flowtype.org/) – Type checks are optional, you can add annotations gradually to your project, plus the checker can infer some type checks on its own. No official support for Windows yet.
-- [TypeScript](http://www.typescriptlang.org/) – Adds interfaces and classes to the language. Supports [external type definitions](http://definitelytyped.org/) which is useful for working with external JavaScript code.
+- [Flow](http://flowtype.org/) – Focused on soundness; you can add annotations gradually to your project, plus the checker can infer many type checks on its own.
+- [TypeScript](http://www.typescriptlang.org/) – Focused on tooling and general pragmatism. Has a large collection of [external type definitions](http://definitelytyped.org/) useful for working with external JavaScript code.
+
+### Recommended Reading
+
+- [Flow vs. TypeScript 2.0](http://djcordhose.github.io/flow-vs-typescript/flow-typescript-2.html) by Oliver Zeigermann
 
 ## Live Reloading
 
@@ -162,11 +175,11 @@ Front-end development incorporates a lot of visual checking. Save your changes, 
 
 - [Browsersync](http://www.browsersync.io/) watches HTML, JS, and CSS files and reloads the browser when there is a change. It can also act as [proxy](http://www.browsersync.io/docs/command-line/#proxy-example) for non-JavaScript projects (i.e. Java or Ruby server-side sites) and synchronize your interaction (so you can test on multiple devices at once!).
 - [beefy](https://github.com/chrisdickinson/beefy) is a development server for Browserify with live reloading.
-- [webpack-dev-server](https://webpack.github.io/docs/webpack-dev-server.html) is a similar solution for Webpack.
+- [webpack-dev-server](https://github.com/webpack/webpack-dev-server) is a similar solution for Webpack.
 
 ### Hot Module Replacement
 
-Most live reload servers can inject CSS without reloading the whole page. What if you could do the same thing with your JavaScript code? Ideally your application would maintain exactly the same state and only replace the modules which were changed? This would be very hard without knowing where the state is located in your application. But if your code is stateless and you keep your state contained, hot module replacement may be easy to implement for you. React makes this more feasible since components have an explicit state.
+Most live reload servers can inject CSS without reloading the whole page. What if you could do the same thing with your JavaScript code? Ideally your application would maintain exactly the same state and only replace the modules which were changed. This would be very hard without knowing where the state is located in your application. But if your code is stateless and you keep your state contained, hot module replacement may be easy to implement for you. React makes this more feasible since components have an explicit state.
 
 Check out these solutions:
 
@@ -186,15 +199,19 @@ Use code minifier for the module bundler of your choice. [Minifyify](https://git
 
 ## Linters
 
-[ESLint](http://eslint.org/) is our favourite solution. It is extensible, configurable, and supports JSX and ES6. We have [linting rules for it](../linters). Do not accept substitutes!
-
-Avoid [JSCS](http://jscs.info/), it checks only your code style. It will make your life hell if you miss some extra newline, but it won't point out actual errors in your code.
+[ESLint](http://eslint.org/) is our favourite solution. It is extensible, configurable, and supports JSX and ES2016. We have [linting rules for it](../linters). Do not accept substitutes!
 
 ## Testing
 
-Consider writing your tests with [Tape](https://github.com/substack/tape). It is extremely simple, works both in Node and in Browser and goes well with any package bundler (especially Browserify). It is the easiest option if you would like to run your tests against various browsers with [testling-ci](https://ci.testling.com/). Tape produces [TAP](https://testanything.org/) output which can be further used with some [nice summarizers](https://github.com/substack/tape#pretty-reporters). For headless testing with Tape check out [Prova](https://github.com/azer/prova).
+Preferred test runners are [AVA](https://github.com/avajs/ava) and [Tape](https://github.com/substack/tape). Both have simple API, AVA is more feature packed and Tape is simpler.
 
-If Tape doesn't work for you, you will have to do some decisions. There are many testing frameworks, libraries and test runners for JavaScript. They are very similar in features and style, but each takes a bit different approach. Some of them are browser-only and some of them are very opinionated about your testing needs.
+AVA supports ES2016 syntax by default, includes Power Assert for descriptive error messages and runs code in parallel. Unfortunatelly it [doesn't run in browsers](https://github.com/avajs/ava/blob/master/docs/recipes/browser-testing.md) – yet.
+
+Tape works both in Node and in browser and goes well with any package bundler (especially Browserify). It is the easiest option if you would like to run your tests against various browsers with [testling-ci](https://ci.testling.com/). Tape produces [TAP](https://testanything.org/) output which can be further used with some [nice summarizers](https://github.com/substack/tape#pretty-reporters). For headless testing with Tape check out [Prova](https://github.com/azer/prova).
+
+Another popular option, especially for React applications, is [Jest](https://facebook.github.io/jest/). PayPal team has a nice write-up about [migration from AVA to Jest](https://medium.com/@kentcdodds/migrating-to-jest-881f75366e7e).
+
+There are many testing frameworks, libraries and test runners for JavaScript. They are very similar in features and style, but each takes a bit different approach. Some of them are browser-only and some of them are very opinionated about your testing needs.
 
 For a rough idea, there are:
 
@@ -236,6 +253,7 @@ You may also want to check out [projects with support for PhantomJS](http://phan
 - [TAP & Tape, the awesome way to test JavaScript](http://www.macwright.org/2014/03/11/tape-is-cool.html)
 - [How I write tests for node and the browser](http://substack.net/how_I_write_tests_for_node_and_the_browser)
 - [Jasmine vs. Mocha, Chai, and Sinon](http://thejsguy.com/2015/01/12/jasmine-vs-mocha-chai-and-sinon.html)
+- [Migrating to Jest on the P2P team at PayPal](https://medium.com/@kentcdodds/migrating-to-jest-881f75366e7e#.k83d4xvgl)
 
 ## Hosted Services
 
