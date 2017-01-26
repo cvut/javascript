@@ -1558,7 +1558,7 @@ function snakeCase (word) {
 import { toLower, replace, pipe } from 'ramda'
 const snakeCase = pipe(toLower, replace(/\s+/ig, '_'))
 
-snakeCase('ChunkyBacon') // => chunky_bacon
+snakeCase('Chunky Bacon') // => chunky_bacon
 ```
 
 ## Acknowledgements
