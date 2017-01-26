@@ -143,7 +143,7 @@ If you think there's too many JavaScript task runners, just take a look at the [
 
 One problem with many of these languages is that they require you to learn a new syntax _in addition_ to JavaScript; it is a leaky abstraction and you might end up debugging the resulting JavaScript code. Furthermore the syntax of these languages tends to be very opinionated and your team members might have quite different preferences. And most of these options lack a proper tooling, like linter or static analysis tools.
 
-Instead of hunting for syntactic sugar for JavaScript, focus on JavaScript and its new features, especially ES2016. Use [Babel](https://babeljs.io/) to transpile ES2016 code for backward compatibility with today browsers. Eventually these features will gain native support and we can move to transpiling ES2017.
+Instead of hunting for syntactic sugar for JavaScript, focus on JavaScript and its new features, especially ES2016. Use [Babel](https://babeljs.io/) to transpile ES2016 code for backward compatibility with today browsers. Eventually these features will gain native support and we can move to transpiling future versions of JavaScript.
 
 As usual, there are exceptions to these rules. Perhaps you have a project in other language and you want to share some parts of existing codebase with browser or just reduce the mental overhead of switching between languages. Or your project has specific needs. If you are adventurous, we recommend checking out these languages which transpile to JavaScript:
 
@@ -152,11 +152,20 @@ As usual, there are exceptions to these rules. Perhaps you have a project in oth
 - [Opal](http://opalrb.org/) – Ruby to JavaScript compiler.
 - [ClojureScript](https://github.com/clojure/clojurescript) – Clojure to JavaScript compiler.
 
+### Babel Recommendations
+
+Babel is more than just ES2016 to ES5 transpiler, it turned into a kind of _code transpilation framework_ where all features are plugins. It is up to you which features you want to use in your project, but generally you want to use [plugin presets](https://babeljs.io/docs/plugins/#presets).
+
+- Put your configuration into [.babelrc](https://babeljs.io/docs/usage/babelrc/) file, so it can be shared across all tools using Babel (e.g. babel-cli and Webpack).
+- Use [env-preset](https://babeljs.io/docs/plugins/preset-env/) to target supported browsers and environments using [browserlist](http://browserl.ist/) syntax; this goes very well with [autoprefixer](https://github.com/postcss/autoprefixer) for CSS.
+- Avoid using [experimental presets](https://babeljs.io/docs/plugins/#presets-stage-x-experimental-presets-) – especially Stage 0-2; it is possible [these features won't ever make it to the final language specification](https://bocoup.com/weblog/javascript-developers-watch-your-language).
+  - If you really need some experimental feature, rather cherrypick specific plugins; for example [Object rest spread](https://babeljs.io/docs/plugins/transform-object-rest-spread/) is very useful in Redux projects.
 
 ### Recommended Readings
 
 - [Transpilers: This Time It's Different](http://dailyjs.com/2015/02/26/babel/)
 - [Why Babel Matters](http://codemix.com/blog/why-babel-matters)
+- [JavaScript Developers: Watch Your Language!](https://bocoup.com/weblog/javascript-developers-watch-your-language)
 
 ## Type Checking
 
