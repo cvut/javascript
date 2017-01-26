@@ -4,7 +4,7 @@ This is a recommended linter configuration for JavaScript projects based on [Sta
 
 ## Usage
 
-Place [`.eslintrc`](.eslintrc) file to your project directory.
+Place [`.eslintrc.yaml`](.eslintrc.yaml) file to your project directory.
 
 You will need the following packages:
 
@@ -50,7 +50,7 @@ Install everything as development dependency:
 npm install --save-dev eslint eslint-config-standard eslint-config-standard-react eslint-plugin-react
 ```
 
-In your `.eslintrc` file just add `standard-react` to the `extends` property, e.g.:
+In your `.eslintrc.yaml` file just add `standard-react` to the `extends` property, e.g.:
 
 ```yaml
 ---

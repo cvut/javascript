@@ -11,3 +11,7 @@ rules:
   no-var: [1]
   prefer-const: [1]
   comma-dangle: [2, always-multiline]
+  curly: [2, all]
+  max-len: [2, 120, 2]
+  no-extra-bind: [2]
+  max-len: [2, 100, 2, {ignoreComments: true, ignoreUrls: true}]
